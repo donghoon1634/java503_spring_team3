@@ -7,18 +7,29 @@ import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
+import org.springframework.web.servlet.ModelAndView;
 
 import java.security.Principal;
+import java.util.List;
 
 @Controller
 public class BoardController {
 
     @Autowired
     private BoardService boardService;
+
+    //  게시물 목록
+    @RequestMapping(value = "/board", method = RequestMethod.GET)
+    public ModelAndView selectBoardList() throws Exception {
+        ModelAndView mav = new ModelAndView("board/boardList");
+
+        List<BoardDTO> boardList = boardService.selectBoardList();
+        mav.addObject("boardList", boardList);
+
+        return mav;
+    }
     // 작성 화면
     @GetMapping("/board/write")
     public String insertBoard(HttpServletRequest request) throws Exception {
@@ -45,5 +56,14 @@ public class BoardController {
 //        }
         boardService.insertBoard(board);
         return "redirect:/board";
+    }
+
+    // 상세보기
+    @GetMapping("/board/{idx}")
+    public ModelAndView selectBoard(@PathVariable int idx) throws Exception {
+        ModelAndView mav = new ModelAndView("board/boardDetail");
+        BoardDTO board = boardService.selectBoardDetail(idx);
+        mav.addObject("board", board);
+        return mav;
     }
 }

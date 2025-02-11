@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
+          integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
+          crossorigin="anonymous"></script>
+  <meta charset="UTF-8">
+    <title>Title</title>
+  <script>
+    document.getElementById("submitComment").onclick = function() {
+      const commentContent = document.getElementById("commentContent").value;
+
+      fetch('/comments/add', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({ postId: 1, userId: 1, content: commentContent })
+      })
+              .then(response => response.json())
+              .then(data => {
+                loadComments(); // 댓글 목록 새로 고침
+              });
+    }
+
+    // 댓글 목록 불러오기
+    function loadComments() {
+      fetch('/comments/post/1')
+              .then(response => response.json())
+              .then(data => {
+                let commentsHtml = '';
+                data.forEach(comment => {
+                  commentsHtml += `
+                        <div class="comment">
+                            <p><strong>${comment.username}</strong> (${comment.createdAgo})</p>
+                            <p>${comment.content}</p>
+                            <p><button class="btn btn-link" onclick="recommendComment(${comment.commentId})">추천 (${comment.recommendCount})</button></p>
+                        </div>
+                        <hr>
+                    `;
+                });
+                document.getElementById("commentsList").innerHTML = commentsHtml;
+              });
+    }
+
+    // 댓글 추천하기
+    function recommendComment(commentId) {
+      fetch(`/comments/recommend/${commentId}`, { method: 'POST' })
+              .then(response => response.json())
+              .then(data => {
+                loadComments(); // 댓글 목록 새로 고침
+              });
+    }
+
+    // 페이지 로딩 시 댓글 목록 불러오기
+    loadComments();
+  </script>
+</head>
+<body>
+<div>
+  <h3>댓글</h3>
+    <div>
+    <button id="sortOldestFirst" class="btn btn-secondary">등록순</button>
+    <button id="sortNewestFirst" class="btn btn-secondary">최신순</button>
+  </div>
+  <!-- 댓글 목록 -->
+  <div id="commentsList">
+    <div th:each="comment : ${comments}">
+      <div class="comment">
+        <p><strong th:text="${comment.username}"></strong>
+          <span th:text="${comment.createdAgo}"></span> - <span th:text="${comment.location}"></span></p>
+        <p th:text="${comment.content}"></p>
+        <p><button class="btn btn-link" th:onclick="'recommendComment(' + ${comment.commentId} + ')'">추천 (<span th:text="${comment.recommendCount}"></span>)</button></p>
+        <hr>
+      </div>
+    </div>
+  </div>
+  <hr>
+  <!-- 댓글 작성 폼 -->
+  <div>
+    <textarea id="commentContent" class="form-control" rows="3" placeholder="댓글을 작성하세요"></textarea>
+    <button id="submitComment" class="btn btn-primary mt-2">댓글 작성</button>
+  </div>
+
+</div>
+
+</body>
+</html>

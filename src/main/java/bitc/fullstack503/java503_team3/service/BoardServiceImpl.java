@@ -5,12 +5,27 @@ import bitc.fullstack503.java503_team3.mapper.BoardMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 public class BoardServiceImpl implements BoardService {
     @Autowired
     private BoardMapper boardMapper;
+    // 작성
     @Override
     public void insertBoard(BoardDTO board) {
         boardMapper.insertBoard(board);
+    }
+    // 목록
+    @Override
+    public List<BoardDTO> selectBoardList() {
+        return boardMapper.selectBoardList();
+    }
+
+    // 상세보기
+    @Override
+    public BoardDTO selectBoardDetail(int idx) {
+        boardMapper.updateHitCint(idx);
+        return boardMapper.selectBoardDetail(idx);
     }
 }
