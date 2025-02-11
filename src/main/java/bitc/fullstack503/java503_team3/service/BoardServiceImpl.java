@@ -1,6 +1,7 @@
 package bitc.fullstack503.java503_team3.service;
 
 import bitc.fullstack503.java503_team3.dto.BoardDTO;
+import bitc.fullstack503.java503_team3.mapper.BoardMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 

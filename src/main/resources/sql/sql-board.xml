@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="bitc.fullstack503.java503_team3.mapper.BoardMapper">
+    <insert id="insertBoard" parameterType="bitc.fullstack503.java503_team3.dto.BoardDTO">
+        insert into board(title ,nickname, contents, place, create_date, cate, id)
+        values(#{title},#{nickname},#{contents},#{place},now(),#{cate},#{id})
+    </insert>
+
+</mapper>
