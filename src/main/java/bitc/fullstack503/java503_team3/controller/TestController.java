@@ -8,6 +8,24 @@ public class TestController
   @GetMapping ("/")
   public ModelAndView main () throws Exception
   {
-    return new ModelAndView ("main");
+    return new ModelAndView ("/main");
+  }
+  
+  @GetMapping ("/login")
+  public ModelAndView login () throws Exception
+  {
+    return new ModelAndView ("/login/login");
+  }
+  
+  @GetMapping ("/signup")
+  public ModelAndView singup () throws Exception
+  {
+    return new ModelAndView ("/login/signup");
+  }
+  
+  @GetMapping ("/join")
+  public ModelAndView join () throws Exception
+  {
+    return new ModelAndView ("/login/join");
   }
 }
