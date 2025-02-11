@@ -1,0 +1,25 @@
+header {
+    height: 200px;
+    width: 100%;
+    overflow-x: hidden;
+    background-color: grey;
+}
+
+#carouselExampleDark {
+    height: 470px;
+}
+
+#carouselExampleDark img {
+    height: 470px;
+}
+
+.card {
+    width: 9rem;
+}
+
+.card .rounded-circle {
+    width: 9rem;
+    height: 9rem
+}
+
+
