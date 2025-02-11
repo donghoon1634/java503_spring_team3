@@ -28,4 +28,10 @@ public class TestController
   {
     return new ModelAndView ("/login/join");
   }
+  
+  @GetMapping ("/footer")
+  public ModelAndView footer () throws Exception
+  {
+    return new ModelAndView ("/layout/footer");
+  }
 }
