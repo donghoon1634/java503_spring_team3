@@ -34,4 +34,10 @@ public class TestController
   {
     return new ModelAndView ("/layout/footer");
   }
+  
+  @GetMapping ("/header")
+  public ModelAndView header () throws Exception
+  {
+    return new ModelAndView ("/layout/header");
+  }
 }
