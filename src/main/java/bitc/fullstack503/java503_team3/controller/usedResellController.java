@@ -4,13 +4,15 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 
     @Controller
+    @RequestMapping("/potato")
 public class usedResellController {
 
         @RequestMapping("/tradeChat")
         public String tradeChat(){
+
+
             return "/tradeChat";
         }
-
 
         @RequestMapping("/edit")
 
@@ -24,5 +26,9 @@ public class usedResellController {
             return "sellerProductDetail";
         }
 
+        @RequestMapping("/myPage")
 
+        public String myPage(){
+            return "myPage";
+        }
     }
