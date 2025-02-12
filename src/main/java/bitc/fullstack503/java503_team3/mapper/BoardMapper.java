@@ -1,21 +1,21 @@
 package bitc.fullstack503.java503_team3.mapper;
 
-import bitc.fullstack503.java503_team3.dto.BoardDTO;
+import bitc.fullstack503.java503_team3.dto.UserlifeDTO;
 import org.apache.ibatis.annotations.Mapper;
 
 import java.util.List;
 @Mapper
 public interface BoardMapper {
 //    목록
-    public List<BoardDTO> selectBoardList() ;
+    public List<UserlifeDTO> selectBoardList() ;
 //  조회수 증가
-    public void updateHitCnt(int idx) ;
+    public void updateHitCnt(int ulIdx) ;
 
 //    게시물 작성
-    void insertBoard(BoardDTO board);
+    void insertBoard(UserlifeDTO ul);
 
-    BoardDTO selectBoardDetail(int idx);
+    // 상세
+    UserlifeDTO selectBoardDetail(int ulIdx);
 
 
-// 상세
 }

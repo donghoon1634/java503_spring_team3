@@ -15,66 +15,114 @@
             integrity="sha384-0pUGZvbkm6XF6gxjEnlmuGrJXVbNuzT9qBBavbLwCsOGabYfZo0T0to5eqruptLy"
             crossorigin="anonymous"></script>
     <title>Title</title>
+    <style>
+        /*.row > * {*/
+        /*    width: inherit;*/
+        /*}*/
+
+        input {
+            border: inherit
+        }
+        .small-text {
+            font-size: 0.8rem; /* 작은 글씨 크기 */
+            color: #6c757d; /* 회색으로 표시 */
+            display: block; /* 줄바꿈을 위해 블록 요소로 처리 */
+            margin-top: 0.25rem; /* 약간의 여백 추가 */
+        }
+        #cate{
+            color: gray;
+            border: 1px none ;
+            background-color: lightgray;
+            height: 20px;
+            width: 54px;
+            margin-left: 12px;
+            font-size: 12px;
+        }
+        #contents{
+            border: none;
+        }
+        #likes{
+            padding-right: 2px;
+        }
+
+    </style>
+    <script>
+        $(document).ready(function() {
+            $("#btn-list").on("click", function() {
+                history.back();
+            });
+        });
+    </script>
 </head>
 <body>
-<main class="container mt-5">
+<main class="container mt-5" >
     <section>
-        <form id="frm" method="post">
-            <input type="hidden" id="method" name="_method">
-            <!--      글번호, 제목, 조회수 -->
-            <div class="row mt-3">
-                        <input type="text" class="form-control" id="idx" name="idx" placeholder="글번호" readonly th:value="${board.idx}">
-                        <label for="idx"></label>
-                        <input type="text" class="form-control" id="cate" name="cate" placeholder="카테고리" th:value="${board.cate}" readonly>
-                        <label for="cate"></label>
-                        <input type="text" class="form-control" id="nickname" name="nickName" placeholder="닉네임" readonly th:value="${board.nickname}">
-                        <label for="nickname"></label>
-                        <input type="text" class="form-control" id="place" name="place" placeholder="위치" readonly th:value="${board.place}">
-                        <label for="place"></label>
-           </div>
-                <div class="col-sm d-flex justify-content-end">
-                    <button type="button" class="btn btn-danger me-2" id="btn-delete">삭제</button>
-                    <button type="button" class="btn btn-warning" id="btn-update">수정</button>
+        <!--        <form id="frm" method="post">-->
+        <input type="hidden" id="method" name="_method">
+        <!--      글번호, 제목, 조회수 -->
+<!--        <div class="row mt-3 text-center" >-->
+<!--            <input type="text" id="idx" name="idx" placeholder="글번호" readonly th:value="${board.idx}">-->
+<!--            <label for="idx"></label>-->
+<!--        </div>-->
+        <div class="row mt-3" >
+            <input type="text" id="ulCate" name="ulCate" placeholder="카테고리" th:value="${ul.ulCate}" readonly>
+            <label for="ulCate"></label>
+        </div>
+        <div class="row mt-3">
+            <div class="col-sm">
+                <input type="text" id="ulNickname" name="ulNickname" placeholder="닉네임" readonly th:value="${ul.ulNickname}">
+                <label for="ulNickname"></label>
+                <div class="col-sm">
+                    <input class="small-text" type="text" id="ulPlace" name="ulPlace" placeholder="위치" readonly th:value="${ul.ulPlace}">
+                    <label for="ulPlace"></label>
                 </div>
-            <!--      작성자, 작성일, 수정자, 수정일 -->
-<!--            <div class="row mt-3">-->
-<!--                <div class="col-sm-4">-->
-<!--                    <div class="form-floating">-->
-<!--                        <input type="text" class="form-control" id="create-date" name="createDate" placeholder="작성일" readonly th:value="${board.createDate}">-->
-<!--                        <label for="create-date">작성일</label>-->
-<!--                    </div>-->
-<!--                </div>-->
-<!--                <div class="col-sm-2">-->
-<!--                    <div class="form-floating">-->
-<!--                        <input type="text" class="form-control" id="update-id" name="updateId" placeholder="수정자" readonly th:value="${board.updateId}">-->
-<!--                        <label for="update-id">수정자</label>-->
-<!--                    </div>-->
-<!--                </div>-->
-<!--                <div class="col-sm-4">-->
-<!--                    <div class="form-floating">-->
-<!--                        <input type="text" class="form-control" id="update-date" name="updateDate" placeholder="수정일" readonly th:value="${board.updateDate}">-->
-<!--                        <label for="update-date">수정일</label>-->
-<!--                    </div>-->
-<!--                </div>-->
+            </div>
+            <div class="col-sm ">
+                <button type="button" class="btn btn-danger me-2" id="btn-delete">삭제</button>
+                <button type="button" class="btn btn-warning" id="btn-update">수정</button>
+            </div>
+
+        </div>
+
+        <!--      글 내용-->
+        <div class="row mt-3">
+            <div class="col-sm">
+                <div class="form">
+                    <textarea id="ulContents" name="ulContents" rows="10" placeholder="글 내용" style="height: 250px;"
+                              th:text="${ul.ulContents}"></textarea>
+                    <label for="ulContents"></label>
+                </div>
+            </div>
+        </div>
+<!--        추천수-->
+        <div class="row">
+            <div class="col-sm-1">
+                <img  src="/img/good.png" width="22px" height="22px" alt="" id="ulLikes" name="ulLikes" readonly th:value="${ul.ulLikes}">
+                <label for="ulLikes"></label>
+            </div>
+<!--            댓글-->
+<!--            <div class="col-sm ">-->
+<!--                <img src="/img/commu.png" width="22px" height="22px" alt=""  id=""  name="likes"-->
+<!--                     readonly th:value="${ul.likes}">-->
+<!--                <label for=""></label>-->
 <!--            </div>-->
-
-            <!--      글 내용-->
-            <div class="row mt-3">
-                <div class="col-sm">
-                    <div class="form-floating">
-                        <textarea class="form-control" id="contents" name="contents" rows="10" placeholder="글 내용" style="height: 250px;" th:text="${board.contents}"></textarea>
-                        <label for="contents">글 내용</label>
-                    </div>
-                </div>
-            </div>
-            <!--      목록, 삭제, 수정 버튼 -->
-            <div class="row mt-3">
-                <div class="col-sm">
-                    <button type="button" class="btn btn-secondary" id="btn-list">목록</button>
-                </div>
-
-            </div>
-        </form>
+<!--        </div>-->
+        <!--      목록, 삭제, 수정 버튼 -->
+<!--        <div class="row mt-3">-->
+<!--            <div class="col-sm">-->
+<!--                <button type="button" class="btn btn-secondary" id="btn-list">목록</button>-->
+<!--            </div>-->
+<!--        </div>-->
+        <hr>
+<!--        <div class="row mt-3">-->
+<!--            <div class="col-sm">-->
+<!--                <input type="text" id="" name="nickName" placeholder="댓글" readonly th:value="${board.nickname}">-->
+<!--                <label for="nickname"></label>-->
+<!--            </div>-->
+<!--        </div>-->
+        <hr>
+        <h2><b>문현제2동 인기글</b></h2>
+        </div>
     </section>
 </main>
 

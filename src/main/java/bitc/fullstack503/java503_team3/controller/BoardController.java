@@ -1,9 +1,10 @@
 package bitc.fullstack503.java503_team3.controller;
 
-import bitc.fullstack503.java503_team3.dto.BoardDTO;
+import bitc.fullstack503.java503_team3.dto.UserlifeDTO;
 import bitc.fullstack503.java503_team3.service.BoardService;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
+import org.apache.catalina.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
@@ -30,7 +31,7 @@ public class BoardController {
     public ModelAndView selectBoardList() throws Exception {
         ModelAndView mav = new ModelAndView("board/boardList");
 
-        List<BoardDTO> boardList = boardService.selectBoardList();
+        List<UserlifeDTO> boardList = boardService.selectBoardList();
         mav.addObject("boardList", boardList);
 
         return mav;
@@ -52,27 +53,27 @@ public String insertBoard(HttpServletRequest request) throws Exception {
 }
 
     @PostMapping("/board/write")
-    public String insertBoard(BoardDTO board, MultipartHttpServletRequest multipart, HttpServletRequest request)throws Exception{
+    public String insertBoard(UserlifeDTO ul, MultipartHttpServletRequest multipart, HttpServletRequest request)throws Exception{
         HttpSession session = request.getSession();
 //        if (session.getAttribute("id") == null) {
 //            return "redirect:/login"; // 로그인하지 않은 겨우
 //        }
 //        else {
-//            boardService.insertBoard(board);
+//            boardService.insertBoard(ul);
 //            return "redirect:/board";
 //        }
-        boardService.insertBoard(board);
+        boardService.insertBoard(ul);
         return "redirect:/board";
     }
 
     //  @PathVariable : @RequestParam 과 동일한 역할을 하는 어노테이션, REST 방식 사용 시 URI 에 {} 로 지정해 놓은 리소스 값을 받아오는 어노테이션
 //  게시물 상세
-    @RequestMapping(value = "/board/{idx}", method = RequestMethod.GET)
-    public ModelAndView selectBoardDetail(@PathVariable("idx") int idx)  throws Exception {
+    @RequestMapping(value = "/board/{ulIdx}", method = RequestMethod.GET)
+    public ModelAndView selectBoardDetail(@PathVariable("ulIdx") int ulIdx)  throws Exception {
         ModelAndView mav = new ModelAndView("board/boardDetail");
 
-        BoardDTO board = boardService.selectBoardDetail(idx);
-        mav.addObject("board", board);
+        UserlifeDTO ul = boardService.selectBoardDetail(ulIdx);
+        mav.addObject("ul", ul);
 
         return mav;
     }
