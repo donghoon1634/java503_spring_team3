@@ -1,6 +1,6 @@
 package bitc.fullstack503.java503_team3.service;
 
-import bitc.fullstack503.java503_team3.dto.BoardDTO;
+import bitc.fullstack503.java503_team3.dto.UserlifeDTO;
 import bitc.fullstack503.java503_team3.mapper.BoardMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -11,21 +11,24 @@ import java.util.List;
 public class BoardServiceImpl implements BoardService {
     @Autowired
     private BoardMapper boardMapper;
-    // 작성
+
+    //    목록
     @Override
-    public void insertBoard(BoardDTO board) {
-        boardMapper.insertBoard(board);
-    }
-    // 목록
-    @Override
-    public List<BoardDTO> selectBoardList() {
+    public List<UserlifeDTO> selectBoardList() {
         return boardMapper.selectBoardList();
     }
 
-    // 상세보기
+    //    작성
     @Override
-    public BoardDTO selectBoardDetail(int idx) {
-        boardMapper.updateHitCint(idx);
-        return boardMapper.selectBoardDetail(idx);
+    public void insertBoard(UserlifeDTO ul) {
+        boardMapper.insertBoard(ul);
+    }
+
+    //   상세
+    @Override
+    public UserlifeDTO selectBoardDetail(int ulIdx) {
+        boardMapper.updateHitCnt(ulIdx);
+        UserlifeDTO ul= boardMapper.selectBoardDetail(ulIdx);
+        return ul;
     }
 }

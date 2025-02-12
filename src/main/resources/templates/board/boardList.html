@@ -15,6 +15,20 @@
           integrity="sha384-0pUGZvbkm6XF6gxjEnlmuGrJXVbNuzT9qBBavbLwCsOGabYfZo0T0to5eqruptLy"
           crossorigin="anonymous"></script>
   <title>Title</title>
+  <style>
+    /*{*/
+    /*    width: 12px;*/
+    /*    height: 12px;*/
+    /*}*/
+    dd > a {
+      text-decoration-line: none;
+      color: #4d5154;
+    }
+    li > img{width: 12px;height: 12px;
+      margin-bottom: -10px;
+    }
+
+  </style>
 </head>
 <body>
 <div class="container mt-5">
@@ -23,10 +37,9 @@
       <ul class="navbar-nav me-auto mb-2 mb-lg-0">
         <li class="nav-item">
           <a class="nav-link active" aria-current="page" href="#">홈</a>
-          <img src="C:\Users\lee\Desktop\img" alt="">
         </li>
         <li class="nav-item">
-          <a class="nav-link" href=""></a>
+          <img src="/img/free-icon-arrow-right-6423875.png" >
         </li>
         <li class="nav-item">
           <a class="nav-link" href="">동네생활</a>
@@ -50,12 +63,12 @@
       <div class="col-md-6 p-3">
         <div class="post mb-4" th:if="${#lists.size(boardList)} > 0" th:each="item : ${boardList}">
           <h3 class="text-start">
-            <a href="#" class="text-decoration-none" th:href="@{|/board/${item.idx}|}"
-               th:text="${item.title}">게시물 제목 1</a>
+            <a href="#" class="text-decoration-none" th:href="@{|/board/${item.ulIdx}|}"
+               th:text="${item.ulTitle}">게시물 제목 1</a>
           </h3>
-          <p th:text="${item.contents}">게시물 내용 1...</p>
+          <p th:text="${item.ulContents}">게시물 내용 1...</p>
           <!--추천수-->
-          <p th:text="${item.likes}">추천</p>
+          <p th:text="${item.ulLikes}">추천</p>
         </div>
       </div>
     </div>

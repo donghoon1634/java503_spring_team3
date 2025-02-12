@@ -1,6 +1,6 @@
 package bitc.fullstack503.java503_team3.controller;
 
-import bitc.fullstack503.java503_team3.dto.BoardDTO;
+import bitc.fullstack503.java503_team3.dto.UserlifeDTO;
 import bitc.fullstack503.java503_team3.dto.UserlifeCommentDTO;
 import bitc.fullstack503.java503_team3.service.BoardService;
 import bitc.fullstack503.java503_team3.service.UlCommentService;
@@ -18,21 +18,21 @@ import java.util.List;
 public class BoardController {
 
     @Autowired
-    private BoardService boardService;
+    private UlCommentService ulCommentService;
 
     @Autowired
-    private UlCommentService ulCommentService;
+    private BoardService boardService;
 
     //  게시물 목록
     @RequestMapping(value = "/board", method = RequestMethod.GET)
     public ModelAndView selectBoardList() throws Exception {
         ModelAndView mav = new ModelAndView("board/boardList");
-
-        List<BoardDTO> boardList = boardService.selectBoardList();
+        List<UserlifeDTO> boardList = boardService.selectBoardList();
         mav.addObject("boardList", boardList);
-
         return mav;
     }
+
+    //    게시글 쓰기
     // 작성 화면
     @GetMapping("/board/write")
     public String insertBoard(HttpServletRequest request) throws Exception {
@@ -44,34 +44,33 @@ public class BoardController {
 //            return "board/BoardWrite";
 //        }
         return "board/BoardWrite";
-
     }
 
     @PostMapping("/board/write")
-    public String insertBoard(BoardDTO board, MultipartHttpServletRequest multipart, HttpServletRequest request)throws Exception{
+    public String insertBoard(UserlifeDTO ul, MultipartHttpServletRequest multipart, HttpServletRequest request)throws Exception{
         HttpSession session = request.getSession();
 //        if (session.getAttribute("id") == null) {
 //            return "redirect:/login"; // 로그인하지 않은 겨우
 //        }
 //        else {
-//            boardService.insertBoard(board);
+//            boardService.insertBoard(ul);
 //            return "redirect:/board";
 //        }
-        boardService.insertBoard(board);
+        boardService.insertBoard(ul);
         return "redirect:/board";
     }
 
-    // 상세보기
-    @GetMapping("/board/{idx}")
-    public ModelAndView selectBoard(@PathVariable int idx) throws Exception {
+    //  게시물 상세
+    @RequestMapping(value = "/board/{ulIdx}", method = RequestMethod.GET)
+    public ModelAndView selectBoardDetail(@PathVariable("ulIdx") int ulIdx)  throws Exception {
         ModelAndView mav = new ModelAndView("board/boardDetail");
-        BoardDTO board = boardService.selectBoardDetail(idx);
-
-
-        List<UserlifeCommentDTO> comments = ulCommentService.getCommentsByBoardIdx(idx);
-
-        mav.addObject("board", board);
-        mav.addObject("comments", comments); // 게시물 상세보기에서 댓글 정보를 가져오기위해서
+        UserlifeDTO ul = boardService.selectBoardDetail(ulIdx);
+        // 게시물 번호에 해당하는 댓글 목록 가져오기
+        List<UserlifeCommentDTO> ulcomment = ulCommentService.getUlCommentByUlIdx(ulIdx);
+        mav.addObject("ul", ul);
+        // ulcomment는 댓글정보
+        mav.addObject("ulcomment", ulcomment);
         return mav;
     }
+
 }

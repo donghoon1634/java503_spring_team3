@@ -14,32 +14,43 @@ public class UlCommentServiceImpl implements UlCommentService {
 
     // 게시물의 댓글 목록을 가져오는 API
     @Override
-    public List<UserlifeCommentDTO> getCommentsByBoardIdx(int ulCommentIdx) {
-        List<UserlifeCommentDTO> comments = ulCommentMapper.getCommentsByBoardIdx(ulCommentIdx);
+    public List<UserlifeCommentDTO> getUlCommentByUlIdx(int ulIdx) {
+        List<UserlifeCommentDTO> comments = ulCommentMapper.getUlCommentByUlIdx(ulIdx);
         return comments;
     }
 
-    // 댓글을 추가하는 API
-    @Override
-    public void addComment(UserlifeCommentDTO ulCommentDTO) {
-        ulCommentMapper.addComment(ulCommentDTO);
-    }
 
-    // 댓글 추천수를 증가시키는 API
-    @Override
-    public void incrementRecommend(int commentIdx) {
-        ulCommentMapper.incrementRecommend(commentIdx);
-    }
+    //    // 게시물의 댓글 목록을 가져오는 API
+//    @Override
+//    public List<UserlifeCommentDTO> getCommentsByBoardIdx(int ulCommentIdx) {
+//        List<UserlifeCommentDTO> comments = ulCommentMapper.getCommentsByBoardIdx(ulCommentIdx);
+//        return comments;
+//    }
+//
+//    // 댓글을 추가하는 API
+//    @Override
+//    public void addComment(UserlifeCommentDTO ulCommentDTO) {
+//        ulCommentMapper.addComment(ulCommentDTO);
+//    }
+//
+//    // 댓글 추천수를 증가시키는 API
+//    @Override
+//    public void incrementRecommend(int commentIdx) {
+//        ulCommentMapper.incrementRecommend(commentIdx);
+//    }
 
-    // 등록순 댓글 조회
-    @Override
-    public List<UserlifeCommentDTO> getCommentsOldestFirst(int ulCommentIdx) {
-        return ulCommentMapper.getCommentsOldestFirst(ulCommentIdx);
-    }
 
-    // 최신순 댓글 조회
-    @Override
-    public List<UserlifeCommentDTO> getCommentsNewestFirst(int ulCommentIdx) {
-        return ulCommentMapper.getCommentsNewestFirst(ulCommentIdx);
-    }
+
+//
+//    // 등록순 댓글 조회
+//    @Override
+//    public List<UserlifeCommentDTO> getCommentsOldestFirst(int ulCommentIdx) {
+//        return ulCommentMapper.getCommentsOldestFirst(ulCommentIdx);
+//    }
+//
+//    // 최신순 댓글 조회
+//    @Override
+//    public List<UserlifeCommentDTO> getCommentsNewestFirst(int ulCommentIdx) {
+//        return ulCommentMapper.getCommentsNewestFirst(ulCommentIdx);
+//    }
 }
