@@ -15,6 +15,18 @@
             integrity="sha384-0pUGZvbkm6XF6gxjEnlmuGrJXVbNuzT9qBBavbLwCsOGabYfZo0T0to5eqruptLy"
             crossorigin="anonymous"></script>
     <title>Title</title>
+    <style>
+        /* 기본 글자색은 회색 */
+        .btn-custom {
+            color: gray;
+        }
+
+        /* 글자 굵게 만들기 */
+        .font-bold {
+            font-weight: bold;
+            color: black;
+        }
+    </style>
 </head>
 <body>
 <main class="container mt-5">
@@ -37,26 +49,6 @@
                 <button type="button" class="btn btn-warning" id="btn-update">수정</button>
             </div>
             <!--      작성자, 작성일, 수정자, 수정일 -->
-            <!--            <div class="row mt-3">-->
-            <!--                <div class="col-sm-4">-->
-            <!--                    <div class="form-floating">-->
-            <!--                        <input type="text" class="form-control" id="create-date" name="createDate" placeholder="작성일" readonly th:value="${board.createDate}">-->
-            <!--                        <label for="create-date">작성일</label>-->
-            <!--                    </div>-->
-            <!--                </div>-->
-            <!--                <div class="col-sm-2">-->
-            <!--                    <div class="form-floating">-->
-            <!--                        <input type="text" class="form-control" id="update-id" name="updateId" placeholder="수정자" readonly th:value="${board.updateId}">-->
-            <!--                        <label for="update-id">수정자</label>-->
-            <!--                    </div>-->
-            <!--                </div>-->
-            <!--                <div class="col-sm-4">-->
-            <!--                    <div class="form-floating">-->
-            <!--                        <input type="text" class="form-control" id="update-date" name="updateDate" placeholder="수정일" readonly th:value="${board.updateDate}">-->
-            <!--                        <label for="update-date">수정일</label>-->
-            <!--                    </div>-->
-            <!--                </div>-->
-            <!--            </div>-->
 
             <!--      글 내용-->
             <div class="row mt-3">
@@ -72,11 +64,109 @@
                 <div class="col-sm">
                     <button type="button" class="btn btn-secondary" id="btn-list">목록</button>
                 </div>
-
             </div>
         </form>
     </section>
+
+    <div class="row">
+        <div class="col-sm-3">
+            <img class="me-2" src="/img/good.png" width="22px" height="22px" alt="" id="likes" name="likes" readonly th:value="${board.likes}">
+            <label for="likes"></label>
+        </div>
+        <!--            댓글-->
+        <div class="col-sm ">
+            <img src="/img/commu.png" width="22px" height="22px" alt=""  id=""  name="likes"
+                 readonly th:value="${board.likes}">
+            <label for=""></label>
+        </div>
+    </div>
+
+
+
+
+<!--    댓글 -->
+<!--    <section th:replace="~{/layout/comment :: comment(${comments})}"> replace로 할경우    </section>-->
+<hr>
+    <section>
+        <div>
+<!--            <h3>댓글</h3>-->
+            <div>
+                <button id="sortOldestFirst" class="btn btn-light text-muted">등록순</button>
+                <button id="sortNewestFirst" class="btn btn-light text-muted">최신순</button>
+            </div>
+<!--        댓글 목록-->
+            <div id="commentsList">
+                <div th:each="comment : ${comments}">
+                    <div class="comment">
+                        <p type="hidden" id="commentIdx" name="commentIdx" th:value="${comment.commentIdx}"></p>
+                        <p><strong th:text="${comment.commentName}"></strong></p>
+                        <p class="text-muted">
+                            <span th:text="${comment.location}"></span>
+                            <span th:text="${comment.createDate}"></span>
+                        </p>
+                        <p><strong th:text="${comment.commentContent}"></strong></p>
+                        <p>
+                            <button class="btn btn-link" >
+                                추천
+                            </button>
+                        </p>
+
+                    </div>
+                </div>
+            </div>
+
+<!--        댓글 작성-->
+<!--            board_idx, nickname, comment_content, create_date, location-->
+            <div class="mt-3">
+                <form action="/board/add" method="post" enctype="multipart/form-data"></form>
+                <div class="row">
+                    <div class="col-sm-2">
+                        <label for="boardIdx" class="form-label">게시물번호 </label>
+                        <input type="text" class="form-control" id="boardIdx" name="boardIdx" placeholder="없어질칸">
+                    </div>
+                    <div class="col-sm-2">
+                        <label for="commentName" class="form-label">닉네임 </label>
+                        <input type="text" class="form-control" id="commentName" name="commentName" placeholder="없어질칸">
+                    </div>
+                    <div class="col-sm-2">
+                        <label for="location" class="form-label">장소 </label>
+                        <input type="text" class="form-control" id="location" name="location" placeholder="없어질칸">
+                    </div>
+                </div>
+                <div>
+                    <textarea class="form-control" name="commentContent" id="commentContent" rows="3" placeholder="댓글을 입력하세요."></textarea>
+                </div>
+                <button id="submitComment" class="btn btn-primary mt-2">댓글 작성</button>
+            </div>
+        </div>
+        <script>
+            // 버튼 클릭 시 스타일 변경
+            document.getElementById("sortOldestFirst").addEventListener("click", function() {
+                // 등록순 버튼 클릭 시 스타일 변경
+                this.classList.add("font-bold"); // 등록순 버튼은 굵게
+                this.classList.remove("btn-custom"); // 회색 글자 제거
+
+                // 최신순 버튼은 기본 상태로 되돌리기
+                document.getElementById("sortNewestFirst").classList.remove("font-bold");
+                document.getElementById("sortNewestFirst").classList.add("btn-custom");
+            });
+
+            document.getElementById("sortNewestFirst").addEventListener("click", function() {
+                // 최신순 버튼 클릭 시 스타일 변경
+                this.classList.add("font-bold"); // 최신순 버튼은 굵게
+                this.classList.remove("btn-custom"); // 회색 글자 제거
+
+                // 등록순 버튼은 기본 상태로 되돌리기
+                document.getElementById("sortOldestFirst").classList.remove("font-bold");
+                document.getElementById("sortOldestFirst").classList.add("btn-custom");
+            });
+
+        </script>
+    </section>
+
 </main>
+<br><br><br><br><br><br><br>
+
 
 </body>
 </html>
