@@ -8,6 +8,21 @@
         select ul_comment_idx,ul_comment_nickname,ul_comment_location, ul_comment_createdate, ul_comment_contents, ul_comment_like from userlife_comment
         where ul_comment_ul_idx = #{ulCommentUlIdx} order by ul_comment_createdate desc
     </select>
+
+<!--    추천수 증가 -->
+    <update id="ulCommentLikeUpDate" parameterType="int">
+        update userlife_comment set ul_comment_like = ul_comment_like +1 where ul_comment_idx = #{ulCommentIdx}
+    </update>
+
+<!--    추천수 불러오기-->
+    <select id="ulCommentLikeSelect" parameterType="int" resultType="int">
+        select ul_comment_like from userlife_comment where ul_comment_idx  = #{ulCommentIdx}
+    </select>
+
+
+
+
+
 <!--    등록순 댓글 조회-->
     <select id="getCommentsOldestFirst" resultType="bitc.fullstack503.java503_team3.dto.UserlifeCommentDTO">
         select ul_comment_idx,ul_comment_nickname,ul_comment_location, ul_comment_createdate, ul_comment_contents, ul_comment_like from userlife_comment

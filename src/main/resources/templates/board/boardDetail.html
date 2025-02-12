@@ -70,6 +70,22 @@
                 history.back();
             });
         });
+
+        // 댓글추천
+        $("#ulCommentLike").on("click", function () {
+            var number = $("#ulCommentIdx").val();
+            var sendDate = {ulCommentIdx: ulCommentIdx};
+            $.ajax({
+                url: "/ulComment/like",
+                type: "POST",
+                data: sendDate,
+                success: function (data) {
+                    if (data > 0) {
+                        $("#likeUlComment").text(data);
+                    }
+                }
+            });
+        });
     </script>
 
 </head>
@@ -159,16 +175,14 @@
                             <span th:text="${comment.ulCommentcreatedate}"></span>
                         </p>
                         <p><strong th:text="${comment.ulCommentContents}"></strong></p>
-<!--                        <p>-->
-<!--                            <img src="/img/good.png" class="btn btn-link" style="width: 22px; height: 22px;" alt="댓글추천" id="ulCommentLike" name="ulCommentLike">-->
-<!--                            <label for="ulCommentLike" th:value="${comment.ulCommentLike}"></label>-->
-<!--                        </p>-->
+<!--                        <div class="col-sm-1">-->
+<!--                            <img src="/img/good.png" width="22px" height="22px" alt="댓글추천" id="ulCommentLike" name="ulCommentLike" readonly-->
+<!--                                 th:text="${comment.ulCommentLike}">-->
+<!--                            <label for="ulCommentLike"></label>-->
+<!--                        </div>-->
                         <div class="col-sm-1">
-                            <img src="/img/good.png" width="22px" height="22px" alt="댓글추천" id="ulCommentLike" name="ulCommentLike" readonly
-                                 th:text="${comment.ulCommentLike}">
-                            <label for="ulCommentLike"></label>
-
-
+                            <img src="/img/good.png" style="width:22px; height: 22px;" class="btn" alt="댓글추천" id="ulCommentLike">
+                            <span id="likeUlComment" th:text="${comment.ulCommentLike}">0</span>
                         </div>
                     </div>
                 </div>

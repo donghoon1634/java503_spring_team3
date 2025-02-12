@@ -9,6 +9,10 @@ import java.util.List;
 public interface UlCommentMapper {
     // 게시물의 댓글 목록을 가져오는 API
     List<UserlifeCommentDTO> getUlCommentByUlIdx(int ulIdx);
+    // 추천수 증가
+    void ulCommentLikeUpDate(int ulCommentIdx);
+    // 추천수 불러오기
+    int ulCommentLikeSelect(int ulCommentIdx);
 
 //    // 게시물의 댓글 목록을 가져오는 API
 //    List<UserlifeCommentDTO> getCommentsByBoardIdx(int ulCommentIdx);

@@ -19,6 +19,18 @@ public class UlCommentServiceImpl implements UlCommentService {
         return comments;
     }
 
+    // 추천수 증가
+    @Override
+    public void ulCommentLikeUpDate(int ulCommentIdx) {
+        ulCommentMapper.ulCommentLikeUpDate(ulCommentIdx);
+    }
+    // 추천수 불러오기
+    @Override
+    public int ulCommentLikeSelect(int ulCommentIdx) {
+        int result = ulCommentMapper.ulCommentLikeSelect(ulCommentIdx);
+        return result;
+    }
+
 
     //    // 게시물의 댓글 목록을 가져오는 API
 //    @Override

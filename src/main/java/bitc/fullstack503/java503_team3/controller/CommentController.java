@@ -54,6 +54,14 @@ public class CommentController {
 //        ulCommentService.incrementRecommend(ulCommentIdx);
 //        return ResponseEntity.ok().build();
 //    }
+    @PostMapping("/ulComment/like")
+    public Object ulCommentLikeUpDate(int ulCommentIdx) throws Exception{
+        // 추천수 update
+        ulCommentService.ulCommentLikeUpDate(ulCommentIdx);
+        // 추천수 불러오기
+        int result = ulCommentService.ulCommentLikeSelect(ulCommentIdx);
+        return  result;
+    }
 
 }
 
