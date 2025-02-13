@@ -1,0 +1,406 @@
+<!DOCTYPE html>
+<html lang="ko">
+
+<head>
+  <meta charset="UTF-8">
+  <title>Title</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
+          integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
+          crossorigin="anonymous"></script>
+  <style>
+      @font-face {
+          font-family: 'Pretendard-Regular';
+          src: url('https://fastly.jsdelivr.net/gh/Project-Noonnu/noonfonts_2107@1.1/Pretendard-Regular.woff') format('woff');
+          font-weight: 400;
+          font-style: normal;
+      }
+
+      * {
+          font-family: 'Pretendard-Regular';
+      }
+
+      .area-list {
+          display: none;
+          margin-left: 20px;
+      }
+
+      .filter-container {
+          display: flex;
+          gap: 20px;
+      }
+
+      .filter-container aside {
+          flex: 1;
+      }
+
+      .filter-container main {
+          flex: 3;
+      }
+
+      .card {
+          min-height: 300px;
+          /* 카드 높이 균일하게 설정 */
+          display: flex;
+          flex-direction: column;
+          justify-content: space-between;
+      }
+
+      .card-img-top {
+          height: 200px;
+          /* 모든 이미지 높이를 동일하게 설정 */
+          object-fit: cover;
+          /* 비율 유지하면서 꽉 채우기 */
+          width: 100%;
+      }
+
+      #btn-share,
+      #btn-5000,
+      #btn-10000,
+      #btn-20000 {
+          border: 1px solid #c7c7c7;
+          border-radius: 20px;
+          background-color: #ffffff;
+          padding: 8px;
+      }
+
+      .category-ul,
+      .price-ul {
+          padding: 0;
+      }
+
+      input[type="radio"],
+      input[type="checkbox"] {
+          margin-right: 10px;
+      }
+
+      .card-price {
+          font-weight: bold;
+      }
+
+      .card-location{
+          font-size: 14px;
+          color: #9b9b9b;
+      }
+  </style>
+  <script>
+      //카테고리 선택 토글 기능
+      function toggleAreaList(districtId) {
+          const allAreaLists = document.querySelectorAll('.area-list');
+          allAreaLists.forEach(list => {
+              if (list.id !== districtId) {
+                  list.style.display = 'none';
+              }
+          });
+
+          const areaList = document.getElementById(districtId);
+          if (areaList.style.display === 'block') {
+              areaList.style.display = 'none';
+              sessionStorage.removeItem('selectedDistrict');
+          } else {
+              areaList.style.display = 'block';
+              sessionStorage.setItem('selectedDistrict', districtId);
+          }
+      }
+
+      // 페이지 로드 시 선택한 필터 유지
+      document.addEventListener('DOMContentLoaded', function () {
+          const savedDistrict = sessionStorage.getItem('selectedDistrict');
+          if (savedDistrict) {
+              document.getElementById(savedDistrict).style.display = 'block';
+          }
+      });
+      // 초기화 기능
+      document.querySelector('.reset-filter').addEventListener('click', function () {
+          document.querySelectorAll('input[type="checkbox"], input[type="radio"]').forEach(input => {
+              input.checked = false;
+          });
+          document.querySelectorAll('.area-list').forEach(list => list.style.display = 'none');
+          sessionStorage.clear();
+      });
+  </script>
+</head>
+
+<body>
+<!-- Flexbox로 필터와 상품 목록을 나란히 배치 -->
+<div class="container mt-5 filter-container">
+  <aside>
+    <div class="d-flex">
+      <h3><strong>필터</strong></h3>
+      <a href="#" class="reset-filter" style="color: gray; margin-left: 100px;">초기화</a>
+    </div>
+    <br>
+    <input type="checkbox" name="trade" id="trade"><label for="trade">거래 가능만 보기</label>
+    <div class="border-top mt-2 mb-2"></div>
+    <h5><b>위치</b></h5>
+    <p>부산광역시</p>
+    <ul class="list-unstyled">
+
+      <li>
+        <input type="radio" name="district" id="geumjeonggu"
+               onclick="toggleAreaList('geumjeonggu-areas')"><label for="geumjeonggu">금정구</label>
+        <ul id="geumjeonggu-areas" class="area-list">
+          <li><input type="radio" name="area" id="seow1dong"> <label for="seow1dong">서1동</label></li>
+          <li><input type="radio" name="area" id="seow2dong"> <label for="seow2dong">서2동</label></li>
+          <li><input type="radio" name="area" id="seow3dong"> <label for="seow3dong">서3동</label></li>
+          <li><input type="radio" name="area" id="geumsadong"> <label for="geumsadong">금사동</label></li>
+          <li><input type="radio" name="area" id="bugok1dong"> <label for="bugok1dong">부곡1동</label></li>
+          <li><input type="radio" name="area" id="bugok2dong"> <label for="bugok2dong">부곡2동</label></li>
+          <li><input type="radio" name="area" id="bugok3dong"> <label for="bugok3dong">부곡3동</label></li>
+          <li><input type="radio" name="area" id="bugok4dong"> <label for="bugok4dong">부곡4동</label></li>
+          <li><input type="radio" name="area" id="dongsa"> <label for="dongsa">동사동</label></li>
+          <li><input type="radio" name="area" id="cheongdo"> <label for="cheongdo">청도동</label></li>
+          <li><input type="radio" name="area" id="sujongdong"> <label for="sujongdong">수정동</label></li>
+        </ul>
+      </li>
+      <h5 style="margin-top: 20px;"><b>카테고리</b></h5>
+      <ul class="category-ul">
+        <li style="list-style: none;"><input type="radio" name="category" id="digital" value="디지털기기"><label
+            for="digital">디지털기기</label></li>
+        <li style="list-style: none;"><input type="radio" name="lifetech" id="lt" value="생활가전"><label
+            for="lt">생활가전</label></li>
+        <li style="list-style: none;"><input type="radio" name="gagu" id="gagu" value="가구/인테리어"><label
+            for="gagu">가구/인테리어</label></li>
+        <li style="list-style: none;"><input type="radio" name="living" id="living" value="생활/주방"><label
+            for="living">생활/주방</label>
+        </li>
+        <li style="list-style: none;"><input type="radio" name="kids" id="kids" value="유아동"><label
+            for="kids">유아동</label></li>
+        <li style="list-style: none;"><input type="radio" name="kidsBook" id="kids-book" value="유아도서"><label
+            for="kids-book">유아도서</label></li>
+        <li style="list-style: none;"><input type="radio" name="womansClothes" id="wc" value="여성의류"><label
+            for="wc">여성의류</label></li>
+        <li style="list-style: none;"><input type="radio" name="womansGoods" id="wg" value="여성잡화"><label
+            for="wg">여성잡화</label></li>
+        <li style="list-style: none;"><input type="radio" name="mansFashion" id="mf" value="남성패션/잡화"><label
+            for="mf">남성패션/잡화</label>
+        </li>
+        <li style="list-style: none;"><input type="radio" name="beauty" id="beauty" value="뷰티/미용"><label
+            for="beauty">뷰티/미용</label>
+        </li>
+        <li style="list-style: none;"><input type="radio" name="sports" id="sports" value="스포츠/레저"><label
+            for="sports">스포츠/레저</label>
+        </li>
+        <li style="list-style: none;"><input type="radio" name="hobby" id="hobby" value="취미/게임/음반"><label
+            for="hobby">취미/게임/음반</label>
+        </li>
+        <li style="list-style: none;"><input type="radio" name="books" id="books" value="도서"><label
+            for="books">도서</label></li>
+        <li style="list-style: none;"><input type="radio" name="ticket" id="ticket" value="티켓/교환권"><label
+            for="ticket">티켓/교환권</label>
+        </li>
+        <li style="list-style: none;"><input type="radio" name="food" id="food" value="가공식품"><label
+            for="food">가공식품</label></li>
+        <li style="list-style: none;"><input type="radio" name="healthyFood" id="healthyFood"
+                                             value="건강기능식품"><label for="healthyFood">건강기능식품</label>
+        </li>
+        <li style="list-style: none;"><input type="radio" name="pets" id="pets" value="반려동물용품"><label
+            for="pets">반려동물용품</label></li>
+        <li style="list-style: none;"><input type="radio" name="plants" id="plants" value="식물"><label
+            for="plants">식물</label></li>
+        <li style="list-style: none;"><input type="radio" name="etc" id="etc" value="기타 중고물품"><label
+            for="etc">기타 중고물품</label></li>
+        <li style="list-style: none;"><input type="radio" name="buy" id="buy" value="삽니다"><label
+            for="buy">삽니다</label></li>
+      </ul>
+
+      <div style="width: 200px; height: 1px; background-color: black; margin-top: 10px;"></div>
+
+      <h5 style="margin-top: 20px;"><b>가격</b></h5>
+      <ul class="price-ul">
+        <li style="list-style: none;">
+          <button id="btn-share" type="button" style="margin-top: 10px; ">나눔</button>
+        </li>
+        <li style="list-style: none;">
+          <button id="btn-5000" type="button" style="margin-top: 10px; ">5,000원 이하</button>
+        </li>
+        <li style="list-style: none;">
+          <button id="btn-10000" type="button" style="margin-top: 10px; ">10,000원 이하</button>
+        </li>
+        <li style="list-style: none;">
+          <button id="btn-20000" type="button" style="margin-top: 10px; ">20,000원 이하</button>
+        </li>
+      </ul>
+
+    </ul>
+  </aside>
+
+  <main>
+    <section class="category-filter mb-3">
+      <!-- 추가 카테고리 버튼 -->
+    </section>
+
+    <section class="row item-list">
+      <!-- 상품 목록 -->
+      <div class="product-card col-lg-3 col-md-4 col-sm-6 mb-4" data-category="여성의류" data-area="금정구">
+        <div class="card">
+          <img src="https://prs.ohou.se/apne2/any/uploads/productions/v1-217903433752576.jpg?gif=1&w=480&h=480&c=c&webp=1" class="card-img-top" alt="상품 이미지">
+          <div class="card-body">
+            <p class="card-title">상품 제목</p>
+            <p class="card-price">1000원</p>
+            <p class="card-location">상품 위치</p>
+          </div>
+        </div>
+      </div>
+      <div class="product-card col-lg-3 col-md-4 col-sm-6 mb-4" data-category="생활/주방" data-area="금정구">
+        <div class="card">
+          <img src="https://image.ohou.se/i/bucketplace-v2-development/uploads/productions/166088584050337899.jpg?gif=1&w=480&h=480&c=c&webp=1" class="card-img-top" alt="상품 이미지">
+          <div class="card-body">
+            <p class="card-title">상품 제목</p>
+            <p class="card-price">1000원</p>
+            <p class="card-location">금정구</p>
+          </div>
+        </div>
+      </div>
+      <div class="product-card col-lg-3 col-md-4 col-sm-6 mb-4" data-category="남성패션/잡화" data-area="금정구">
+        <div class="card">
+          <img src="https://prs.ohou.se/apne2/any/uploads/productions/v1-231683392430144.jpg?gif=1&w=480&h=480&c=c&webp=1" class="card-img-top" alt="상품 이미지">
+          <div class="card-body">
+            <p class="card-title">상품 제목</p>
+            <p class="card-price">1000원</p>
+            <p class="card-location">상품 위치</p>
+          </div>
+        </div>
+      </div>
+      <div class="product-card col-lg-3 col-md-4 col-sm-6 mb-4" data-category="건강기능식품" data-area="금정구">
+        <div class="card">
+          <img src="https://prs.ohou.se/apne2/any/uploads/productions/v1-246865000034304.jpg?gif=1&w=480&h=480&c=c&webp=1" class="card-img-top" alt="상품 이미지">
+          <div class="card-body">
+            <p class="card-title">상품 제목</p>
+            <p class="card-price">1000원</p>
+            <p class="card-location">상품 위치</p>
+          </div>
+        </div>
+      </div>
+      <div class="product-card col-lg-3 col-md-4 col-sm-6 mb-4" data-category="건강기능식품" data-area="금정구">
+        <div class="card">
+          <img src="https://image.ohou.se/i/bucketplace-v2-development/uploads/productions/165537377395010051.jpg?gif=1&w=480&h=480&c=c&webp=1" class="card-img-top" alt="상품 이미지">
+          <div class="card-body">
+            <p class="card-title">상품 제목</p>
+            <p class="card-price">1000원</p>
+            <p class="card-location">상품 위치</p>
+          </div>
+        </div>
+      </div>
+      <div class="product-card col-lg-3 col-md-4 col-sm-6 mb-4" data-category="건강기능식품" data-area="금정구">
+        <div class="card">
+          <img src="https://image.ohou.se/i/bucketplace-v2-development/uploads/productions/169698599552591947.jpg?gif=1&w=480&h=480&c=c&webp=1" class="card-img-top" alt="상품 이미지">
+          <div class="card-body">
+            <p class="card-title">상품 제목</p>
+            <p class="card-price">1000원</p>
+            <p class="card-location">상품 위치</p>
+          </div>
+        </div>
+      </div>
+      <div class="product-card col-lg-3 col-md-4 col-sm-6 mb-4" data-category="건강기능식품" data-area="금정구">
+        <div class="card">
+          <img src="https://image.ohou.se/i/bucketplace-v2-development/uploads/productions/165940634730321891.jpg?gif=1&w=480&h=480&c=c&webp=1" class="card-img-top" alt="상품 이미지">
+          <div class="card-body">
+            <p class="card-title">상품 제목</p>
+            <p class="card-price">1000원</p>
+            <p class="card-location">상품 위치</p>
+          </div>
+        </div>
+      </div>
+      <div class="product-card col-lg-3 col-md-4 col-sm-6 mb-4" data-category="건강기능식품" data-area="금정구">
+        <div class="card">
+          <img src="https://prs.ohou.se/apne2/any/uploads/productions/v1-252209427357696.jpg?gif=1&w=480&h=480&c=c&webp=1" class="card-img-top" alt="상품 이미지">
+          <div class="card-body">
+            <p class="card-title">상품 제목</p>
+            <p class="card-price">1000원</p>
+            <p class="card-location">상품 위치</p>
+          </div>
+        </div>
+      </div>
+      <div class="product-card col-lg-3 col-md-4 col-sm-6 mb-4" data-category="건강기능식품" data-area="금정구">
+        <div class="card">
+          <img src="https://image.ohou.se/i/bucketplace-v2-development/uploads/productions/159376301399527275.jpg?gif=1&w=480&h=480&c=c&webp=1" class="card-img-top" alt="상품 이미지">
+          <div class="card-body">
+            <p class="card-title">상품 제목</p>
+            <p class="card-price">1000원</p>
+            <p class="card-location">상품 위치</p>
+          </div>
+        </div>
+      </div>
+      <div class="product-card col-lg-3 col-md-4 col-sm-6 mb-4" data-category="건강기능식품" data-area="금정구">
+        <div class="card">
+          <img src="https://image.ohou.se/i/bucketplace-v2-development/uploads/productions/163048393350636217.jpg?gif=1&w=480&h=480&c=c&webp=1" class="card-img-top" alt="상품 이미지">
+          <div class="card-body">
+            <p class="card-title">상품 제목</p>
+            <p class="card-price">1000원</p>
+            <p class="card-location">상품 위치</p>
+          </div>
+        </div>
+      </div>
+      <div class="product-card col-lg-3 col-md-4 col-sm-6 mb-4" data-category="건강기능식품" data-area="금정구">
+        <div class="card">
+          <img src="https://image.ohou.se/i/bucketplace-v2-development/uploads/openapi/597731/1712130760230.jpg?gif=1&w=480&h=480&c=c&webp=1" class="card-img-top" alt="상품 이미지">
+          <div class="card-body">
+            <p class="card-title">상품 제목</p>
+            <p class="card-price">1000원</p>
+            <p class="card-location">상품 위치</p>
+          </div>
+        </div>
+      </div> <div class="product-card col-lg-3 col-md-4 col-sm-6 mb-4" data-category="건강기능식품" data-area="금정구">
+      <div class="card">
+        <img src="https://image.ohou.se/i/bucketplace-v2-development/uploads/productions/1548655760849_Vl7rfKH7.jpg?gif=1&w=480&h=480&c=c&webp=1" class="card-img-top" alt="상품 이미지">
+        <div class="card-body">
+          <p class="card-title">상품 제목</p>
+          <p class="card-price">1000원</p>
+          <p class="card-location">상품 위치</p>
+        </div>
+      </div>
+    </div>
+      <div class="product-card col-lg-3 col-md-4 col-sm-6 mb-4" data-category="건강기능식품" data-area="금정구">
+        <div class="card">
+          <img src="https://image.ohou.se/i/bucketplace-v2-development/uploads/productions/1550811867768_6.jpg?gif=1&w=480&h=480&c=c&webp=1" class="card-img-top" alt="상품 이미지">
+          <div class="card-body">
+            <p class="card-title">상품 제목</p>
+            <p class="card-price">1000원</p>
+            <p class="card-location">상품 위치</p>
+          </div>
+        </div>
+      </div>
+      <div class="product-card col-lg-3 col-md-4 col-sm-6 mb-4" data-category="건강기능식품" data-area="금정구">
+        <div class="card">
+          <img src="https://prs.ohou.se/apne2/any/uploads/productions/v1-272739227009152.jpg?gif=1&w=480&h=480&c=c&webp=1" class="card-img-top" alt="상품 이미지">
+          <div class="card-body">
+            <p class="card-title">상품 제목</p>
+            <p class="card-price">1000원</p>
+            <p class="card-location">상품 위치</p>
+          </div>
+        </div>
+      </div>
+      <div class="product-card col-lg-3 col-md-4 col-sm-6 mb-4" data-category="건강기능식품" data-area="금정구">
+        <div class="card">
+          <img src="https://image.ohou.se/i/bucketplace-v2-development/uploads/productions/168500466496612071.jpg?gif=1&w=480&h=480&c=c&webp=1" class="card-img-top" alt="상품 이미지">
+          <div class="card-body">
+            <p class="card-title">상품 제목</p>
+            <p class="card-price">1000원</p>
+            <p class="card-location">상품 위치</p>
+          </div>
+        </div>
+      </div>
+      <div class="product-card col-lg-3 col-md-4 col-sm-6 mb-4" data-category="건강기능식품" data-area="금정구">
+        <div class="card">
+          <img src="https://prs.ohou.se/apne2/any/uploads/productions/v1-297076409053248.jpg?gif=1&w=480&h=480&c=c&webp=1" class="card-img-top" alt="상품 이미지">
+          <div class="card-body">
+            <p class="card-title">상품 제목</p>
+            <p class="card-price">1000원</p>
+            <p class="card-location">상품 위치</p>
+          </div>
+        </div>
+      </div>
+
+
+      <!-- 추가 상품 -->
+    </section>
+  </main>
+</div>
+
+
+</body>
+
+</html>
