@@ -34,5 +34,12 @@ public class BoardServiceImpl implements BoardService {
         return ul;
     }
 
+    @Override
+    public Object plusLike(int ulIdx) {
+        boardMapper.plusLike(ulIdx);
+
+        return boardMapper.selectLikeCount(ulIdx);
+    }
+
 
 }

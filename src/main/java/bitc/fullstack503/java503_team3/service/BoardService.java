@@ -13,4 +13,6 @@ public interface BoardService {
 
 //게시물 상세
 UserlifeDTO selectBoardDetail(int ulIdx);
+
+    Object plusLike(int ulIdx);
 }

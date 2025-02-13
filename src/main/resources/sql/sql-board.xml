@@ -31,6 +31,13 @@
         UPDATE userlife SET ul_hit_cnt = ul_hit_cnt + 1 WHERE ul_idx = #{ulIdx};
     </update>
 
-
+<!--추천수 증가-->
+    <update id="plusLike" parameterType="int">
+        UPDATE userlife SET ul_likes = ul_likes + 1 WHERE ul_idx=#{ulIdx}
+    </update>
+<!--    추천 수 가져오기-->
+    <select id="selectLikeCount" parameterType="int" resultType="int">
+        select ul_likes from userlife where ul_idx=#{ulIdx}
+    </select>
 
 </mapper>

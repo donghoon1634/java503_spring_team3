@@ -17,5 +17,8 @@ public interface BoardMapper {
     // 상세
     UserlifeDTO selectBoardDetail(int ulIdx);
 
-
+//   추천수 증가
+    void plusLike(int ulIdx);
+//   추천수 조회;
+    Object selectLikeCount(int ulIdx);
 }
