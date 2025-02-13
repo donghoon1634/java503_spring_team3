@@ -35,7 +35,7 @@ public class CommentController {
         return ulCommentService.ulCommentLikeUpDate(ulCommentIdx);  // ulCommentIdx를 서비스로 전달
     }
     // 댓글 등록 처리
-    
+
     @PostMapping("/board/{ulIdx}/add")
 //    public String addComment(@PathVariable("ulIdx") int ulIdx, @ModelAttribute UserlifeCommentDTO ulCommentDTO) throws Exception {
 //        // 댓글 내용을 서비스에 전달하여 추가
