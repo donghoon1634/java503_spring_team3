@@ -5,47 +5,34 @@
 <mapper namespace="bitc.fullstack503.java503_team3.mapper.UlCommentMapper">
 <!--    게시물의 댓글 목록을 가져오는 API-->
     <select id="getUlCommentByUlIdx" resultType="bitc.fullstack503.java503_team3.dto.UserlifeCommentDTO">
-        select ul_comment_idx,ul_comment_nickname,ul_comment_location, ul_comment_createdate, ul_comment_contents, ul_comment_like from userlife_comment
+        select ul_comment_idx,ul_comment_nickname,ul_comment_location, date_format(ul_comment_createdate,'%Y.%m.%d')
+        as ul_comment_createdate, ul_comment_contents, ul_comment_like from userlife_comment
         where ul_comment_ul_idx = #{ulCommentUlIdx} order by ul_comment_createdate desc
     </select>
-
 <!--    추천수 증가 -->
     <update id="ulCommentLikeUpDate" parameterType="int">
         update userlife_comment set ul_comment_like = ul_comment_like +1 where ul_comment_idx = #{ulCommentIdx}
     </update>
-
 <!--    추천수 불러오기-->
     <select id="ulCommentLikeSelect" parameterType="int" resultType="int">
         select ul_comment_like from userlife_comment where ul_comment_idx  = #{ulCommentIdx}
     </select>
-
-
-
-
-
 <!--    등록순 댓글 조회-->
-    <select id="getCommentsOldestFirst" resultType="bitc.fullstack503.java503_team3.dto.UserlifeCommentDTO">
-        select ul_comment_idx,ul_comment_nickname,ul_comment_location, ul_comment_createdate, ul_comment_contents, ul_comment_like from userlife_comment
+    <select id="ulCommentAsc" resultType="bitc.fullstack503.java503_team3.dto.UserlifeCommentDTO">
+        select ul_comment_idx,ul_comment_nickname,ul_comment_location, date_format(ul_comment_createdate,'%Y.%m.%d')
+        as ul_comment_createdate, ul_comment_contents, ul_comment_like from userlife_comment
         where ul_comment_ul_idx = #{ulCommentUlIdx} order by ul_comment_createdate ASC
     </select>
 <!--    최신순 댓글 조회-->
-    <select id="getCommentsNewestFirst" resultType="bitc.fullstack503.java503_team3.dto.UserlifeCommentDTO">
-        select ul_comment_idx,ul_comment_nickname,ul_comment_location, ul_comment_createdate, ul_comment_contents, ul_comment_like from userlife_comment
+    <select id="ulCommentDesc" resultType="bitc.fullstack503.java503_team3.dto.UserlifeCommentDTO">
+        select ul_comment_idx,ul_comment_nickname,ul_comment_location, date_format(ul_comment_createdate,'%Y.%m.%d')
+        as ul_comment_createdate, ul_comment_contents, ul_comment_like from userlife_comment
         where ul_comment_ul_idx = #{ulCommentUlIdx} order by ul_comment_createdate desc
     </select>
-
-
-
-
-
 <!--    댓글을 추가하는 API-->
     <insert id="addComment" parameterType="bitc.fullstack503.java503_team3.dto.UserlifeCommentDTO">
         insert into userlife_comment (ul_comment_ul_idx, ul_comment_nickname, ul_comment_contents, ul_comment_createdate, ul_comment_location)
         values(#{ulCommentUlIdx}, #{ulCommentNickname}, #{ulCommentContents},now(), #{ulCommentLocation});
     </insert>
-<!--    댓글 추천수를 증가시키는 API-->
-    <update id="incrementRecommend" parameterType="int">
-        update userlife_comment set ul_comment_like = ul_comment_like +1 where ul_comment_idx = #{ulCommentIdx};
-    </update>
 
 </mapper>

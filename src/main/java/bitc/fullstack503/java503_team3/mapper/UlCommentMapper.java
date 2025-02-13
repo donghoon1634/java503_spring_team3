@@ -11,19 +11,12 @@ public interface UlCommentMapper {
     List<UserlifeCommentDTO> getUlCommentByUlIdx(int ulIdx);
     // 추천수 증가
     void ulCommentLikeUpDate(int ulCommentIdx);
-    // 추천수 불러오기
-    int ulCommentLikeSelect(int ulCommentIdx);
-
-//    // 게시물의 댓글 목록을 가져오는 API
-//    List<UserlifeCommentDTO> getCommentsByBoardIdx(int ulCommentIdx);
-//    // 댓글을 추가하는 API
-//    void addComment(UserlifeCommentDTO ulCommentDTO);
-//    // 댓글 추천수를 증가시키는 API
-//    void incrementRecommend(int ulCommentIdx);
-//    // 등록순 댓글 조회
-//    List<UserlifeCommentDTO> getCommentsOldestFirst(int ulCommentIdx);
-//    // 최신순 댓글 조회
-//    List<UserlifeCommentDTO> getCommentsNewestFirst(int ulCommentIdx);
-
-
+    // 추천수 가져오기
+    Object ulCommentLikeSelect(int ulCommentIdx);
+    // 등록순 댓글 조회
+    List<UserlifeCommentDTO> ulCommentAsc(int ulIdx);
+    // 최신순 댓글 조회
+    List<UserlifeCommentDTO> ulCommentDesc(int ulIdx);
+    // 댓글을 추가하는 API
+    void addComment(UserlifeCommentDTO ulCommentDTO);
 }

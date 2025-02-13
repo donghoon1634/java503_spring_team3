@@ -18,51 +18,25 @@ public class UlCommentServiceImpl implements UlCommentService {
         List<UserlifeCommentDTO> comments = ulCommentMapper.getUlCommentByUlIdx(ulIdx);
         return comments;
     }
-
     // 추천수 증가
     @Override
-    public void ulCommentLikeUpDate(int ulCommentIdx) {
-        ulCommentMapper.ulCommentLikeUpDate(ulCommentIdx);
+    public Object ulCommentLikeUpDate(int ulCommentIdx) {
+        ulCommentMapper.ulCommentLikeUpDate(ulCommentIdx);  // 추천수 증가
+        return ulCommentMapper.ulCommentLikeSelect(ulCommentIdx);  // 업데이트된 추천수 반환
     }
-    // 추천수 불러오기
+    // 댓글 등록순
     @Override
-    public int ulCommentLikeSelect(int ulCommentIdx) {
-        int result = ulCommentMapper.ulCommentLikeSelect(ulCommentIdx);
-        return result;
+    public List<UserlifeCommentDTO> ulCommentAsc(int ulIdx) {
+        return ulCommentMapper.ulCommentAsc(ulIdx);
     }
-
-
-    //    // 게시물의 댓글 목록을 가져오는 API
-//    @Override
-//    public List<UserlifeCommentDTO> getCommentsByBoardIdx(int ulCommentIdx) {
-//        List<UserlifeCommentDTO> comments = ulCommentMapper.getCommentsByBoardIdx(ulCommentIdx);
-//        return comments;
-//    }
-//
-//    // 댓글을 추가하는 API
-//    @Override
-//    public void addComment(UserlifeCommentDTO ulCommentDTO) {
-//        ulCommentMapper.addComment(ulCommentDTO);
-//    }
-//
-//    // 댓글 추천수를 증가시키는 API
-//    @Override
-//    public void incrementRecommend(int commentIdx) {
-//        ulCommentMapper.incrementRecommend(commentIdx);
-//    }
-
-
-
-//
-//    // 등록순 댓글 조회
-//    @Override
-//    public List<UserlifeCommentDTO> getCommentsOldestFirst(int ulCommentIdx) {
-//        return ulCommentMapper.getCommentsOldestFirst(ulCommentIdx);
-//    }
-//
-//    // 최신순 댓글 조회
-//    @Override
-//    public List<UserlifeCommentDTO> getCommentsNewestFirst(int ulCommentIdx) {
-//        return ulCommentMapper.getCommentsNewestFirst(ulCommentIdx);
-//    }
+    // 댓글 추천순
+    @Override
+    public List<UserlifeCommentDTO> ulCommentDesc(int ulIdx) {
+        return ulCommentMapper.ulCommentDesc(ulIdx);
+    }
+    // 댓글을 추가하는 API
+    @Override
+    public void addComment(UserlifeCommentDTO ulCommentDTO) {
+        ulCommentMapper.addComment(ulCommentDTO);
+    }
 }
