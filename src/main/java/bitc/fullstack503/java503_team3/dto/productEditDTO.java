@@ -4,7 +4,9 @@ import lombok.Data;
 
 @Data
 public class productEditDTO {
-    private String seller;
+    private int idx;
+    private int productEditBoardIdx;
+    private String productEditUser;
     private String productEditTitle;
     private int productEditPrice;
     private String productEditContents;

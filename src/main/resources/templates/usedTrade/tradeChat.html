@@ -15,7 +15,13 @@
                 history.back();
             });
 
-
+            $("#rpl").on("submit", function(event) {
+                var comment = $("#trade_user_comment").val();
+                if (comment.trim() === "") {
+                    alert("댓글을 입력해주세요!");
+                    event.preventDefault(); // 폼 제출을 막음
+                }
+            });
         });
     </script>
 </head>
@@ -30,27 +36,21 @@
     </div>
     <hr>
     <br>
-    <form id="rpl">
+    <form id="rpl" method="post">
         <input type="hidden" id="method1" name="_method">
-
-
-        <div>
+        <div th:each="comment : ${tradeCommentList}">
             <div class="comment" id="reply">
-                <p><strong>작성자</strong> - <span>작성일</span></p>
-                <p>문의 내용</p>
+                <p><strong th:text="${utc.tradeUser}">작성자</strong> - <span th:text="${utc.tradeCreateDate}">작성일</span></p>
+                <p th:text="${utc.tradeUserComment}">문의 내용</p>
                 <div class="col-sm d-flex justify-content-end">
                 </div>
             </div>
             <hr>
         </div>
-    </form>
-    <form>
-        <input type="hidden" name="createId">
-
         <div class="mb-3 d-flex align-items-center">
-            <label for="contents1" class="form-label me-2">문의 하기</label>
-            <textarea class="form-control" id="contents1" name="contents" rows="3" style="width: 900px"
-                      required></textarea>
+            <label for="trade_user_comment" class="form-label me-2">문의 하기</label>
+            <textarea class="form-control" id="trade_user_comment" name="trade_user_comment" rows="3" style="width: 900px"
+                      required ></textarea>
             <button type="submit" class="btn">
                 <img src="/image/전송.png" width="45px" height="45px"></button>
         </div>

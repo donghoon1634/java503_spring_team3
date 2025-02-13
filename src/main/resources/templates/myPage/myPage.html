@@ -16,8 +16,12 @@
             });
 
             $("#intro-edit").on("click", function (){
-                location.href= "/potato/myPage"
-            })
+                $("#method").val("PUT");
+
+                var frm = $("#frm")[0];
+                frm.action="/potato/myPage";
+                frm.submit();
+            });
         });
     </script>
 </head>
@@ -31,19 +35,21 @@
                 </div>
                 <div class="col-sm mt-2">
                     <div class="form-floating">
-                        <input type="text" class="form-control" id="seller" name="seller" readonly>
+                        <input type="text" class="form-control" id="seller" name="seller">
                         <label for="seller">판매자</label>
                     </div>
                 </div>
             </aside>
             <div class="container mt-5">
+                <form id="frm" method="post">
+                    <input type="hidden" id="method" name="_method">
                 <div class="col-sm">
                     <textarea class="ms-5" id="intro" name="introduce" placeholder="자기 소개를 적어주세요" rows="10"
-                              style="width: 700px"></textarea>
+                              style="width: 700px" ></textarea>
                     <label for="intro"></label>
-                    <button type="submit" class="mt-5 btn justify-content-end" style="background-color: #fff7c9" id="intro-edit">수정하기</button>
+                    <button type="button" class="mt-5 btn justify-content-end" style="background-color: #fff7c9" id="intro-edit">수정하기</button>
                 </div>
-
+                </form>
             </div>
         </section>
         <br>

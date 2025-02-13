@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="bitc.fullstack503.java503_team3.mapper.UserTradeCommentMapper">
+    <insert id="qnaComment" useGeneratedKeys="true" keyProperty="tradeBoardIdx">
+        insert into usertrade_comment (trade_board_idx, trade_user, trade_create_date, trade_user_comment)
+        values(#{tradeBoardIdx},#{tradeUser},now(),#{tradeUserComment})
+    </insert>
+
+    <select id="getComment" parameterType="bitc.fullstack503.java503_team3.dto.userTradeCommentDTO">
+        select trade_user, trade_create_date, trade_user_comment
+        from usertrade_comment
+        order by #{idx} desc;
+    </select>
+</mapper>
