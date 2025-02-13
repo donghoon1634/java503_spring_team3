@@ -24,6 +24,7 @@
             text-decoration-line: none;
             color: #4d5154;
         }
+
         input {
             border: inherit;
             font-size: 22px;
@@ -35,6 +36,7 @@
             color: #6c757d; /* 회색으로 표시 */
             display: block; /* 줄바꿈을 위해 블록 요소로 처리 */
             margin-top: 0.25rem; /* 약간의 여백 추가 */
+            margin-left: 74px;
         }
 
         #ulCate {
@@ -43,13 +45,24 @@
             background-color: lightgray;
             height: 20px;
             width: 54px;
-            margin-left: 12px;
+            margin-left: -4px;
             font-size: 12px;
         }
-        #ulNickname{
-            margin-left: -140px;
+
+        #ulNickname {
+            /*margin-left: 6px;*/
+            font-size: 14px;
+            font-weight: bold;
+            width: 100%;
 
         }
+
+        #ulPlace {
+            font-size: 12px;
+            color: gray;
+            margin-left: 0; /* 왼쪽 정렬 */
+        }
+
         #ulContents {
             border: none;
             margin-left: -28px;
@@ -70,12 +83,59 @@
             margin-left: 12px;
         }
 
+        .gap-3 {
+            gap: 1rem !important;
+            margin-left: 48px;
+        }
+
+        #popular-posts {
+            list-style: none; /* ● 점 없애기 */
+            padding: 0; /* 기본 패딩 제거 */
+            margin: 0; /* 기본 마진 제거 */
+        }
+
     </style>
     <script>
         $(document).ready(function () {
+
+            ax();
+
+            // 수정
+            $("#btn-update").on("click", function () {
+                $("#method").val("PUT");
+
+                var frm = $("#frm")[0];
+
+                if (!frm) {
+                    console.error("폼이 존재하지 않습니다.");
+                    alert("폼을 찾을 수 없습니다.");
+                    return;
+                }
+
+                frm.action = "/board/" + $("#ulIdx").val();
+                frm.submit();
+            });
+
+            $("#btn-delete").on("click", function () {
+                $("#method").val("DELETE");
+
+                var frm = $("#frm")[0];
+
+                if (!frm) {
+                    console.error("폼이 존재하지 않습니다.");
+                    alert("폼을 찾을 수 없습니다.");
+                    return;
+                }
+
+                frm.action = "/board/" + $("#ulIdx").val();
+                frm.submit();
+            });
+
+            // 목록
             $("#btn-list").on("click", function () {
                 history.back();
             });
+            // 추천수
             $('#ulLikes').click(function () {
                 var result = confirm("추천하시겠습니까?");
                 if (result = true) {
@@ -91,93 +151,176 @@
                     })
                 }
             });
+            // fetch('/api/board/popular?limit=10')
+            //     .then(response => response.json())
+            //     .then(data => {
+            //         let boardList = document.getElementById('popular-posts');
+            //         boardList.innerHTML = ''; // 기존 목록 초기화
+            //         data.forEach(ul => {
+            //             let item = document.createElement('li');
+            //             item.textContent = `${ul.ulTitle} (조회수: ${ul.ul_hit_cnt})`;
+            //             boardList.appendChild(item);
+            //         });
+            //     })
+            //     .catch(error => console.error('Error:', error));
+        });
+
+        function ax() {
+            $.ajax({
+                url: "/board/api/popular", // 🔹 인기글을 불러올 API
+                type: "GET",
+                data: { limit: 5 }, // 🔹 인기글 5개 가져오기
+                success: function (data) {
+                    console.log("인기글 데이터:", data);
+
+                    let popularList = $("#popular-posts");
+                    popularList.empty(); // 🔹 기존 목록 초기화
+
+                    // 🔹 받아온 데이터를 하나씩 <li> 태그로 추가
+                    data.forEach(ul => {
+                        let listItem = `
+                        <li class="popular-item">
+                            <h3>${ul.ulTitle}</h3>
+                            <p class="info">${ul.ulPlace} · ${ul.ulCate}</p>
+                            <p class="content">${ul.ulContents}</p>
+                            <div class="icons">
+                                👍 ${ul.ulLikes}  💬
+                            </div>
+                        </li>
+                    `;
+                        popularList.append(listItem);
+                    });
+                },
+                error: function () {
+                    alert("오류 발생! 인기글을 불러오지 못했습니다.");
+                }
+            });
+        }
+
+        // 🔹 페이지가 로드될 때 자동으로 인기글 불러오기
+        $(document).ready(function () {
+            ax();
         });
 
 
     </script>
 </head>
 <body>
-<main class="container mt-5">
-    <div class="row">
-        <!-- 왼쪽 사이드바 (카테고리) -->
-        <div class="col-md-4 p-3">
-            <div th:replace="~{/layout/cate :: cate}"></div>
-        </div>
+<form id="frm" method="post">
+    <main class="container mt-5">
+        <div class="row">
+            <!-- 왼쪽 사이드바 (카테고리) -->
+            <div class="col-md-4 p-3">
+                <div th:replace="~{/layout/cate :: cate}"></div>
+            </div>
 
-        <!-- 오른쪽 메인 콘텐츠 -->
-        <div class="col-md-8">
-            <section>
-                <input type="hidden" id="method" name="_method">
+            <!-- 오른쪽 메인 콘텐츠 -->
+            <div class="col-md-8">
+                <section>
+                    <input type="hidden" id="method" name="_method">
 
-                <!-- 글 정보 -->
-                <div class="p-3 text-center">
-                    <div class="row mt-3">
-                        <input type="number" id="ulIdx" name="ulIdx" placeholder="글번호" readonly th:value="${ul.ulIdx}">
-                        <label for="ulIdx"></label>
-                    </div>
+                    <!-- 글 정보 -->
 
-                    <div class="row mt-3">
-                        <input type="text" id="ulCate" name="ulCate" placeholder="카테고리" th:value="${ul.ulCate}" readonly>
-                        <label for="ulCate"></label>
-                    </div>
+                    <div class="p-3 text-center">
+                        <div class="row mt-3">
+                            <input type="hidden" id="ulIdx" name="ulIdx" placeholder="글번호" th:value="${ul.ulIdx}">
+                            <label for="ulIdx"></label>
+                        </div>
+                        <div class="row mt-3">
+                            <input type="text" id="ulCate" name="ulCate" placeholder="카테고리" th:value="${ul.ulCate}"
+                                   readonly>
+                            <label for="ulCate"></label>
+                        </div>
+                        <div class="row mt-3">
+                            <div class="col-sm d-flex flex-column">
+                                <input type="text" id="ulNickname" name="ulNickname" placeholder="닉네임" readonly
+                                       th:value="${ul.ulNickname}">
+                                <label for="ulNickname"></label>
+                                <div class="col-sm">
+                                    <input class="small-text" type="text" id="ulPlace" name="ulPlace" placeholder="위치"
+                                           readonly
+                                           th:value="${ul.ulPlace}">
+                                    <label for="ulPlace"></label>
+                                </div>
+                                <div class="col-sm">
+                                    <!--                                <input class="small-text" type="text" id="ulPlace" name="ulPlace" placeholder="위치"-->
+                                    <!--                                       readonly-->
+                                    <!--                                       th:value="${ul.ulPlace}">-->
+                                    <!--                                <label for="ulPlace"></label>-->
+                                    <strong>작성 날짜:</strong>
+                                    <span th:value="${ul.ulPlace}">{{board.ulCreateDate}}</span>
+                                </div>
 
-                    <div class="row mt-3">
-                        <div class="col-sm">
-                            <input type="text" id="ulNickname" name="ulNickname" placeholder="닉네임" readonly
-                                   th:value="${ul.ulNickname}">
-                            <label for="ulNickname"></label>
+                                <div>
+                                    <strong>수정 날짜:</strong>
+                                    <!-- 수정된 날짜가 있다면 그것을 표시, 아니면 작성 날짜 -->
+                                    <span>{{board.ulUpdateDate ? board.ulUpdateDate : board.ulCreateDate}}</span>
+                                </div>
+                            </div>
+                            <!-- 삭제 수정 버튼-->
+                            <div class="col-sm text-end">
+                                <button type="button" class="btn btn-danger me-2" id="btn-delete">삭제</button>
+                                <button type="button" class="btn btn-warning" id="btn-update">수정</button>
+                            </div>
+                        </div>
+                        <!-- 글제목-->
+                        <div class="row mt-3">
+                            <input type="text" id="ulTitle" name="ulTitle" th:value="${ul.ulTitle}"
+                                   readonly>
+                            <label for="ulTitle"></label>
+                        </div>
+                        <!-- 글 내용 -->
+                        <div class="row mt-3">
                             <div class="col-sm">
-                                <input class="small-text" type="text" id="ulPlace" name="ulPlace" placeholder="위치" readonly
-                                       th:value="${ul.ulPlace}">
-                                <label for="ulPlace"></label>
-                            </div>
-                        </div>
-                        <div class="col-sm text-end">
-                            <button type="button" class="btn btn-danger me-2" id="btn-delete">삭제</button>
-                            <button type="button" class="btn btn-warning" id="btn-update">수정</button>
-                        </div>
-                    </div>
-
-                    <!-- 글 내용 -->
-                    <div class="row mt-3">
-                        <div class="col-sm">
-                            <div class="form">
-                                <textarea id="ulContents" name="ulContents" rows="10" placeholder="글 내용" style="height: 400px;"
-                                          th:text="${ul.ulContents}"></textarea>
-                                <label for="ulContents"></label>
+                                <div class="form">
+                            <textarea id="ulContents" name="ulContents" rows="10" placeholder="글 내용"
+                                      style="height: 400px; width: 100%; resize: none; border: none; outline: none; background: transparent;"
+                                      th:text="${ul.ulContents}"></textarea>
+                                    <label for="ulContents"></label>
+                                </div>
                             </div>
                         </div>
                     </div>
-                </div>
-            </section>
+                </section>
+                <!-- 추천 & 댓글 -->
+                <section>
+                    <div class="row align-items-center mt-3">
+                        <!-- 추천 -->
+                        <div class="col-sm-1">
+                            <img src="/img/good.png" width="22px" height="22px" alt="" id="ulLikes" name="ulLikes">
+                        </div>
+                        <div class="col-sm-1">
+                            <div th:text="${ul.ulLikes}"></div>
+                        </div>
 
-            <!-- 추천 & 댓글 -->
-            <section>
-                <div class="row align-items-center mt-3">
-                    <!-- 추천 -->
-                    <div class="col-sm-1">
-                        <img src="/img/good.png" width="22px" height="22px" alt="" id="ulLikes" name="ulLikes">
+                        <!-- 댓글 -->
+                        <div class="col-sm-2">
+                            <img src="/img/commu.png" width="22px" height="22px" alt="">
+                        </div>
+
+                        <!-- 조회수 -->
+                        <div class="col-sm d-flex justify-content-end align-items-center"
+                             style="font-size: 14px; color: #a0a0a0; font-weight: bold">
+                            <p class="mb-0 me-2"><b>조회</b></p>
+                            <div th:text="${ul.ulHitCnt}"></div>
+                        </div>
                     </div>
-                    <div class="col-sm-1">
-                        <div th:text="${ul.ulLikes}"></div>
+                </section>
+                <hr>
+                <section>
+                    <div>
+                        <div>
+                            <h2><b>문현제2동 인기글</b></h2>
+                        </div>
+                        <!-- AJAX로 인기글이 여기에 추가됨 -->
+                        <ul id="popular-posts">
+                        </ul>
                     </div>
+                </section>
 
-                    <!-- 댓글 -->
-                    <div class="col-sm-2">
-                        <img src="/img/commu.png" width="22px" height="22px" alt="">
-                    </div>
-                </div>
-            </section>
-
-            <hr>
-
-            <section>
-                <h2><b>문현제2동 인기글</b></h2>
-            </section>
+            </div>
         </div>
-    </div>
-</main>
-
-
+    </main>
+</form>
 </body>
 </html>

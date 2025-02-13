@@ -4,8 +4,10 @@ import bitc.fullstack503.java503_team3.dto.UserlifeDTO;
 import bitc.fullstack503.java503_team3.service.BoardService;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
+import lombok.RequiredArgsConstructor;
 import org.apache.catalina.User;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
@@ -76,6 +78,30 @@ public String insertBoard(HttpServletRequest request) throws Exception {
         mav.addObject("ul", ul);
 
         return mav;
+
+    }
+    //    게시물 수정
+//@PutMapping :  클라이언트에서 데이터 전송방식을 put 로 설정한 URL만 접속
+//  @RequestMapping(method = RequestMethod.PUT 과 동일한 방식
+    @PutMapping("/board/{ulIdx}")
+    public String updateBoard(UserlifeDTO ul) throws Exception {
+        boardService.updateBoard(ul);
+        return "redirect:/board/boardList";
     }
 
-}
+    //    게시물 삭제
+//@DeleteMapping: 클라이언트에서 데이터 전송방식을 delete 로 설정한 URL만 접속
+//  @RequestMapping(method = RequestMethod.delete 과 동일한 방식
+    @DeleteMapping("/board/{ulIdx}")
+    public String deleteBoard(@PathVariable("ulIdx") int ulIdx) throws Exception {
+        boardService.deleteBoard(ulIdx);
+        return "redirect:/board/boardList";
+    }
+
+
+
+
+    }
+
+
+

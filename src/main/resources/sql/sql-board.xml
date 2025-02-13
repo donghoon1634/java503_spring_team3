@@ -40,4 +40,20 @@
         select ul_likes from userlife where ul_idx=#{ulIdx}
     </select>
 
+<!--    게시물 수정-->
+    <update id="updateBoard" parameterType="bitc.fullstack503.java503_team3.dto.UserlifeDTO">
+    update userlife set ul_title=#{ulTitle} , ul_contents=#{ulContents},ul_nickname=#{ulNickname},ul_update_date=now()
+    where ul_idx=#{ulIdx}
+    </update>
+
+<!--    게시물 삭제-->
+ <update id="deleteBoard">
+     delete from userlife where ul_idx=#{ulIdx}
+ </update>
+
+    <select id="getPopularPosts" resultType="bitc.fullstack503.java503_team3.dto.UserlifeDTO">
+        SELECT * FROM  userlife
+        ORDER BY ul_hit_cnt DESC
+        LIMIT #{limit}
+    </select>
 </mapper>
