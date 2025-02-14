@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="bitc.fullstack503.java503_team3.mapper.UlCommentMapper">
+
+<!--    게시물에 댓글 수 확인-->
+    <select id="countComment" parameterType="int" resultType="int" >
+    select count(*) as del_cnt from userlife_comment where ul_comment_ul_idx =#{ulCommentUlIdx}
+    </select>
+
+
+<!--    게시물 확인 후 댓글 삭제 parameterType 받는값 resultType 보내는값 -->
+    <delete id="deleteComment" parameterType="int">
+        delete from userlife_comment where ul_comment_ul_idx = #{ulCommentUlIdx}
+    </delete>
+</mapper>

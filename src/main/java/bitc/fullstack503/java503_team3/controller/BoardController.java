@@ -86,7 +86,7 @@ public String insertBoard(HttpServletRequest request) throws Exception {
     @PutMapping("/board/{ulIdx}")
     public String updateBoard(UserlifeDTO ul) throws Exception {
         boardService.updateBoard(ul);
-        return "redirect:/board/boardList";
+        return "redirect:/board";
     }
 
     //    게시물 삭제
@@ -94,8 +94,9 @@ public String insertBoard(HttpServletRequest request) throws Exception {
 //  @RequestMapping(method = RequestMethod.delete 과 동일한 방식
     @DeleteMapping("/board/{ulIdx}")
     public String deleteBoard(@PathVariable("ulIdx") int ulIdx) throws Exception {
+
         boardService.deleteBoard(ulIdx);
-        return "redirect:/board/boardList";
+        return "redirect:/board";
     }
 
 

@@ -34,4 +34,6 @@ public interface BoardMapper {
 
 //    조회수 정렬
     List<UserlifeDTO> getPopularPosts(@Param("limit") int limit);
+
+
 }

@@ -116,6 +116,8 @@
                 frm.submit();
             });
 
+
+            // 삭제
             $("#btn-delete").on("click", function () {
                 $("#method").val("DELETE");
 
@@ -131,10 +133,12 @@
                 frm.submit();
             });
 
+
             // 목록
             $("#btn-list").on("click", function () {
                 history.back();
             });
+
             // 추천수
             $('#ulLikes').click(function () {
                 var result = confirm("추천하시겠습니까?");
@@ -151,6 +155,7 @@
                     })
                 }
             });
+
             // fetch('/api/board/popular?limit=10')
             //     .then(response => response.json())
             //     .then(data => {
@@ -181,10 +186,11 @@
                         let listItem = `
                         <li class="popular-item">
                             <h3>${ul.ulTitle}</h3>
-                            <p class="info">${ul.ulPlace} · ${ul.ulCate}</p>
                             <p class="content">${ul.ulContents}</p>
+                            <p class="info">${ul.ulPlace} · ${ul.ulCate}</p>
                             <div class="icons">
-                                👍 ${ul.ulLikes}  💬
+                            <img src="/img/good.png" width="22px" height="22px" alt="" id="ulLikes" name="ulLikes" ${ul.ulLikes}>
+                            <img src="/img/commu.png" width="22px" height="22px" alt="">
                             </div>
                         </li>
                     `;
