@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="bitc.fullstack503.java503_team3.mapper.LoadAddrMapper">
+  <select id="selectLoadAddrGu" resultType="java.lang.String">
+    select distinct load_addr_gu
+    from load_addr
+    order by load_addr_gu asc;
+  </select>
+  <select id="selectLoadAddrDong" parameterType="java.lang.String" resultType="java.lang.String">
+    select distinct load_addr_dong
+    from load_addr
+    where load_addr_gu = #{loadAddrGu}
+    order by load_addr_dong asc;
+  </select>
+  
+  <select id="selectLoadAddrRo" parameterType="java.lang.String" resultType="java.lang.String">
+    select distinct load_addr_ro
+    from load_addr
+    where load_addr_gu = #{loadAddrGu}
+      and load_addr_dong = #{loadAddrDong}
+    order by load_addr_ro asc;
+  </select>
+  
+  <select id="selectLoadAddrMainNum" parameterType="java.lang.String" resultType="java.lang.String">
+    select distinct load_addr_main_num
+    from load_addr
+    where load_addr_gu = #{loadAddrGu}
+      and load_addr_dong = #{loadAddrDong}
+      and load_addr_ro = #{loadAddrRo}
+    order by load_addr_main_num asc;
+  </select>
+  
+  <select id="selectLoadAddrSubNum" parameterType="java.lang.String" resultType="java.lang.String">
+    select distinct load_addr_sub_num
+    from load_addr
+    where load_addr_gu = #{loadAddrGu}
+      and load_addr_dong = #{loadAddrDong}
+      and load_addr_ro = #{loadAddrRo}
+      and load_addr_main_num = #{loadAddrMainNum}
+    order by load_addr_sub_num asc;
+  </select>
+</mapper>
