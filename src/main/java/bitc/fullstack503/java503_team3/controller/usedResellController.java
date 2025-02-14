@@ -64,7 +64,7 @@ public class usedResellController {
         return "/usedTrade/sellerProductDetail";
     }
 
-    @RequestMapping(value = "/myPageEdit", method = RequestMethod.PUT)
+    @RequestMapping(value = "/myPage", method = RequestMethod.PUT)
     public String updateMyPage(userMyPageDTO myPage) throws Exception {
         myPageService.updateMyPage(myPage);
         return "redirect:/potato/myPage";
@@ -72,6 +72,7 @@ public class usedResellController {
 
     @RequestMapping(value = "/myPage", method = RequestMethod.GET)
     public String getMyPage() {
+
         return "/myPage/myPage";
     }
 
