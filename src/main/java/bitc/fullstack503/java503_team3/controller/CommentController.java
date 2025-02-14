@@ -35,16 +35,22 @@ public class CommentController {
         return ulCommentService.ulCommentLikeUpDate(ulCommentIdx);  // ulCommentIdx를 서비스로 전달
     }
     // 댓글 등록 처리
-
-    @PostMapping("/board/{ulIdx}/add")
+//    @ResponseBody
+//    @PostMapping("/board/{ulIdx}/add")
 //    public String addComment(@PathVariable("ulIdx") int ulIdx, @ModelAttribute UserlifeCommentDTO ulCommentDTO) throws Exception {
 //        // 댓글 내용을 서비스에 전달하여 추가
 //        ulCommentService.addComment(ulCommentDTO);
 //        return "redirect:/board/" + ulIdx;  // 게시물 상세 페이지로 리다이렉트
-
-        public ResponseEntity<Void> addComment(@RequestBody UserlifeCommentDTO ulCommentDTO) throws Exception {
-            ulCommentService.addComment(ulCommentDTO);
-            return ResponseEntity.status(HttpStatus.CREATED).build();
+//
+////        public ResponseEntity<Void> addComment(@RequestBody UserlifeCommentDTO ulCommentDTO) throws Exception {
+////            ulCommentService.addComment(ulCommentDTO);
+////            return ResponseEntity.status(HttpStatus.CREATED).build();
+//    }
+    @PostMapping("/board/{ulIdx}/add")
+    public String ulCommentInsert(@PathVariable("ulIdx") int ulIdx, UserlifeCommentDTO ulcDTO) throws Exception {
+        ulcDTO.setUlCommentUlIdx(ulIdx);
+        ulCommentService.ulCommentInsert(ulcDTO);
+        return "redirect:/board/" + ulIdx;
     }
 
 

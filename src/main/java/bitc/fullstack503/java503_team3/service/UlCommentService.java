@@ -14,5 +14,7 @@ public interface UlCommentService {
     // 댓글 추천수
     List<UserlifeCommentDTO> ulCommentDesc(int ulIdx);
     // 댓글을 추가하는 API
-    void addComment(UserlifeCommentDTO ulCommentDTO);
+//    void addComment(UserlifeCommentDTO ulCommentDTO);
+
+    void ulCommentInsert(UserlifeCommentDTO ulcDTO);
 }

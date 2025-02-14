@@ -298,51 +298,14 @@
             <!--        댓글 작성-->
             <!--            board_idx, nickname, comment_content, create_date, location-->
             <div class="mt-3">
-                <form  method="post"  th:action="@{/board/{ulIdx}/add(ulIdx=${ul.ulIdx})}" >
-                <div class="row">
-                    <div class="col-sm-2">
-                        <label for="ulCommentIdx" class="form-label">게시물번호 </label>
-                        <input type="hidden" class="form-control" id="ulCommentIdx" name="ulCommentIdx" placeholder="없어질칸">
+                                <form  method="post"  th:action="@{|/board/${ul.ulIdx}/add|}">
+                    <div>
+                        <textarea class="form-control" name="ulCommentContents" id="ulCommentContents" rows="3" placeholder="댓글을 입력하세요."></textarea>
                     </div>
-                    <div class="col-sm-2">
-                        <label for="ulCommentNickname" class="form-label">닉네임 </label>
-                        <input type="text" class="form-control" id="ulCommentNickname" name="ulCommentNickname" placeholder="없어질칸">
-                    </div>
-                    <div class="col-sm-2">
-                        <label for="ulCommentLocation" class="form-label">장소 </label>
-                        <input type="text" class="form-control" id="ulCommentLocation" name="ulCommentLocation" placeholder="없어질칸">
-                    </div>
-                </div>
-                <div>
-                    <textarea class="form-control" name="ulCommentContents" id="ulCommentContents" rows="3" placeholder="댓글을 입력하세요."></textarea>
-                </div>
-                <button type="submit" class="btn btn-primary mt-2">댓글 작성</button>
+                    <button type="submit" class="btn btn-primary mt-2" id="com_add">댓글 작성</button>
                 </form>
             </div>
         </div>
-        <script>
-            // // 버튼 클릭 시 스타일 변경
-            // document.getElementById("sortOldestFirst").addEventListener("click", function () {
-            //     // 등록순 버튼 클릭 시 스타일 변경
-            //     this.classList.add("font-bold"); // 등록순 버튼은 굵게
-            //     this.classList.remove("btn-custom"); // 회색 글자 제거
-            //
-            //     // 최신순 버튼은 기본 상태로 되돌리기
-            //     document.getElementById("sortNewestFirst").classList.remove("font-bold");
-            //     document.getElementById("sortNewestFirst").classList.add("btn-custom");
-            // });
-            //
-            // document.getElementById("sortNewestFirst").addEventListener("click", function () {
-            //     // 최신순 버튼 클릭 시 스타일 변경
-            //     this.classList.add("font-bold"); // 최신순 버튼은 굵게
-            //     this.classList.remove("btn-custom"); // 회색 글자 제거
-            //
-            //     // 등록순 버튼은 기본 상태로 되돌리기
-            //     document.getElementById("sortOldestFirst").classList.remove("font-bold");
-            //     document.getElementById("sortOldestFirst").classList.add("btn-custom");
-            // });
-
-        </script>
     </section>
 
 

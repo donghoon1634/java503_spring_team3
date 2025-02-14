@@ -7,7 +7,7 @@
     <select id="getUlCommentByUlIdx" resultType="bitc.fullstack503.java503_team3.dto.UserlifeCommentDTO">
         select ul_comment_idx,ul_comment_nickname,ul_comment_location, date_format(ul_comment_createdate,'%Y.%m.%d')
         as ul_comment_createdate, ul_comment_contents, ul_comment_like from userlife_comment
-        where ul_comment_ul_idx = #{ulCommentUlIdx} order by ul_comment_createdate desc
+        where ul_comment_ul_idx = #{ulCommentUlIdx} order by ul_comment_idx desc
     </select>
 <!--    추천수 증가 -->
     <update id="ulCommentLikeUpDate" parameterType="int">
@@ -21,16 +21,21 @@
     <select id="ulCommentAsc" resultType="bitc.fullstack503.java503_team3.dto.UserlifeCommentDTO">
         select ul_comment_idx,ul_comment_nickname,ul_comment_location, date_format(ul_comment_createdate,'%Y.%m.%d')
         as ul_comment_createdate, ul_comment_contents, ul_comment_like from userlife_comment
-        where ul_comment_ul_idx = #{ulCommentUlIdx} order by ul_comment_createdate ASC
+        where ul_comment_ul_idx = #{ulCommentUlIdx} order by ul_comment_idx ASC
     </select>
 <!--    최신순 댓글 조회-->
     <select id="ulCommentDesc" resultType="bitc.fullstack503.java503_team3.dto.UserlifeCommentDTO">
         select ul_comment_idx,ul_comment_nickname,ul_comment_location, date_format(ul_comment_createdate,'%Y.%m.%d')
         as ul_comment_createdate, ul_comment_contents, ul_comment_like from userlife_comment
-        where ul_comment_ul_idx = #{ulCommentUlIdx} order by ul_comment_createdate desc
+        where ul_comment_ul_idx = #{ulCommentUlIdx} order by ul_comment_idx desc
     </select>
 <!--    댓글을 추가하는 API-->
     <insert id="addComment" parameterType="bitc.fullstack503.java503_team3.dto.UserlifeCommentDTO">
+        insert into userlife_comment (ul_comment_ul_idx, ul_comment_nickname, ul_comment_contents, ul_comment_createdate, ul_comment_location)
+        values(#{ulCommentUlIdx}, #{ulCommentNickname}, #{ulCommentContents},now(), #{ulCommentLocation});
+    </insert>
+
+    <insert id="ulCommentInsert" parameterType="bitc.fullstack503.java503_team3.dto.UserlifeCommentDTO">
         insert into userlife_comment (ul_comment_ul_idx, ul_comment_nickname, ul_comment_contents, ul_comment_createdate, ul_comment_location)
         values(#{ulCommentUlIdx}, #{ulCommentNickname}, #{ulCommentContents},now(), #{ulCommentLocation});
     </insert>
