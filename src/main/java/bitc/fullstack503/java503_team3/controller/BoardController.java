@@ -73,5 +73,19 @@ public class BoardController {
         return mav;
     }
 
+    //    게시물 수정
+    @PutMapping("/board/{ulIdx}")
+    public String updateBoard(UserlifeDTO ul) throws Exception {
+        boardService.updateBoard(ul);
+        return "redirect:/board/boardList";
+    }
+
+    //    게시물 삭제
+    @DeleteMapping("/board/{ulIdx}")
+    public String deleteBoard(@PathVariable("ulIdx") int ulIdx) throws Exception {
+        boardService.deleteBoard(ulIdx);
+        return "redirect:/board/boardList";
+    }
+
 
 }

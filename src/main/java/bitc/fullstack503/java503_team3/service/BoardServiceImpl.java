@@ -31,4 +31,31 @@ public class BoardServiceImpl implements BoardService {
         UserlifeDTO ul= boardMapper.selectBoardDetail(ulIdx);
         return ul;
     }
+
+    //추천수 중가
+    @Override
+    public Object plusLike(int ulIdx) {
+        boardMapper.plusLike(ulIdx);
+
+        return boardMapper.selectLikeCount(ulIdx);
+    }
+
+    //    게시물 수정
+    @Override
+    public void updateBoard(UserlifeDTO ul) {
+        boardMapper.updateBoard(ul);
+    }
+    //    게시물 삭제
+    @Override
+    public void deleteBoard(int ulIdx) {
+        boardMapper.deleteBoard(ulIdx);
+
+    }
+
+    //    인기글 정렬
+    @Override
+    public List<UserlifeDTO> getPopularPosts(int limit) {
+        return boardMapper.getPopularPosts(limit);
+
+    }
 }

@@ -32,4 +32,30 @@
         UPDATE userlife SET ul_hit_cnt = ul_hit_cnt + 1 WHERE ul_idx = #{ulIdx};
     </update>
 
+    <!--추천수 증가-->
+    <update id="plusLike" parameterType="int">
+        UPDATE userlife SET ul_likes = ul_likes + 1 WHERE ul_idx=#{ulIdx}
+    </update>
+    <!--    추천 수 가져오기-->
+    <select id="selectLikeCount" parameterType="int" resultType="int">
+        select ul_likes from userlife where ul_idx=#{ulIdx}
+    </select>
+
+    <!--    게시물 수정-->
+    <update id="updateBoard" parameterType="bitc.fullstack503.java503_team3.dto.UserlifeDTO">
+        update userlife set ul_title=#{ulTitle} , ul_contents=#{ulContents},ul_nickname=#{ulNickname},ul_update_date=now()
+        where ul_idx=#{ulIdx}
+    </update>
+
+    <!--    게시물 삭제-->
+    <update id="deleteBoard">
+        delete from userlife where ul_idx=#{ulIdx}
+    </update>
+
+    <!-- 이긴글순 -->
+    <select id="getPopularPosts" resultType="bitc.fullstack503.java503_team3.dto.UserlifeDTO">
+        SELECT * FROM  userlife
+        ORDER BY ul_hit_cnt DESC
+        LIMIT #{limit}
+    </select>
 </mapper>

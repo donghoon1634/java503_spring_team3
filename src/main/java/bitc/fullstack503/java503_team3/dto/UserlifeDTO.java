@@ -15,6 +15,8 @@ public class UserlifeDTO {
     private int ulLikes;
     private String ulCate;
     private String ulMemberId;
+    private String ulUpdateDate;
+    private String ulImg;
 
 
 }

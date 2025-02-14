@@ -15,319 +15,211 @@
             integrity="sha384-0pUGZvbkm6XF6gxjEnlmuGrJXVbNuzT9qBBavbLwCsOGabYfZo0T0to5eqruptLy"
             crossorigin="anonymous"></script>
     <title>Title</title>
-    <!--    댓글관련 style-->
-    <style>
-        /* 기본 글자색은 회색 */
-        .btn-custom {
-            color: gray;
-        }
-
-        /* 글자 굵게 만들기 */
-        .font-bold {
-            font-weight: bold;
-            color: black;
-        }
-    </style>
     <!--    게시물관련-->
-    <style>
-        /*.row > * {*/
-        /*    width: inherit;*/
-        /*}*/
+    <!--    <style>-->
+    <!--        /*.row > * {*/-->
+    <!--        /*    width: inherit;*/-->
+    <!--        /*}*/-->
 
-        input {
-            border: inherit
-        }
+    <!--        dd > a {-->
+    <!--            text-decoration-line: none;-->
+    <!--            color: #4d5154;-->
+    <!--        }-->
 
-        .small-text {
-            font-size: 0.8rem; /* 작은 글씨 크기 */
-            color: #6c757d; /* 회색으로 표시 */
-            display: block; /* 줄바꿈을 위해 블록 요소로 처리 */
-            margin-top: 0.25rem; /* 약간의 여백 추가 */
-        }
+    <!--        input {-->
+    <!--            border: inherit;-->
+    <!--            font-size: 22px;-->
 
-        #cate {
-            color: gray;
-            border: 1px none;
-            background-color: lightgray;
-            height: 20px;
-            width: 54px;
-            margin-left: 12px;
-            font-size: 12px;
-        }
+    <!--        }-->
 
-        #contents {
-            border: none;
-        }
+    <!--        .small-text {-->
+    <!--            font-size: 0.8rem; /* 작은 글씨 크기 */-->
+    <!--            color: #6c757d; /* 회색으로 표시 */-->
+    <!--            display: block; /* 줄바꿈을 위해 블록 요소로 처리 */-->
+    <!--            margin-top: 0.25rem; /* 약간의 여백 추가 */-->
+    <!--            margin-left: 74px;-->
+    <!--        }-->
 
-        #likes {
-            padding-right: 2px;
-        }
+    <!--        #ulCate {-->
+    <!--            color: gray;-->
+    <!--            border: 1px none;-->
+    <!--            background-color: lightgray;-->
+    <!--            height: 20px;-->
+    <!--            width: 54px;-->
+    <!--            margin-left: -4px;-->
+    <!--            font-size: 12px;-->
+    <!--        }-->
 
-    </style>
-    <script>
-        $(document).ready(function () {
-            $("#btn-list").on("click", function () {
-                history.back();
-            });
+    <!--        #ulNickname {-->
+    <!--            /*margin-left: 6px;*/-->
+    <!--            font-size: 14px;-->
+    <!--            font-weight: bold;-->
+    <!--            width: 100%;-->
 
-            // 댓글추천
-            usercommnetlike();
-            // 댓글 등록순
-            $("#ulCommentIdxAsc").on("click", function () {
-                var ulIdx = $("#ulIdx").val();
-                $.ajax({
-                    url: "/ulComment/asc/" + ulIdx,
-                    method: "GET",
-                    success: function (data) {
-                        // 서버에서 받은 댓글 목록 (data)은 JSON 배열이므로, 이를 HTML로 변환하여 표시
-                        let commentHtml = '';
-                        data.forEach(function (comment) {
-                            commentHtml += `
-                        <div class="d-flex mb-3 comment ">
-                            <div class="col-sm-1">
-                                <img src="/img/프로필.jpg" style="width: 40px; height: 40px" alt="프로필">
-                            </div>
-                            <div class="ml-1 flex-grow-1">
-                                <div >
-                                    <p class="d-none commentIdx" name="commentIdx">${comment.ulCommentIdx}</p>
-                                    <p>
-                                        <strong>${comment.ulCommentNickname}</strong>
-                                    </p>
-                                    <p>
-                                        <span>${comment.ulCommentLocation}</span>
-                                        <span >${comment.ulCommentcreatedate}</span>
-                                    </p>
-                                    <p><strong>${comment.ulCommentContents}</strong></p>
-                                    <div class="d-flex align-items-center">
-                                        <img src="/img/good.png" style="width:22px; height: 22px;" alt="추천" class="ulCommentLike">
-                                        <span>${comment.ulCommentLike}</span>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-            `;
-                        });
-                        // 댓글 목록을 업데이트
-                        $("#commentsList").html(commentHtml);
-                        usercommnetlike();
-                        alert("등록순");
-                    },
-                    error: function (error) {
-                        console.error("Error: " + error);
-                        alert("오류");
-                    }
-                });
-            });
-            // 댓글 추천순
-            $("#ulCommentIdxDesc").on("click", function () {
-                var ulIdx = $("#ulIdx").val(); // ulIdx 값 가져오기
-                $.ajax({
-                    url: "/ulComment/desc/" + ulIdx, // URL 수정
-                    method: "GET",
-                    success: function (data) {
-                        // 서버에서 받은 댓글 목록 (data)은 JSON 배열이므로, 이를 HTML로 변환하여 표시
-                        let commentHtml = '';
-                        data.forEach(function (comment) {
-                            commentHtml += `
-                        <div class="d-flex mb-3 comment ">
-                            <div class="col-sm-1">
-                                <img src="/img/프로필.jpg" style="width: 40px; height: 40px" alt="프로필">
-                            </div>
-                            <div class="ml-1 flex-grow-1">
-                                <div >
-                                    <p class="d-none commentIdx" name="commentIdx">${comment.ulCommentIdx}</p>
-                                    <p>
-                                        <strong>${comment.ulCommentNickname}</strong>
-                                    </p>
-                                    <p>
-                                        <span>${comment.ulCommentLocation}</span>
-                                        <span >${comment.ulCommentcreatedate}</span>
-                                    </p>
-                                    <p><strong>${comment.ulCommentContents}</strong></p>
-                                    <div class="d-flex align-items-center">
-                                        <img src="/img/good.png" style="width:22px; height: 22px;" alt="추천" class="ulCommentLike">
-                                        <span>${comment.ulCommentLike}</span>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
+    <!--        }-->
 
+    <!--        #ulPlace {-->
+    <!--            font-size: 12px;-->
+    <!--            color: gray;-->
+    <!--            margin-left: 0; /* 왼쪽 정렬 */-->
+    <!--        }-->
 
-            `;
-                        });
-                        // 댓글 목록을 업데이트
-                        $("#commentsList").html(commentHtml);
-                        usercommnetlike();
-                        alert("최신순");
-                    },
-                    error: function (error) {
-                        console.error("Error: " + error);
-                        alert("오류");
-                    }
-                });
+    <!--        #ulContents {-->
+    <!--            border: none;-->
+    <!--            margin-left: -28px;-->
+    <!--        }-->
 
-            });
-            // 댓글 삭제
-            $("#ulcomment_delete").on("click",function () {
-                $("#ulcomment_method").val("DELETE");
-                var ulcomfrm = $("#ulcomfrm")[0];
-                ulcomfrm.action = "/board/comment/"+$("#ulIdx").val();
-                ulcomfrm.submit();
-            });
-        });
+    <!--        #ulLikes {-->
+    <!--            padding-right: 2px;-->
+    <!--        }-->
 
-        function usercommnetlike() {
-            $(".ulCommentLike").on("click", function () {
-                var ulCommentIdx = $(this).parent().parent().children("p.commentIdx").text();
-                var spanTag = $(this).next();
+    <!--        .col-sm-1 {-->
+    <!--            width: 24px;-->
+    <!--            margin-top: -1px;-->
+    <!--        }-->
 
-                $.ajax({
-                    url: "/ulComment/like/" + ulCommentIdx,  // URL에 ulCommentIdx 값 포함
-                    method: "POST",
-                    success: function (data) {
-                        console.log(data);
-                        spanTag.text(data);
-                        // $("#likeUlComment").text(data);  // 추천수 업데이트
-                        alert("댓글 추천 완료!");
-                    },
-                    error: function (xhr, status, error) {
-                        console.error("Error: " + error);
-                    }
-                });
-            });
-        }
-    </script>
+    <!--        .col-sm-2 {-->
+    <!--            flex: 0 0 auto;-->
+    <!--            width: 16.66666667%;-->
+    <!--            margin-left: 12px;-->
+    <!--        }-->
+
+    <!--        .gap-3 {-->
+    <!--            gap: 1rem !important;-->
+    <!--            margin-left: 48px;-->
+    <!--        }-->
+
+    <!--        #popular-posts {-->
+    <!--            list-style: none; /* ● 점 없애기 */-->
+    <!--            padding: 0; /* 기본 패딩 제거 */-->
+    <!--            margin: 0; /* 기본 마진 제거 */-->
+    <!--        }-->
+
+    <!--    </style>-->
+
 
 </head>
 <body>
 <main class="container mt-5">
-    <section>
-        <!--        <form id="frm" method="post">-->
-        <input type="hidden" id="method" name="_method">
-        <!--      글번호, 제목, 조회수 -->
-        <div class="row mt-3 text-center">
-            <input type="text" id="ulIdx" name="ulIdx" placeholder="글번호" readonly th:value="${ul.ulIdx}">
-            <label for="ulIdx"></label>
-        </div>
-        <div class="row mt-3">
-            <input type="text" id="ulCate" name="ulCate" placeholder="카테고리" th:value="${ul.ulCate}" readonly>
-            <label for="ulCate"></label>
-        </div>
-        <div class="row mt-3">
-            <div class="col-sm">
-                <input type="text" id="ulNickname" name="ulNickname" placeholder="닉네임" readonly
-                       th:value="${ul.ulNickname}">
-                <label for="ulNickname"></label>
-                <div class="col-sm">
-                    <input class="small-text" type="text" id="ulPlace" name="ulPlace" placeholder="위치" readonly
-                           th:value="${ul.ulPlace}">
-                    <label for="ulPlace"></label>
-                </div>
-            </div>
-            <div class="col-sm ">
-                <button type="button" class="btn btn-danger me-2" id="btn-delete">삭제</button>
-                <button type="button" class="btn btn-warning" id="btn-update">수정</button>
-            </div>
-
+    <div class="row">
+        <!-- 왼쪽 사이드바 (카테고리) -->
+        <div class="col-md-3 p-3 ">
+            <div th:replace="~{/layout/cate :: cate}"></div>
         </div>
 
-        <!--      글 내용-->
-        <div class="row mt-3">
-            <div class="col-sm">
-                <div class="form">
-                    <textarea id="ulContents" name="ulContents" rows="10" placeholder="글 내용" style="height: 250px;"
-                              th:text="${ul.ulContents}"></textarea>
-                    <label for="ulContents"></label>
-                </div>
-            </div>
-        </div>
-        <!--        추천수-->
-        <div class="row">
-            <div class="col-sm-1">
-                <img src="/img/good.png" width="22px" height="22px" alt="" id="ulLikes" name="ulLikes" readonly
-                     th:value="${ul.ulLikes}">
-                <label for="ulLikes"></label>
-            </div>
-            <!--            댓글-->
-            <!--            <div class="col-sm ">-->
-            <!--                <img src="/img/commu.png" width="22px" height="22px" alt=""  id=""  name="likes"-->
-            <!--                     readonly th:value="${ul.likes}">-->
-            <!--                <label for=""></label>-->
-            <!--            </div>-->
-            <!--        </div>-->
-            <!--      목록, 삭제, 수정 버튼 -->
-            <!--        <div class="row mt-3">-->
-            <!--            <div class="col-sm">-->
-            <!--                <button type="button" class="btn btn-secondary" id="btn-list">목록</button>-->
-            <!--            </div>-->
-            <!--        </div>-->
-        </div>
-    </section>
-    <hr>
-    <!--             댓글 위치-->
-    <!--    <section th:replace="~{/layout/comment :: comment(${comments})}"> replace로 할경우    </section>-->
-    <section>
-        <div method="GET" id="ulcomfrm">
-            <div class="d-none" id="ulcomment_method" name="ulcommentMethod"></div>
-            <div>
-                <button id="ulCommentIdxAsc" class="btn btn-light text-muted">등록순</button>
-                <button id="ulCommentIdxDesc" class="btn btn-light text-muted">최신순</button>
-            </div>
-            <!--        댓글 목록-->
-            <div id="commentsList" class="mt-2">
-                <div th:each="comment : ${ulcomment}">
-                    <div class="d-flex mb-3">
-                        <div class="col-sm-1">
-                            <img src="/img/프로필.jpg" style="width: 40px; height: 40px" alt="프로필">
+        <!-- 오른쪽 메인 콘텐츠 -->
+        <div class="col-md-8">
+            <form id="frm" method="post">
+                <input type="hidden" id="method" name="_method">
+
+                <!-- 글 정보 -->
+
+                <div class="p-3 text-center">
+                    <div class="row mt-3">
+                        <input type="hidden" id="ulIdx" name="ulIdx" placeholder="글번호" th:value="${ul.ulIdx}">
+                        <label for="ulIdx"></label>
+                    </div>
+                    <div class="row mt-3">
+                        <input type="text" id="ulCate" name="ulCate" placeholder="카테고리" th:value="${ul.ulCate}"
+                               readonly>
+                        <label for="ulCate"></label>
+                    </div>
+                    <div class="row mt-3">
+                        <div class="col-sm d-flex flex-column">
+                            <input type="text" id="ulNickname" name="ulNickname" placeholder="닉네임" readonly
+                                   th:value="${ul.ulNickname}">
+                            <label for="ulNickname"></label>
+                            <div class="col-sm">
+                                <input class="small-text" type="text" id="ulPlace" name="ulPlace" placeholder="위치"
+                                       readonly
+                                       th:value="${ul.ulPlace}">
+                                <label for="ulPlace"></label>
+                            </div>
+                            <div class="col-sm">
+                                <!--                                <input class="small-text" type="text" id="ulPlace" name="ulPlace" placeholder="위치"-->
+                                <!--                                       readonly-->
+                                <!--                                       th:value="${ul.ulPlace}">-->
+                                <!--                                <label for="ulPlace"></label>-->
+                                <strong>작성 날짜:</strong>
+                                <span th:value="${ul.ulPlace}">{{board.ulCreateDate}}</span>
+                            </div>
+
+                            <div>
+                                <strong>수정 날짜:</strong>
+                                <!-- 수정된 날짜가 있다면 그것을 표시, 아니면 작성 날짜 -->
+                                <span>{{board.ulUpdateDate ? board.ulUpdateDate : board.ulCreateDate}}</span>
+                            </div>
                         </div>
-                        <div class="ml-1 flex-grow-1">
-                            <div class="comment">
-                                <p class="d-none commentIdx" name="commentIdx" th:text="${comment.ulCommentIdx}"></p>
-                                <p>
-                                    <strong th:text="${comment.ulCommentNickname}"></strong>
-                                </p>
-                                <p>
-                                    <span th:text="${comment.ulCommentLocation}"></span>
-                                    <span th:text="${comment.ulCommentcreatedate}"></span>
-                                </p>
-                                <p><strong th:text="${comment.ulCommentContents}"></strong></p>
-                                <div class="d-flex justify-content-between align-items-center">
-                                    <div class="d-flex align-items-center">
-                                        <img src="/img/good.png" style="width:22px; height: 22px;" alt="댓글추천"
-                                             th:alt="${comment.ulCommentIdx}" class="ulCommentLike">
-                                        <span th:text="${comment.ulCommentLike}">0</span>
-                                    </div>
-                                    <div class="ml-3">
-                                        <button type="button" class="btn btn-outline-dark text-dark" id="ulcomment_delete">삭제</button>
-                                    </div>
-                                </div>
+                        <!-- 삭제 수정 버튼-->
+                        <div class="col-sm text-end">
+                            <button type="button" class="btn btn-danger me-2" id="btn-delete">삭제</button>
+                            <button type="button" class="btn btn-warning" id="btn-update">수정</button>
+                        </div>
+                    </div>
+                    <!-- 글제목-->
+                    <div class="row mt-3">
+                        <input type="text" id="ulTitle" name="ulTitle" th:value="${ul.ulTitle}"
+                               readonly>
+                        <label for="ulTitle"></label>
+                    </div>
+                    <!-- 글 내용 -->
+                    <div class="row mt-3">
+                        <div class="col-sm">
+                            <div class="form">
+                            <textarea id="ulContents" name="ulContents" rows="10" placeholder="글 내용"
+                                      style="height: 400px; width: 100%; resize: none; border: none; outline: none; background: transparent;"
+                                      th:text="${ul.ulContents}"></textarea>
+                                <label for="ulContents"></label>
                             </div>
                         </div>
                     </div>
                 </div>
-            </div>
 
-            <!--        댓글 작성-->
-            <!--            board_idx, nickname, comment_content, create_date, location-->
-            <div class="mt-3">
-                <form method="post" th:action="@{|/board/${ul.ulIdx}/add|}">
-                    <div>
-                        <textarea class="form-control" name="ulCommentContents" id="ulCommentContents" rows="3"
-                                  placeholder="댓글을 입력하세요."></textarea>
+                <!-- 추천 & 댓글 -->
+                <div>
+                    <div class="row align-items-center mt-3">
+                        <!-- 추천 -->
+                        <div class="col-sm-1">
+                            <img src="/img/good.png" width="22px" height="22px" alt="" id="ulLikes" name="ulLikes">
+                        </div>
+                        <div class="col-sm-1">
+                            <div th:text="${ul.ulLikes}"></div>
+                        </div>
+
+                        <!-- 댓글 -->
+                        <div class="col-sm-2">
+                            <img src="/img/commu.png" width="22px" height="22px" alt="">
+                        </div>
+
+                        <!-- 조회수 -->
+                        <div class="col-sm d-flex justify-content-end align-items-center"
+                             style="font-size: 14px; color: #a0a0a0; font-weight: bold">
+                            <p class="mb-0 me-2"><b>조회</b></p>
+                            <div th:text="${ul.ulHitCnt}"></div>
+                        </div>
                     </div>
-                    <button type="submit" class="btn btn-primary mt-2" id="com_add">댓글 작성</button>
-                </form>
-            </div>
+                </div>
+            </form>
+            <hr>
+
+            <!--             댓글 위치-->
+                <section th:replace="~{/layout/comment :: comment(${comments})}"> replace로 할경우    </section>
+
+
+            <hr>
+            <section>
+                <div>
+                    <div>
+                        <h2><b>문현제2동 인기글</b></h2>
+                    </div>
+                    <!-- AJAX로 인기글이 여기에 추가됨 -->
+                    <ul id="popular-posts">
+                    </ul>
+                </div>
+            </section>
+            <br><br><br><br><br><br><br><br><br><br><br><br><br><br>
         </div>
-    </section>
-
-
-    <hr>
-    <section>
-        <h2><b>문현제2동 인기글</b></h2>
-
-    </section>
-    <br><br><br><br><br><br><br><br><br><br><br><br><br><br>
+    </div>
 </main>
 </body>
 </html>
