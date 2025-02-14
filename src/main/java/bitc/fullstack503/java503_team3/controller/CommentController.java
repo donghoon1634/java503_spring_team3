@@ -1,6 +1,7 @@
 package bitc.fullstack503.java503_team3.controller;
 
 import bitc.fullstack503.java503_team3.dto.UserlifeCommentDTO;
+import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -35,24 +36,18 @@ public class CommentController {
         return ulCommentService.ulCommentLikeUpDate(ulCommentIdx);  // ulCommentIdx를 서비스로 전달
     }
     // 댓글 등록 처리
-//    @ResponseBody
-//    @PostMapping("/board/{ulIdx}/add")
-//    public String addComment(@PathVariable("ulIdx") int ulIdx, @ModelAttribute UserlifeCommentDTO ulCommentDTO) throws Exception {
-//        // 댓글 내용을 서비스에 전달하여 추가
-//        ulCommentService.addComment(ulCommentDTO);
-//        return "redirect:/board/" + ulIdx;  // 게시물 상세 페이지로 리다이렉트
-//
-////        public ResponseEntity<Void> addComment(@RequestBody UserlifeCommentDTO ulCommentDTO) throws Exception {
-////            ulCommentService.addComment(ulCommentDTO);
-////            return ResponseEntity.status(HttpStatus.CREATED).build();
-//    }
     @PostMapping("/board/{ulIdx}/add")
-    public String ulCommentInsert(@PathVariable("ulIdx") int ulIdx, UserlifeCommentDTO ulcDTO) throws Exception {
+    public String ulCommentInsert(@PathVariable("ulIdx") int ulIdx, UserlifeCommentDTO ulcDTO, HttpServletRequest request) throws Exception {
         ulcDTO.setUlCommentUlIdx(ulIdx);
         ulCommentService.ulCommentInsert(ulcDTO);
         return "redirect:/board/" + ulIdx;
     }
 
+    // 댓글 삭제
+    @DeleteMapping("/board/comment/{ulIdx}")
+    public String ulCommentDelete(@PathVariable("ulIdx") int ulIdx) throws Exception {
+return "redirect:/board/" + ulIdx;
+    }
 
 }
 

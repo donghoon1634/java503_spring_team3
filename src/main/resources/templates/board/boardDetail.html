@@ -167,7 +167,13 @@
                 });
 
             });
-
+            // 댓글 삭제
+            $("#ulcomment_delete").on("click",function () {
+                $("#ulcomment_method").val("DELETE");
+                var ulcomfrm = $("#ulcomfrm")[0];
+                ulcomfrm.action = "/board/comment/"+$("#ulIdx").val();
+                ulcomfrm.submit();
+            });
         });
 
         function usercommnetlike() {
@@ -261,7 +267,8 @@
     <!--             댓글 위치-->
     <!--    <section th:replace="~{/layout/comment :: comment(${comments})}"> replace로 할경우    </section>-->
     <section>
-        <div>
+        <div method="GET" id="ulcomfrm">
+            <div class="d-none" id="ulcomment_method" name="ulcommentMethod"></div>
             <div>
                 <button id="ulCommentIdxAsc" class="btn btn-light text-muted">등록순</button>
                 <button id="ulCommentIdxDesc" class="btn btn-light text-muted">최신순</button>
@@ -274,7 +281,7 @@
                             <img src="/img/프로필.jpg" style="width: 40px; height: 40px" alt="프로필">
                         </div>
                         <div class="ml-1 flex-grow-1">
-                            <div class="comment  ">
+                            <div class="comment">
                                 <p class="d-none commentIdx" name="commentIdx" th:text="${comment.ulCommentIdx}"></p>
                                 <p>
                                     <strong th:text="${comment.ulCommentNickname}"></strong>
@@ -284,10 +291,15 @@
                                     <span th:text="${comment.ulCommentcreatedate}"></span>
                                 </p>
                                 <p><strong th:text="${comment.ulCommentContents}"></strong></p>
-                                <div class="d-flex align-items-center">
-                                    <img src="/img/good.png" style="width:22px; height: 22px;" alt="댓글추천"
-                                         th:alt="${comment.ulCommentIdx}" class="ulCommentLike">
-                                    <span th:text="${comment.ulCommentLike}">0</span>
+                                <div class="d-flex justify-content-between align-items-center">
+                                    <div class="d-flex align-items-center">
+                                        <img src="/img/good.png" style="width:22px; height: 22px;" alt="댓글추천"
+                                             th:alt="${comment.ulCommentIdx}" class="ulCommentLike">
+                                        <span th:text="${comment.ulCommentLike}">0</span>
+                                    </div>
+                                    <div class="ml-3">
+                                        <button type="button" class="btn btn-outline-dark text-dark" id="ulcomment_delete">삭제</button>
+                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -298,9 +310,10 @@
             <!--        댓글 작성-->
             <!--            board_idx, nickname, comment_content, create_date, location-->
             <div class="mt-3">
-                                <form  method="post"  th:action="@{|/board/${ul.ulIdx}/add|}">
+                <form method="post" th:action="@{|/board/${ul.ulIdx}/add|}">
                     <div>
-                        <textarea class="form-control" name="ulCommentContents" id="ulCommentContents" rows="3" placeholder="댓글을 입력하세요."></textarea>
+                        <textarea class="form-control" name="ulCommentContents" id="ulCommentContents" rows="3"
+                                  placeholder="댓글을 입력하세요."></textarea>
                     </div>
                     <button type="submit" class="btn btn-primary mt-2" id="com_add">댓글 작성</button>
                 </form>
