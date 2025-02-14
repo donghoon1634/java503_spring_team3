@@ -13,17 +13,17 @@
 </head>
 <body>
 <div class="container mt-5 d-flex">
-  <select name="loadAddrGu" id="loadAddrGu" class="form-select">
+  <select name="loadAddrGu" id="loadAddrGu">
     <option value="">시.군.구 를 선택해주세요.</option>
     <option th:each="gu : ${guList}" th:value="${gu}" th:text="${gu}"></option>
   </select>
-  <select name="loadAddrDong" id="loadAddrDong" style="display: none" class="form-select">
+  <select name="loadAddrDong" id="loadAddrDong" style="display: none">
   </select>
-  <select name="loadAddrRo" id="loadAddrRo" style="display: none" class="form-select">
+  <select name="loadAddrRo" id="loadAddrRo" style="display: none">
   </select>
-  <select name="loadAddrMainNum" id="loadAddrMainNum" style="display: none" class="form-select">
+  <select name="loadAddrMainNum" id="loadAddrMainNum" style="display: none">
   </select>
-  <select name="loadAddrSubNum" id="loadAddrSubNum" style="display: none" class="form-select">
+  <select name="loadAddrSubNum" id="loadAddrSubNum" style="display: none">
   </select>
 </div>
 <script src="/js/sdh/loadAddr.js"></script>

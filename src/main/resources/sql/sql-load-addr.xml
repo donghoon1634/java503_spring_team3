@@ -4,13 +4,13 @@
   <select id="selectLoadAddrGu" resultType="java.lang.String">
     select distinct load_addr_gu
     from load_addr
-    order by load_addr_gu asc;
+    order by load_addr_gu asc
   </select>
   <select id="selectLoadAddrDong" parameterType="java.lang.String" resultType="java.lang.String">
     select distinct load_addr_dong
     from load_addr
     where load_addr_gu = #{loadAddrGu}
-    order by load_addr_dong asc;
+    order by load_addr_dong asc
   </select>
   
   <select id="selectLoadAddrRo" parameterType="java.lang.String" resultType="java.lang.String">
@@ -18,7 +18,7 @@
     from load_addr
     where load_addr_gu = #{loadAddrGu}
       and load_addr_dong = #{loadAddrDong}
-    order by load_addr_ro asc;
+    order by load_addr_ro asc
   </select>
   
   <select id="selectLoadAddrMainNum" parameterType="java.lang.String" resultType="java.lang.String">
@@ -27,7 +27,7 @@
     where load_addr_gu = #{loadAddrGu}
       and load_addr_dong = #{loadAddrDong}
       and load_addr_ro = #{loadAddrRo}
-    order by load_addr_main_num asc;
+    order by load_addr_main_num asc
   </select>
   
   <select id="selectLoadAddrSubNum" parameterType="java.lang.String" resultType="java.lang.String">
@@ -37,6 +37,6 @@
       and load_addr_dong = #{loadAddrDong}
       and load_addr_ro = #{loadAddrRo}
       and load_addr_main_num = #{loadAddrMainNum}
-    order by load_addr_sub_num asc;
+    order by load_addr_sub_num asc
   </select>
 </mapper>

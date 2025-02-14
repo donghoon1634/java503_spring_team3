@@ -22,6 +22,7 @@ document.getElementById('loadAddrGu').addEventListener('change', function () {
     })
     .catch(error => console.error('Error:', error))
 })
+
 document.getElementById('loadAddrDong').addEventListener('change', function () {
   let dong = this.value
   let roSelect = document.getElementById('loadAddrRo')
@@ -44,56 +45,78 @@ document.getElementById('loadAddrDong').addEventListener('change', function () {
     })
     .catch(error => console.error('Error:', error))
 })
+
 document.getElementById('loadAddrRo').addEventListener('change', function () {
   let ro = this.value
   let dong = document.getElementById('loadAddrDong').value
   let gu = document.getElementById('loadAddrGu').value
   let mainNumSelect = document.getElementById('loadAddrMainNum')
-  fetch(`/test/getMainNum?gu=${gu}&dong=${dong}&ro=${ro}`) // gu와 dong 을 함께 전달
+  
+  fetch(`/test/getMainNum?gu=${gu}&dong=${dong}&ro=${ro}`)
     .then(response => response.json())
     .then(data => {
-      if (!(data.length === 1 && data[0] === '0'))
+      // '0' 값 제거
+      let filteredData = data.filter(mainNum => mainNum !== '0')
+      
+      if (filteredData.length > 0)
       {
         mainNumSelect.style.display = 'block'
         mainNumSelect.innerHTML = '' // 기존 옵션 초기화
+        
         let defaultOption = document.createElement('option')
         defaultOption.value = ''
         defaultOption.textContent = '메인도로 숫자를 입력해주세요.'
         mainNumSelect.appendChild(defaultOption)
+        
+        filteredData.forEach(mainNum => {
+          let option = document.createElement('option')
+          option.value = mainNum
+          option.textContent = mainNum
+          mainNumSelect.appendChild(option)
+        })
       }
-      data.forEach(mainNum => {
-        let option = document.createElement('option')
-        option.value = mainNum
-        option.textContent = mainNum
-        mainNumSelect.appendChild(option)
-      })
+      else
+      {
+        mainNumSelect.style.display = 'none' // 데이터 없으면 숨김
+      }
     })
     .catch(error => console.error('Error:', error))
 })
+
 document.getElementById('loadAddrMainNum').addEventListener('change', function () {
   let mainNum = this.value
   let dong = document.getElementById('loadAddrDong').value
   let gu = document.getElementById('loadAddrGu').value
   let ro = document.getElementById('loadAddrRo').value
   let subNumSelect = document.getElementById('loadAddrSubNum')
+  
   fetch(`/test/getSubNum?gu=${gu}&dong=${dong}&ro=${ro}&mainNum=${mainNum}`)
     .then(response => response.json())
     .then(data => {
-      if (!(data.length === 1 && data[0] === '0'))
+      // '0' 값을 필터링하여 제거
+      let filteredData = data.filter(subNum => subNum !== '0')
+      
+      if (filteredData.length > 0)
       {
         subNumSelect.style.display = 'block'
         subNumSelect.innerHTML = '' // 기존 옵션 초기화
+        
         let defaultOption = document.createElement('option')
         defaultOption.value = ''
         defaultOption.textContent = '서브도로 숫자를 입력해주세요.'
         subNumSelect.appendChild(defaultOption)
+        
+        filteredData.forEach(subNum => {
+          let option = document.createElement('option')
+          option.value = subNum
+          option.textContent = subNum
+          subNumSelect.appendChild(option)
+        })
       }
-      data.forEach(subNum => {
-        let option = document.createElement('option')
-        option.value = subNum
-        option.textContent = subNum
-        subNumSelect.appendChild(option)
-      })
+      else
+      {
+        subNumSelect.style.display = 'none' // 데이터가 없으면 숨김
+      }
     })
     .catch(error => console.error('Error:', error))
 })

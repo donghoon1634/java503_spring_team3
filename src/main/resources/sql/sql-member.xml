@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="bitc.fullstack503.java503_team3.mapper.MemberMapper">
+  <select id="isMemberId" parameterType="java.lang.String" resultType="int">
+    select count(*)
+    from member
+    where member_id = #{memberId}
+  </select>
+  <select id="isMemberNickname" parameterType="java.lang.String" resultType="int">
+    select count(*)
+    from member
+    where member_nickname = #{memberNickname}
+  </select>
+  <insert id="signUp" parameterType="bitc.fullstack503.java503_team3.dto.MemberDTO">
+    insert into member (member_id, member_pw, member_nickname, member_phone, member_addr, member_addr_detail)
+    values (#{memberId}, #{memberPw}, #{memberNickname}, #{memberPhone}, #{memberAddr}, #{memberAddrDetail})
+  </insert>
+  <select id="signIn" parameterType="bitc.fullstack503.java503_team3.dto.MemberDTO"
+          resultType="bitc.fullstack503.java503_team3.dto.MemberDTO">
+    select count(*)
+    from member
+    where member_id = #{memberId}
+      and member_pw = #{memberPw}
+  </select>
+</mapper>

@@ -8,28 +8,33 @@
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
           integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
           crossorigin="anonymous"></script>
-  <script src="/js/sdh/join.js" defer></script>
+  <script src="/js/sdh/member.js" defer></script>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
   <meta charset="UTF-8">
-  <link rel="stylesheet" href="/css/sdh/join.css">
+  <link rel="stylesheet" href="/css/sdh/member.css">
   <title>Title</title>
 </head>
 <body>
 <div class="container" id="container">
   <div class="form-container sign-up-container">
-    <form action="#">
-      <h1>Create Account</h1>
-      <div class="social-container">
-        <a href="#" class="social"><i class="fab fa-facebook-f"></i></a>
-        <a href="#" class="social"><i class="fab fa-google-plus-g"></i></a>
-        <a href="#" class="social"><i class="fab fa-linkedin-in"></i></a>
-      </div>
-      <span>or use your email for registration</span>
-      <input type="text" placeholder="Name"/>
-      <input type="email" placeholder="Email"/>
-      <input type="password" placeholder="Password"/>
-      <button>Sign Up</button>
-    </form>
+    <div class="py-3">
+      <form action="/member/signUp" method="post">
+        <h1>Create Account</h1>
+        <div class="social-container">
+          <a href="#" class="social"><i class="fab fa-facebook-f"></i></a>
+          <a href="#" class="social"><i class="fab fa-google-plus-g"></i></a>
+          <a href="#" class="social"><i class="fab fa-linkedin-in"></i></a>
+        </div>
+        <span>or use your email for registration</span>
+        <input type="text" name="memberId" placeholder="memberId"/>
+        <input type="password" name="memberPw" placeholder="memberPw"/>
+        <input type="text" name="memberNickname" placeholder="memberNickname"/>
+        <input type="text" name="memberPhone" placeholder="memberPhone"/>
+        <input type="text" name="memberAddr" placeholder="memberAddr"/>
+        <input type="text" name="memberAddrDetail" placeholder="memberAddrDetail"/>
+        <button>Sign Up</button>
+      </form>
+    </div>
   </div>
   <div class="form-container sign-in-container">
     <form action="#">
@@ -40,7 +45,7 @@
         <a href="#" class="social"><i class="fab fa-linkedin-in"></i></a>
       </div>
       <span>or use your account</span>
-      <input type="email" placeholder="Email"/>
+      <input type="text" placeholder="Id"/>
       <input type="password" placeholder="Password"/>
       <a href="#">Forgot your password?</a>
       <button>Sign In</button>
