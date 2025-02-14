@@ -3,7 +3,7 @@ package bitc.fullstack503.java503_team3.controller;
 import bitc.fullstack503.java503_team3.dto.userMyPageDTO;
 import bitc.fullstack503.java503_team3.dto.userTradeCommentDTO;
 import bitc.fullstack503.java503_team3.service.MyPageService;
-import bitc.fullstack503.java503_team3.service.UserTradeCommentService;
+import bitc.fullstack503.java503_team3.service.tradeUserCommentService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -13,53 +13,67 @@ import org.springframework.web.servlet.ModelAndView;
 import java.util.List;
 
 @Controller
-    @RequestMapping("/potato")
+@RequestMapping("/potato")
 public class usedResellController {
 
-        @Autowired
-        private MyPageService myPageService;
+    @Autowired
+    private MyPageService myPageService;
 
-        @Autowired
-        private UserTradeCommentService userTradeCommentService;
+    @Autowired
+    private tradeUserCommentService tradeUserCommentService;
 
-        @PostMapping( "/tradeChat/{boardIdx}")
-        public String tradeChat(@PathVariable("boardIdx") int boardIdx, @ModelAttribute userTradeCommentDTO utc) throws Exception{
-        ModelAndView mav = new ModelAndView("usedTrade/tradeChat");
-        userTradeCommentService.qnaComment(utc);
-        mav.addObject("utc",utc);
-        mav.addObject("boardIdx",boardIdx);
+    @PostMapping("/tradeChat/{tradeBoardIdx}")
+    public String tradeChat(@PathVariable("tradeBoardIdx") int tradeBoardIdx, @ModelAttribute userTradeCommentDTO utc) throws Exception {
 
-            List<userTradeCommentDTO> tradeCommentList = userTradeCommentService.getComment(boardIdx);
-            mav.addObject("tradeCommentList",tradeCommentList);
-        return "/usedTrade/tradeChat";
+        if (utc.getTradeUserComment() == null || utc.getTradeUserComment()
+                .trim().isEmpty()) {
+            utc.setTradeUserComment("");
         }
+        tradeUserCommentService.qnaComment(utc);
 
-    @RequestMapping(value = "/tradeChat/{boardIdx}", method = RequestMethod.GET)
-    public String getTradeChat(@PathVariable("boardIdx") int boardIdx, Model model) throws Exception {
-            model.addAttribute("boardIdx",boardIdx);
+        List<userTradeCommentDTO> tradeCommentList = tradeUserCommentService.getComment(tradeBoardIdx);
+
+        ModelAndView mav = new ModelAndView("usedTrade/tradeChat");
+
+        mav.addObject("tradeBoardIdx", tradeBoardIdx);
+        mav.addObject("tradeCommentList", tradeCommentList);
+
+        return "redirect:/potato/tradeChat/" + tradeBoardIdx;
+    }
+
+    @RequestMapping(value = "/tradeChat/{tradeBoardIdx}", method = RequestMethod.GET)
+    public String getTradeChat(@PathVariable("tradeBoardIdx") int tradeBoardIdx, Model model) throws Exception {
+
+        List<userTradeCommentDTO> tradeCommentList = tradeUserCommentService.getComment(tradeBoardIdx);
+
+        model.addAttribute("tradeBoardIdx", tradeBoardIdx);
+        model.addAttribute("tradeCommentList", tradeCommentList);
+
         return "/usedTrade/tradeChat";
     }
 
-        @RequestMapping("/edit")
+    @RequestMapping("/edit")
 
-        public String tradeEdit(){
-            return "/usedTrade/sellerProductEdit";
-        }
+    public String tradeEdit() {
+        return "/usedTrade/sellerProductEdit";
+    }
 
-        @RequestMapping("/detail")
+    @RequestMapping("/detail")
 
-        public String tradeDetail(){
-            return "/usedTrade/sellerProductDetail";
-        }
+    public String tradeDetail() {
+        return "/usedTrade/sellerProductDetail";
+    }
 
     @RequestMapping(value = "/myPageEdit", method = RequestMethod.PUT)
-    public String updateMyPage(userMyPageDTO myPage) throws Exception{
+    public String updateMyPage(userMyPageDTO myPage) throws Exception {
         myPageService.updateMyPage(myPage);
-        return "/myPage/myPage";
+        return "redirect:/potato/myPage";
     }
+
     @RequestMapping(value = "/myPage", method = RequestMethod.GET)
     public String getMyPage() {
         return "/myPage/myPage";
     }
+
 
 }

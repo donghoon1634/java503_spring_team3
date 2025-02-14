@@ -6,9 +6,8 @@ import org.apache.ibatis.annotations.Mapper;
 import java.util.List;
 
 @Mapper
-public interface UserTradeCommentMapper {
-    List<userTradeCommentDTO> qnaComment(int tradeBoardIdx);
+public interface tradeUserCommentMapper {
     void qnaComment(userTradeCommentDTO utc);
+    List<userTradeCommentDTO> getComment(int tradeBoardIdx);
 
-    List<userTradeCommentDTO> getComment(int boardIdx);
 }

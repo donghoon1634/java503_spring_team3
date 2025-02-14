@@ -6,7 +6,7 @@ import lombok.Data;
 public class userTradeCommentDTO {
     private int idx;
     private int tradeBoardIdx;
-    private String tradeUser;
-    private  String tradeCreateDate;
     private String tradeUserComment;
+    private String tradeUser;
+    private String tradeCreateDate;
 }

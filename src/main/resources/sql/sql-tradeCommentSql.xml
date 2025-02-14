@@ -2,15 +2,15 @@
 <!DOCTYPE mapper
         PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="bitc.fullstack503.java503_team3.mapper.UserTradeCommentMapper">
-    <insert id="qnaComment" useGeneratedKeys="true" keyProperty="tradeBoardIdx">
-        insert into usertrade_comment (trade_board_idx, trade_user, trade_create_date, trade_user_comment)
-        values(#{tradeBoardIdx},#{tradeUser},now(),#{tradeUserComment})
+<mapper namespace="bitc.fullstack503.java503_team3.mapper.tradeUserCommentMapper">
+    <insert id="qnaComment" useGeneratedKeys="true" keyProperty="idx">
+        insert into usertrade_comment (trade_board_idx, trade_user, trade_user_comment, trade_create_date)
+        values(#{tradeBoardIdx},#{tradeUser},#{tradeUserComment},now())
     </insert>
 
-    <select id="getComment" parameterType="bitc.fullstack503.java503_team3.dto.userTradeCommentDTO">
-        select trade_user, trade_create_date, trade_user_comment
+    <select id="getComment" resultType="bitc.fullstack503.java503_team3.dto.userTradeCommentDTO">
+        select trade_board_idx, trade_user_comment, trade_create_date
         from usertrade_comment
-        order by #{idx} desc;
+        order by trade_create_date desc
     </select>
 </mapper>

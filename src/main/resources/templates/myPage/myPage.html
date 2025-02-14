@@ -35,7 +35,7 @@
                 </div>
                 <div class="col-sm mt-2">
                     <div class="form-floating">
-                        <input type="text" class="form-control" id="seller" name="seller">
+                        <input type="text" class="form-control" id="seller" name="seller" th:text="">
                         <label for="seller">판매자</label>
                     </div>
                 </div>
@@ -44,7 +44,7 @@
                 <form id="frm" method="post">
                     <input type="hidden" id="method" name="_method">
                 <div class="col-sm">
-                    <textarea class="ms-5" id="intro" name="introduce" placeholder="자기 소개를 적어주세요" rows="10"
+                    <textarea class="ms-5" id="intro" name="userMyPageContents" placeholder="자기 소개를 적어주세요" rows="10"
                               style="width: 700px" ></textarea>
                     <label for="intro"></label>
                     <button type="button" class="mt-5 btn justify-content-end" style="background-color: #fff7c9" id="intro-edit">수정하기</button>
