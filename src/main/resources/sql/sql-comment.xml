@@ -30,14 +30,21 @@
         where ul_comment_ul_idx = #{ulCommentUlIdx} order by ul_comment_idx desc
     </select>
 <!--    댓글을 추가하는 API-->
-    <insert id="addComment" parameterType="bitc.fullstack503.java503_team3.dto.UserlifeCommentDTO">
-        insert into userlife_comment (ul_comment_ul_idx, ul_comment_nickname, ul_comment_contents, ul_comment_createdate, ul_comment_location)
-        values(#{ulCommentUlIdx}, #{ulCommentNickname}, #{ulCommentContents},now(), #{ulCommentLocation});
-    </insert>
-
     <insert id="ulCommentInsert" parameterType="bitc.fullstack503.java503_team3.dto.UserlifeCommentDTO">
         insert into userlife_comment (ul_comment_ul_idx, ul_comment_nickname, ul_comment_contents, ul_comment_createdate, ul_comment_location)
         values(#{ulCommentUlIdx}, #{ulCommentNickname}, #{ulCommentContents},now(), #{ulCommentLocation});
     </insert>
+<!--댓글 삭재-->
+    <delete id="ulCommentdelet" parameterType="int">
+        delete from userlife_comment where ul_comment_idx = #{ulCommentIdx}
+    </delete>
+
+    <!-- 페이지별로 댓글 가져오기 -->
+    <select id="selectCommentsByPage" resultType="bitc.fullstack503.java503_team3.dto.UserlifeCommentDTO">
+        SELECT * FROM userlife_comment
+        WHERE ul_comment_ul_idx = #{ulIdx}
+        ORDER BY ul_comment_createdate DESC
+        LIMIT #{offset}, #{limit}
+    </select>
 
 </mapper>

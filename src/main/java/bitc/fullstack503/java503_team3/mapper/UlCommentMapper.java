@@ -18,7 +18,9 @@ public interface UlCommentMapper {
     // 최신순 댓글 조회
     List<UserlifeCommentDTO> ulCommentDesc(int ulIdx);
     // 댓글을 추가하는 API
-//    void addComment(UserlifeCommentDTO ulCommentDTO);
-
     int ulCommentInsert(UserlifeCommentDTO ulcDTO);
+
+    void ulCommentdelet(int ulIdx);
+
+    List<UserlifeCommentDTO> selectCommentsByPage(int ulIdx, int offset, int limit);
 }

@@ -34,15 +34,20 @@ public class UlCommentServiceImpl implements UlCommentService {
     public List<UserlifeCommentDTO> ulCommentDesc(int ulIdx) {
         return ulCommentMapper.ulCommentDesc(ulIdx);
     }
-
+    // 댓글을 추가하는 API
     @Override
     public void ulCommentInsert(UserlifeCommentDTO ulcDTO) {
         ulCommentMapper.ulCommentInsert(ulcDTO);
     }
 
-    // 댓글을 추가하는 API
-//    @Override
-//    public void addComment(UserlifeCommentDTO ulCommentDTO) {
-//        ulCommentMapper.addComment(ulCommentDTO);
-//    }
+    @Override
+    public void ulCommentdelet(int ulIdx) {
+        ulCommentMapper.ulCommentdelet(ulIdx);
+    }
+
+    @Override
+    public List<UserlifeCommentDTO> getCommentsByPage(int ulIdx, int offset, int limit) {
+        return ulCommentMapper.selectCommentsByPage(ulIdx, offset, limit);
+    }
+
 }

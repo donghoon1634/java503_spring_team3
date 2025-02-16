@@ -1,206 +1,262 @@
 <!DOCTYPE html>
 <html lang="ko" xmlns:th="http://www.thymeleaf.org">
 <head>
-  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
-  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"
-        integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
-  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
-          integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
-          crossorigin="anonymous"></script>
-  <meta charset="UTF-8">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"
+          integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
+            integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
+            crossorigin="anonymous"></script>
+    <meta charset="UTF-8">
     <title>Title</title>
-  <script>
-    $(document).ready(function () {
-
-
-      // 댓글추천
-      usercommnetlike();
-      // 댓글 등록순
-      $("#ulCommentIdxAsc").on("click", function () {
-        var ulIdx = $("#ulIdx").val();
-        $.ajax({
-          url: "/ulComment/asc/" + ulIdx,
-          method: "GET",
-          success: function (data) {
-            // 서버에서 받은 댓글 목록 (data)은 JSON 배열이므로, 이를 HTML로 변환하여 표시
-            let commentHtml = '';
-            data.forEach(function (comment) {
-              commentHtml += `
-                        <div class="d-flex mb-3 comment ">
-                            <div class="col-sm-1">
-                                <img src="/img/프로필.jpg" style="width: 40px; height: 40px" alt="프로필">
-                            </div>
-                            <div class="ml-1 flex-grow-1">
-                                <div >
-                                    <p class="d-none commentIdx" name="commentIdx">${comment.ulCommentIdx}</p>
-                                    <p>
-                                        <strong>${comment.ulCommentNickname}</strong>
-                                    </p>
-                                    <p>
-                                        <span>${comment.ulCommentLocation}</span>
-                                        <span >${comment.ulCommentcreatedate}</span>
-                                    </p>
-                                    <p><strong>${comment.ulCommentContents}</strong></p>
-                                    <div class="d-flex align-items-center">
-                                        <img src="/img/good.png" style="width:22px; height: 22px;" alt="추천" class="ulCommentLike">
-                                        <span>${comment.ulCommentLike}</span>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-            `;
-            });
-            // 댓글 목록을 업데이트
-            $("#commentsList").html(commentHtml);
-            usercommnetlike();
-            alert("등록순");
-          },
-          error: function (error) {
-            console.error("Error: " + error);
-            alert("오류");
-          }
-        });
-      });
-      // 댓글 추천순
-      $("#ulCommentIdxDesc").on("click", function () {
-        var ulIdx = $("#ulIdx").val(); // ulIdx 값 가져오기
-        $.ajax({
-          url: "/ulComment/desc/" + ulIdx, // URL 수정
-          method: "GET",
-          success: function (data) {
-            // 서버에서 받은 댓글 목록 (data)은 JSON 배열이므로, 이를 HTML로 변환하여 표시
-            let commentHtml = '';
-            data.forEach(function (comment) {
-              commentHtml += `
-                        <div class="d-flex mb-3 comment ">
-                            <div class="col-sm-1">
-                                <img src="/img/프로필.jpg" style="width: 40px; height: 40px" alt="프로필">
-                            </div>
-                            <div class="ml-1 flex-grow-1">
-                                <div >
-                                    <p class="d-none commentIdx" name="commentIdx">${comment.ulCommentIdx}</p>
-                                    <p>
-                                        <strong>${comment.ulCommentNickname}</strong>
-                                    </p>
-                                    <p>
-                                        <span>${comment.ulCommentLocation}</span>
-                                        <span >${comment.ulCommentcreatedate}</span>
-                                    </p>
-                                    <p><strong>${comment.ulCommentContents}</strong></p>
-                                    <div class="d-flex align-items-center">
-                                        <img src="/img/good.png" style="width:22px; height: 22px;" alt="추천" class="ulCommentLike">
-                                        <span>${comment.ulCommentLike}</span>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-
-
-            `;
-            });
-            // 댓글 목록을 업데이트
-            $("#commentsList").html(commentHtml);
-            usercommnetlike();
-            alert("최신순");
-          },
-          error: function (error) {
-            console.error("Error: " + error);
-            alert("오류");
-          }
-        });
-
-      });
-      // 댓글 삭제
-      $("#ulcommentDelete").on("click", function () {
-        $("#ulcomment_method").val("DELETE");
-        var ulcomfrm = $("#ulcomfrm")[0];
-        ulcomfrm.action = "/board/comment/" + $("#ulIdx").val();
-        ulcomfrm.submit();
-      });
-    });
-
-    function usercommnetlike() {
-      $(".ulCommentLike").on("click", function () {
-        var ulCommentIdx = $(this).parent().parent().children("p.commentIdx").text();
-        var spanTag = $(this).next();
-
-        $.ajax({
-          url: "/ulComment/like/" + ulCommentIdx,  // URL에 ulCommentIdx 값 포함
-          method: "POST",
-          success: function (data) {
-            console.log(data);
-            spanTag.text(data);
-            // $("#likeUlComment").text(data);  // 추천수 업데이트
-            alert("댓글 추천 완료!");
-          },
-          error: function (xhr, status, error) {
-            console.error("Error: " + error);
-          }
-        });
-      });
-    }
-  </script>
 </head>
+
 <body>
-
 <main class="" th:fragment="comment(comments)">
-  <section>
-    <div method="GET" id="ulcomfrm">
-      <div class="d-none" id="ulcomment_method" name="ulcommentMethod"></div>
-      <div>
-        <button id="ulCommentIdxAsc" class="btn btn-light text-muted">등록순</button>
-        <button id="ulCommentIdxDesc" class="btn btn-light text-muted">최신순</button>
-      </div>
-      <!--        댓글 목록-->
-      <div id="commentsList" class="mt-2">
-        <div th:each="comment : ${ulcomment}">
-          <div class="d-flex mb-3">
-            <div class="col-sm-1">
-              <img src="/img/프로필.jpg" style="width: 40px; height: 40px" alt="프로필">
-            </div>
-            <div class="ml-1 flex-grow-1">
-              <div class="comment">
-                <p class="d-none commentIdx" name="commentIdx"
-                   th:text="${comment.ulCommentIdx}"></p>
-                <p>
-                  <strong th:text="${comment.ulCommentNickname}"></strong>
-                </p>
-                <p>
-                  <span th:text="${comment.ulCommentLocation}"></span>
-                  <span th:text="${comment.ulCommentcreatedate}"></span>
-                </p>
-                <p><strong th:text="${comment.ulCommentContents}"></strong></p>
-                <div class="d-flex justify-content-between align-items-center">
-                  <div class="d-flex align-items-center">
-                    <img src="/img/good.png" style="width:22px; height: 22px;" alt="댓글추천"
-                         th:alt="${comment.ulCommentIdx}" class="ulCommentLike">
-                    <span th:text="${comment.ulCommentLike}">0</span>
-                  </div>
-                  <div class="ml-3">
-                    <button type="button" class="btn btn-outline-dark text-dark"
-                            id="ulcommentDelete">삭제
-                    </button>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
+    <section>
+        <div method="GET" id="ulcomfrm">
+            <div class="d-none" id="ulcomment_method" name="ulcommentMethod"></div>
 
-      <!--        댓글 작성-->
-      <!--            board_idx, nickname, comment_content, create_date, location-->
-      <div class="mt-3">
-        <form method="post" th:action="@{|/board/${ul.ulIdx}/add|}">
-          <div>
-                        <textarea class="form-control" name="ulCommentContents" id="ulCommentContents" rows="3"
-                                  placeholder="댓글을 입력하세요."></textarea>
-          </div>
-          <button type="submit" class="btn btn-primary mt-2" id="com_add">댓글 작성</button>
-        </form>
-      </div>
-    </div>
-  </section>
+            <div>
+                <button id="ulCommentIdxAsc" class="btn btn-light text-muted">등록순</button>
+                <button id="ulCommentIdxDesc" class="btn btn-light text-muted">최신순</button>
+            </div>
+
+            <!-- 댓글 목록 -->
+            <div id="commentsList" class="mt-2">
+                <div th:each="comment : ${ulcomment}">
+                    <div class="d-flex mb-3">
+                        <!--  댓글 작성자 프로필사진 -->
+                        <div class="col-sm-1">
+                            <img src="/img/프로필.jpg" style="width: 40px; height: 40px" alt="프로필">
+                        </div>
+                        <!-- 댓글 내용 -->
+                        <div class="ml-1 flex-grow-1">
+                            <div class="comment">
+                                <!-- 댓글번호 -->
+                                <p class="d-none commentIdx" name="commentIdx" th:text="${comment.ulCommentIdx}"></p>
+                                <!-- 댓글 작성자 닉네임(로그인정보에서 불러오기해야함) -->
+                                <p> <strong th:text="${comment.ulCommentNickname}"></strong> </p>
+                                <p>
+                                    <!-- 댓글 작성자 장소(로그인정보에서 불러오기해야함) -->
+                                    <span th:text="${comment.ulCommentLocation}"></span>
+                                    <!-- 댓글 작성시간 -->
+                                    <span th:text="${comment.ulCommentcreatedate}"></span>
+                                </p>
+                                <!-- 댓글 내용 -->
+                                <p><strong th:text="${comment.ulCommentContents}"></strong></p>
+                                <div class="d-flex justify-content-between align-items-center">
+                                    <!-- 댓글 추천 -->
+                                    <div class="d-flex align-items-center">
+                                        <img src="/img/good.png" style="width:22px; height: 22px;" alt="댓글추천" th:alt="${comment.ulCommentIdx}" class="ulCommentLike">
+                                        <span th:text="${comment.ulCommentLike}">0</span>
+                                    </div>
+                                    <!-- 댓글 삭제 -->
+                                    <div class="ml-3">
+                                        <button type="button" class="btn btn-outline-dark text-dark ulcommentDelete">삭제</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 더보기 버튼 -->
+            <div class="text-center">
+                <button id="loadMoreComments" class="btn btn-outline-dark">더보기</button>
+            </div>
+
+            <!-- 댓글 작성 -->
+            <div class="mt-3">
+                <form method="post" th:action="@{|/board/${ul.ulIdx}/add|}">
+                    <div>
+                        <textarea class="form-control" name="ulCommentContents" id="ulCommentContents" rows="3" placeholder="댓글을 입력하세요."></textarea>
+                    </div>
+                    <button type="submit" class="btn btn-primary mt-2" id="com_add">댓글 작성</button>
+                </form>
+            </div>
+        </div>
+    </section>
+
+    <script>
+        $(document).ready(function () {
+
+            // 댓글 추천 버튼에 대한 이벤트 위임
+            $(document).on("click", ".ulCommentLike", function () {
+                var ulCommentIdx = $(this).closest(".comment").find(".commentIdx").text();
+                var spanTag = $(this).next();
+
+                $.ajax({
+                    url: "/ulComment/like/" + ulCommentIdx,
+                    method: "POST",
+                    success: function (data) {
+                        console.log(data);
+                        spanTag.text(data);  // 추천수 업데이트
+                        alert("댓글 추천 완료!");
+                    },
+                    error: function (xhr, status, error) {
+                        console.error("Error: " + error);
+                    }
+                });
+            });
+
+            // 댓글 삭제 버튼에 대한 이벤트 위임
+            $(document).on("click", ".ulcommentDelete", function () {
+                var ulCommentIdx = $(this).closest(".comment").find(".commentIdx").text(); // 해당 댓글의 ID
+                var button = $(this);  // 삭제 버튼을 변수에 저장
+
+                $.ajax({
+                    url: "/board/comment/" + ulCommentIdx, // 서버의 삭제 요청 URL
+                    type: "DELETE", // DELETE 요청
+                    success: function(response) {
+                        // 성공적으로 삭제되면, 해당 댓글을 DOM에서 삭제
+                        button.closest('.d-flex.mb-3').remove();
+                        alert("댓글이 삭제되었습니다.");  // 사용자에게 알림
+
+                        // 댓글 삭제 후 더보기 버튼 상태 갱신
+                        checkLoadMoreButton();
+                    },
+                    error: function(xhr, status, error) {
+                        // 실패 시 에러를 출력하고, 문제를 사용자에게 알림
+                        console.error("삭제 실패: " + error);
+                        alert("댓글 삭제에 실패했습니다. 다시 시도해주세요.");
+                    }
+                });
+            });
+
+            // 댓글 등록순 버튼 클릭
+            $("#ulCommentIdxAsc").on("click", function () {
+                var ulIdx = $("#ulIdx").val();
+                $.ajax({
+                    url: "/ulComment/asc/" + ulIdx,
+                    method: "GET",
+                    success: function (data) {
+                        let commentHtml = '';
+                        data.forEach(function (comment) {
+                            commentHtml += `
+                        <div class="d-flex mb-3 comment">
+                            <div class="col-sm-1">
+                                <img src="/img/프로필.jpg" style="width: 40px; height: 40px" alt="프로필">
+                            </div>
+                            <div class="ml-1 flex-grow-1">
+                                <p class="d-none commentIdx" name="commentIdx">${comment.ulCommentIdx}</p>
+                                <p><strong>${comment.ulCommentNickname}</strong></p>
+                                <p><span>${comment.ulCommentLocation}</span> <span>${comment.ulCommentcreatedate}</span></p>
+                                <p><strong>${comment.ulCommentContents}</strong></p>
+                                <div class="d-flex justify-content-between align-items-center">
+                                    <div class="d-flex align-items-center">
+                                        <img src="/img/good.png" style="width:22px; height: 22px;" alt="추천" class="ulCommentLike">
+                                        <span>${comment.ulCommentLike}</span>
+                                    </div>
+                                    <button type="button" class="btn btn-outline-dark text-dark ulcommentDelete">삭제</button>
+                                </div>
+                            </div>
+                        </div>
+                    `;
+                        });
+                        $("#commentsList").html(commentHtml);
+                        alert("등록순");
+                        checkLoadMoreButton(); // 더보기 버튼 상태 갱신
+                    },
+                    error: function (error) {
+                        console.error("Error: " + error);
+                        alert("오류");
+                    }
+                });
+            });
+
+            // 댓글 최신순 버튼 클릭
+            $("#ulCommentIdxDesc").on("click", function () {
+                var ulIdx = $("#ulIdx").val();
+                $.ajax({
+                    url: "/ulComment/desc/" + ulIdx,
+                    method: "GET",
+                    success: function (data) {
+                        let commentHtml = '';
+                        data.forEach(function (comment) {
+                            commentHtml += `
+                        <div class="d-flex mb-3 comment">
+                            <div class="col-sm-1">
+                                <img src="/img/프로필.jpg" style="width: 40px; height: 40px" alt="프로필">
+                            </div>
+                            <div class="ml-1 flex-grow-1">
+                                <p class="d-none commentIdx" name="commentIdx">${comment.ulCommentIdx}</p>
+                                <p><strong>${comment.ulCommentNickname}</strong></p>
+                                <p><span>${comment.ulCommentLocation}</span> <span>${comment.ulCommentcreatedate}</span></p>
+                                <p><strong>${comment.ulCommentContents}</strong></p>
+                                <div class="d-flex justify-content-between align-items-center">
+                                    <div class="d-flex align-items-center">
+                                        <img src="/img/good.png" style="width:22px; height: 22px;" alt="추천" class="ulCommentLike">
+                                        <span>${comment.ulCommentLike}</span>
+                                    </div>
+                                    <button type="button" class="btn btn-outline-dark text-dark ulcommentDelete">삭제</button>
+                                </div>
+                            </div>
+                        </div>
+                    `;
+                        });
+                        $("#commentsList").html(commentHtml);
+                        alert("최신순");
+                        checkLoadMoreButton(); // 더보기 버튼 상태 갱신
+                    },
+                    error: function (error) {
+                        console.error("Error: " + error);
+                        alert("오류");
+                    }
+                });
+            });
+
+            // 더보기 버튼 클릭 시
+            $("#loadMoreComments").on("click", function() {
+                var ulIdx = $("#ulIdx").val();
+                var offset = $("#commentsList .comment").length;  // 현재 로드된 댓글 수로 offset 설정
+                $.get("/board/" + ulIdx + "/moreComments", { offset: offset }, function(data) {
+                    for (var i = 0; i < data.length; i++) {
+                        var commentHtml = `
+                    <div class="d-flex mb-3 comment">
+                            <div class="col-sm-1">
+                                <img src="/img/프로필.jpg" style="width: 40px; height: 40px" alt="프로필">
+                            </div>
+                            <div class="ml-1 flex-grow-1">
+                                <p class="d-none commentIdx" name="commentIdx">${data[i].ulCommentIdx}</p>
+                                <p><strong>${data[i].ulCommentNickname}</strong></p>
+                                <p><span>${data[i].ulCommentLocation}</span> <span>${data[i].ulCommentcreatedate}</span></p>
+                                <p><strong>${data[i].ulCommentContents}</strong></p>
+                                <div class="d-flex justify-content-between align-items-center">
+                                    <div class="d-flex align-items-center">
+                                        <img src="/img/good.png" style="width:22px; height: 22px;" alt="추천" class="ulCommentLike">
+                                        <span>${data[i].ulCommentLike}</span>
+                                    </div>
+                                    <button type="button" class="btn btn-outline-dark text-dark ulcommentDelete">삭제</button>
+                                </div>
+                            </div>
+                        </div>
+                `;
+                        $("#commentsList").append(commentHtml);
+                    }
+                    // 더보기 버튼이 더 이상 필요 없으면 숨김 처리
+                    if (data.length < 5) {
+                        $("#loadMoreComments").hide();
+                    }
+                });
+            });
+
+            // 댓글 삭제 후 더보기 버튼 상태 확인
+            function checkLoadMoreButton() {
+                var totalComments = $("#commentsList .comment").length;  // 현재 표시된 댓글 수
+                var ulIdx = $("#ulIdx").val();
+                $.get("/board/" + ulIdx + "/totalCommentCount", function(data) {
+                    // 댓글 총 개수가 현재 표시된 댓글 수보다 많으면 더보기 버튼을 보여주고, 그렇지 않으면 숨깁니다.
+                    if (totalComments < data.totalCount) {
+                        $("#loadMoreComments").show();
+                    } else {
+                        $("#loadMoreComments").hide();
+                    }
+                });
+            }
+        });
+    </script>
 
 
 </main>
