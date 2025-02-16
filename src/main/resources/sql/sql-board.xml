@@ -58,4 +58,6 @@
         ORDER BY ul_hit_cnt DESC
         LIMIT #{limit}
     </select>
+
+
 </mapper>

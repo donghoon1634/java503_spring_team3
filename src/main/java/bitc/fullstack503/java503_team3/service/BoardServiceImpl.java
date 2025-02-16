@@ -58,4 +58,5 @@ public class BoardServiceImpl implements BoardService {
         return boardMapper.getPopularPosts(limit);
 
     }
+
 }

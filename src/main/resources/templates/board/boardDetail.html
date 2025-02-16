@@ -40,34 +40,6 @@
     <!--            margin-left: 74px;-->
     <!--        }-->
 
-    <!--        #ulCate {-->
-    <!--            color: gray;-->
-    <!--            border: 1px none;-->
-    <!--            background-color: lightgray;-->
-    <!--            height: 20px;-->
-    <!--            width: 54px;-->
-    <!--            margin-left: -4px;-->
-    <!--            font-size: 12px;-->
-    <!--        }-->
-
-    <!--        #ulNickname {-->
-    <!--            /*margin-left: 6px;*/-->
-    <!--            font-size: 14px;-->
-    <!--            font-weight: bold;-->
-    <!--            width: 100%;-->
-
-    <!--        }-->
-
-    <!--        #ulPlace {-->
-    <!--            font-size: 12px;-->
-    <!--            color: gray;-->
-    <!--            margin-left: 0; /* 왼쪽 정렬 */-->
-    <!--        }-->
-
-    <!--        #ulContents {-->
-    <!--            border: none;-->
-    <!--            margin-left: -28px;-->
-    <!--        }-->
 
     <!--        #ulLikes {-->
     <!--            padding-right: 2px;-->
@@ -96,99 +68,270 @@
     <!--        }-->
 
     <!--    </style>-->
+    <style>
+        /* 상단 홈>동네생활 에서 > 이미지 */
+        li > img {
+            width: 12px;
+            height: 12px;
+            margin-bottom: -10px;
+            padding-right: 1px;
+        }
 
+        /* 게시글 상태 카테고리 */
+        #ulCate {
+            color: gray;
+            border: 1px none;
+            background-color: lightgray;
+            height: 20px;
+            width: 54px;
+            margin-left: -4px;
+            font-size: 12px;
+        }
+
+        /* 게시글 닉네임 */
+        #ulNickname {
+            font-size: 14px;
+            font-weight: bold;
+            width: 100%;
+        }
+
+        /* 게시글 위치,날짜 */
+        .small-text {
+            font-size: 12px;
+            color: gray;
+        }
+
+        /* 게시글 제목 */
+        #ulTitle {
+            border: none;
+            font-weight: bold;
+        }
+
+    </style>
+
+    <script>
+        $(document).ready(function () {
+
+            ax();
+
+            // 수정
+            $("#btn-update").on("click", function () {
+                $("#method").val("PUT");
+
+                var frm = $("#frm")[0];
+
+                if (!frm) {
+                    console.error("폼이 존재하지 않습니다.");
+                    alert("폼을 찾을 수 없습니다.");
+                    return;
+                }
+
+                frm.action = "/board/" + $("#ulIdx").val();
+                frm.submit();
+            });
+
+
+            // 삭제
+            $("#btn-delete").on("click", function () {
+                $("#method").val("DELETE");
+
+                var frm = $("#frm")[0];
+
+                if (!frm) {
+                    console.error("폼이 존재하지 않습니다.");
+                    alert("폼을 찾을 수 없습니다.");
+                    return;
+                }
+
+                frm.action = "/board/" + $("#ulIdx").val();
+                frm.submit();
+            });
+
+
+            // 목록
+            $("#btn-list").on("click", function () {
+                history.back();
+            });
+
+            // 추천수
+            $('#ulLikes').click(function () {
+                var result = confirm("추천하시겠습니까?");
+                if (result = true) {
+                    // 글번호 가져오기
+                    var ulIdx = $("#ulIdx").val();
+                    $.ajax({
+                        url: '/board/api/blog/' + ulIdx,
+                        method: 'POST',
+                        success: function (data) {
+                            $('#ulLikes').text(data);
+                            var suc = confirm("추천하였습니다!");
+                        }
+                    })
+                }
+            });
+
+            // fetch('/api/board/popular?limit=10')
+            //     .then(response => response.json())
+            //     .then(data => {
+            //         let boardList = document.getElementById('popular-posts');
+            //         boardList.innerHTML = ''; // 기존 목록 초기화
+            //         data.forEach(ul => {
+            //             let item = document.createElement('li');
+            //             item.textContent = `${ul.ulTitle} (조회수: ${ul.ul_hit_cnt})`;
+            //             boardList.appendChild(item);
+            //         });
+            //     })
+            //     .catch(error => console.error('Error:', error));
+        });
+
+        function ax() {
+            $.ajax({
+                url: "/board/api/popular", // 🔹 인기글을 불러올 API
+                type: "GET",
+                data: { limit: 5 }, // 🔹 인기글 5개 가져오기
+                success: function (data) {
+                    console.log("인기글 데이터:", data);
+
+                    let popularList = $("#popular-posts");
+                    popularList.empty(); // 🔹 기존 목록 초기화
+
+                    // 🔹 받아온 데이터를 하나씩 <li> 태그로 추가
+                    data.forEach(ul => {
+                        let listItem = `
+                        <li class="popular-item">
+                            <h3>${ul.ulTitle}</h3>
+                            <p class="content">${ul.ulContents}</p>
+                            <p class="info">${ul.ulPlace} · ${ul.ulCate}</p>
+                            <div class="icons">
+                            <img src="/img/good.png" width="22px" height="22px" alt="" id="ulLikes" name="ulLikes" ${ul.ulLikes}>
+                            <img src="/img/commu.png" width="22px" height="22px" alt="">
+                            </div>
+                        </li>
+                    `;
+                        popularList.append(listItem);
+                    });
+                },
+                error: function () {
+                    alert("오류 발생! 인기글을 불러오지 못했습니다.");
+                }
+            });
+        }
+
+        // 🔹 페이지가 로드될 때 자동으로 인기글 불러오기
+        $(document).ready(function () {
+            ax();
+        });
+
+
+    </script>
 
 </head>
 <body>
 <main class="container mt-5">
-    <div class="row">
-        <!-- 왼쪽 사이드바 (카테고리) -->
-        <div class="col-md-3 p-3 ">
+    <!-- 상단 홈 > 동네생활 부분 -->
+    <nav class="navbar navbar-expand-lg bg-white">
+        <!-- id="navbarSupportedContent" 필요한 부분? -->
+        <div class="collapse navbar-collapse">
+            <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                <li class="nav-item">
+                    <a class="nav-link active" aria-current="page" href="#">홈</a>
+                </li>
+                <li class="nav-item">
+                    <img src="/img/free-icon-arrow-right-6423875.png">
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="">동네생활</a>
+                </li>
+            </ul>
+        </div>
+    </nav>
+
+    <section class="row">
+        <!-- 카테고리 (cate) 영역 -->
+        <div class="col-md-2 p-3">
             <div th:replace="~{/layout/cate :: cate}"></div>
         </div>
 
         <!-- 오른쪽 메인 콘텐츠 -->
-        <div class="col-md-8">
+        <div class="col-md-8" style="margin-left: 40px;">
             <form id="frm" method="post">
                 <input type="hidden" id="method" name="_method">
-
                 <!-- 글 정보 -->
-
-                <div class="p-3 text-center">
-                    <div class="row mt-3">
-                        <input type="hidden" id="ulIdx" name="ulIdx" placeholder="글번호" th:value="${ul.ulIdx}">
-                        <label for="ulIdx"></label>
-                    </div>
-                    <div class="row mt-3">
-                        <input type="text" id="ulCate" name="ulCate" placeholder="카테고리" th:value="${ul.ulCate}"
-                               readonly>
-                        <label for="ulCate"></label>
-                    </div>
-                    <div class="row mt-3">
-                        <div class="col-sm d-flex flex-column">
-                            <input type="text" id="ulNickname" name="ulNickname" placeholder="닉네임" readonly
-                                   th:value="${ul.ulNickname}">
-                            <label for="ulNickname"></label>
-                            <div class="col-sm">
-                                <input class="small-text" type="text" id="ulPlace" name="ulPlace" placeholder="위치"
-                                       readonly
-                                       th:value="${ul.ulPlace}">
-                                <label for="ulPlace"></label>
+                <!-- 카테고리 -->
+                <div class="mt-3">
+                    <input type="text" id="ulCate" name="ulCate" placeholder="카테고리" th:value="${ul.ulCate}" readonly>
+                    <label for="ulCate"></label>
+                </div>
+                <!-- 프포필, 닉네임, 위치, 날짜, 삭제, 수정 -->
+                <div class="row mt-2">
+                    <div class="d-flex ps-2">
+                        <!--  댓글 작성자 프로필사진 -->
+                        <div class="col-sm-1">
+                            <img src="/img/프로필.jpg" style="width: 50px; height: 50px" alt="프로필">
+                        </div>
+                        <div class="col-sm">
+                            <!-- 닉네임 입력 -->
+                            <div class="col">
+                                <p id="ulNickname" th:text="${ul.ulNickname}" class="m-0">닉네임</p>
                             </div>
-                            <div class="col-sm">
-                                <!--                                <input class="small-text" type="text" id="ulPlace" name="ulPlace" placeholder="위치"-->
-                                <!--                                       readonly-->
-                                <!--                                       th:value="${ul.ulPlace}">-->
-                                <!--                                <label for="ulPlace"></label>-->
-                                <strong>작성 날짜:</strong>
-                                <span th:value="${ul.ulPlace}">{{board.ulCreateDate}}</span>
-                            </div>
+                            <!--  위치, 작성 날짜, 수정 날짜 -->
+                            <div class="row align-items-center mb-3">
+                                <!-- 위치 -->
+                                <div class="col-sm-1 pe-0">
+                                    <p class="small-text" th:text="${ul.ulPlace}" style="width: 45px;">위치</p>
+                                </div>
 
-                            <div>
-                                <strong>수정 날짜:</strong>
-                                <!-- 수정된 날짜가 있다면 그것을 표시, 아니면 작성 날짜 -->
-                                <span>{{board.ulUpdateDate ? board.ulUpdateDate : board.ulCreateDate}}</span>
+                                <!-- 작성 날짜 -->
+                                <div class="col p-0 ps-1 ">
+                                    <p class="small-text" th:text="${ul.ulCreateDate}">작성날짜</p>
+                                </div>
+
+                                <!-- 수정 날짜 -->
+                                <div class="col">
+                                    <p class="small-text" th:text="${ul.ulUpdateDate}">수정날짜</p>
+                                </div>
                             </div>
                         </div>
-                        <!-- 삭제 수정 버튼-->
-                        <div class="col-sm text-end">
+
+                        <!-- 삭제 수정 버튼 -->
+                        <div class="col-sm-auto text-end">
                             <button type="button" class="btn btn-danger me-2" id="btn-delete">삭제</button>
                             <button type="button" class="btn btn-warning" id="btn-update">수정</button>
                         </div>
+
                     </div>
-                    <!-- 글제목-->
-                    <div class="row mt-3">
-                        <input type="text" id="ulTitle" name="ulTitle" th:value="${ul.ulTitle}"
-                               readonly>
-                        <label for="ulTitle"></label>
-                    </div>
-                    <!-- 글 내용 -->
-                    <div class="row mt-3">
-                        <div class="col-sm">
-                            <div class="form">
-                            <textarea id="ulContents" name="ulContents" rows="10" placeholder="글 내용"
-                                      style="height: 400px; width: 100%; resize: none; border: none; outline: none; background: transparent;"
-                                      th:text="${ul.ulContents}"></textarea>
-                                <label for="ulContents"></label>
-                            </div>
+                </div>
+                <!-- 글제목-->
+                <h3 class="row mt-1 ">
+                    <input type="text" id="ulTitle" name="ulTitle" th:value="${ul.ulTitle}" readonly class="ps-2 p-0">
+                    <label for="ulTitle"></label>
+                </h3>
+                <!-- 글 내용 -->
+                <div class="row mt-1  ">
+                    <div class="col-sm">
+                        <div class="form">
+                            <textarea id="ulContents" name="ulContents" placeholder="글 내용" class="form-control p-0" th:text="${ul.ulContents}" oninput="autoResize(this)" style="resize: none; overflow-y: hidden; height: auto; border: none"></textarea>
+                            <label for="ulContents"></label>
                         </div>
                     </div>
                 </div>
-
+                <!-- 글번호(안보임) -->
+                <div class="row mt-3">
+                    <p class="d-none" id="ulIdx" th:text="${ul.ulIdx}">글번호 </p>
+                </div>
                 <!-- 추천 & 댓글 -->
                 <div>
-                    <div class="row align-items-center mt-3">
+                    <div class="row align-items-center mt-2">
                         <!-- 추천 -->
-                        <div class="col-sm-1">
+                        <div class="col-sm-auto d-flex align-items-center pe-0">
                             <img src="/img/good.png" width="22px" height="22px" alt="" id="ulLikes" name="ulLikes">
-                        </div>
-                        <div class="col-sm-1">
-                            <div th:text="${ul.ulLikes}"></div>
+                            <div class="mb-0 ms-2" th:text="${ul.ulLikes}"></div>
                         </div>
 
                         <!-- 댓글 -->
-                        <div class="col-sm-2">
+                        <div class="col-sm-auto d-flex align-items-center">
                             <img src="/img/commu.png" width="22px" height="22px" alt="">
+                            <div class="mb-0 ms-2" >0</div>
                         </div>
 
                         <!-- 조회수 -->
@@ -200,10 +343,22 @@
                     </div>
                 </div>
             </form>
+            <script>
+                function autoResize(element) {
+                    element.style.height = 'auto';  // 기본 높이를 자동으로 설정
+                    element.style.height = (element.scrollHeight) + 'px'; // 내용에 맞게 높이를 조정
+                }
+                // 페이지 로드 시 내용에 맞춰 높이를 자동 조정
+                window.addEventListener('load', function () {
+                    var textarea = document.getElementById('ulContents');
+                    autoResize(textarea);  // 페이지 로딩 시에도 크기 조정
+                });
+            </script>
+
             <hr>
 
             <!--             댓글 위치-->
-                <section th:replace="~{/layout/comment :: comment(${comments})}"> replace로 할경우    </section>
+            <section th:replace="~{/layout/comment :: comment(${comments})}"> replace로 할경우</section>
 
 
             <hr>
@@ -217,9 +372,12 @@
                     </ul>
                 </div>
             </section>
-            <br><br><br><br><br><br><br><br><br><br><br><br><br><br>
+
+
         </div>
-    </div>
+
+    </section>
+
 </main>
 </body>
 </html>

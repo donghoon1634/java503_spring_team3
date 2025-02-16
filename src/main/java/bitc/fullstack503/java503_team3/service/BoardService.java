@@ -22,4 +22,6 @@ public interface BoardService {
 
     //    인기글 정렬
     List<UserlifeDTO> getPopularPosts(int limit);
+
+
 }
