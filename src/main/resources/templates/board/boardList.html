@@ -92,8 +92,10 @@
                         <a href="#" class="text-decoration-none text-dark fs-3" th:href="@{|/board/${item.ulIdx}|}" th:text="${item.ulTitle}">게시물 제목</a>
                     </div>
                     <!-- 게시물 내용 -->
+                    <!-- 게시물 내용 길이 변경 -->
                     <div class="text-start">
-                        <a href="#" class="text-decoration-none text-dark fs-5" th:href="@{|/board/${item.ulIdx}|}" th:text="${item.ulContents}">게시물 내용 </a>
+                        <a href="#" class="text-decoration-none text-dark fs-5" th:href="@{|/board/${item.ulIdx}|}"
+                           th:text="${item.ulContents.length() > 30 ? #strings.substring(item.ulContents, 0, 30) + '...' : item.ulContents}">게시물 내용</a>
                     </div>
                     <!--  위치, 카테고리-->
                     <div id="cate">
