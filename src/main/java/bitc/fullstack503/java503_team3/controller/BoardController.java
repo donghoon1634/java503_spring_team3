@@ -83,9 +83,18 @@ public String insertBoard(HttpServletRequest request) throws Exception {
     @RequestMapping(value = "/board/{ulIdx}", method = RequestMethod.GET)
     public ModelAndView selectBoardDetail(@PathVariable("ulIdx") int ulIdx)  throws Exception {
         ModelAndView mav = new ModelAndView("board/boardDetail");
-
         UserlifeDTO ul = boardService.selectBoardDetail(ulIdx);
+
+
+        // 게시물 번호에 해당하는 댓글 목록 가져오기
+//        List<UserlifeCommentDTO> ulcomment = ulCommentService.getUlCommentByUlIdx(ulIdx);
+        List<UserlifeCommentDTO> ulcomment = ulCommentService.getCommentsByPage(ulIdx,0,5);
         mav.addObject("ul", ul);
+        // ulcomment는 댓글정보
+        mav.addObject("ulcomment", ulcomment);
+
+
+
 
         return mav;
 

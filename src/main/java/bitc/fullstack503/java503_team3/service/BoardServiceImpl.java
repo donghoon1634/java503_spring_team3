@@ -3,7 +3,6 @@ package bitc.fullstack503.java503_team3.service;
 import bitc.fullstack503.java503_team3.dto.UserlifeDTO;
 import bitc.fullstack503.java503_team3.dto.UserlifeFileDTO;
 import bitc.fullstack503.java503_team3.mapper.BoardMapper;
-import bitc.fullstack503.java503_team3.mapper.UlCommentMapper;
 import bitc.fullstack503.java503_team3.util.UlFileUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;

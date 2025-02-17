@@ -17,8 +17,9 @@ public interface BoardMapper {
 
     //    게시물 작성
     void insertBoard(UserlifeDTO ul);
-//    void insertBoard(List<UserlifeDTO> fileList) throws Exception;
-void insertFileList(@Param("fileList") List<UserlifeFileDTO> fileList,@Param("ulIdx")int ulIdx);
+
+    //    void insertBoard(List<UserlifeDTO> fileList) throws Exception;
+    void insertFileList(@Param("fileList") List<UserlifeFileDTO> fileList, @Param("ulIdx") int ulIdx);
 
     // 상세
     UserlifeDTO selectBoardDetail(int ulIdx);
@@ -35,7 +36,7 @@ void insertFileList(@Param("fileList") List<UserlifeFileDTO> fileList,@Param("ul
     //게시물 삭제
     void deleteBoard(int ulIdx);
 
-//    조회수 정렬
+    //    조회수 정렬
     List<UserlifeDTO> getPopularPosts(@Param("limit") int limit);
 
 
