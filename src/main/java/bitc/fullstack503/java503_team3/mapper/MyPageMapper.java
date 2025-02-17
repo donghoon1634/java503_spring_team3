@@ -3,7 +3,11 @@ package bitc.fullstack503.java503_team3.mapper;
 import bitc.fullstack503.java503_team3.dto.userMyPageDTO;
 import org.apache.ibatis.annotations.Mapper;
 
+import java.util.List;
+
 @Mapper
 public interface MyPageMapper {
     void updateMyPage(userMyPageDTO myPage);
+
+    List<userMyPageDTO> selectMyPage(String myPageUser);
 }

@@ -4,10 +4,15 @@
         "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="bitc.fullstack503.java503_team3.mapper.MyPageMapper">
 
-   <update id="updateMyPage" parameterType="bitc.fullstack503.java503_team3.dto.userMyPageDTO">
-    update user_mypage
-    set user_mypage_contents = #{userMyPageContents}
-    where  mypage_user = #{myPageUser}
-   </update>
+   <insert id="updateMyPage" parameterType="bitc.fullstack503.java503_team3.dto.userMyPageDTO">
+       insert into user_mypage (user_mypage_board_idx, mypage_user, user_mypage_contents)
+       values(#{userMyPageBoardIdx},#{myPageUser},#{userMyPageContents});
+   </insert>
 
+    <select id="selectMyPage" resultType="bitc.fullstack503.java503_team3.dto.userMyPageDTO">
+        select  mypage_user, user_mypage_contents
+        from user_mypage
+        where mypage_user = #{myPageUser}
+        order by user_mypage_idx desc;
+    </select>
 </mapper>

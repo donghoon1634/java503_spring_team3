@@ -19,7 +19,7 @@
                 $("#method").val("PUT");
 
                 var frm = $("#frm")[0];
-                frm.action="/potato/myPage";
+                frm.action="/potato/myPage/테스터1";
                 frm.submit();
             });
         });
@@ -35,21 +35,18 @@
                 </div>
                 <div class="col-sm mt-2">
                     <div class="form-floating">
-                        <input type="text" class="form-control" id="seller" name="seller" placeholder="사용자 ID">
-                        <label for="seller"></label>
+                        <input type="text" class="form-control" id="seller" name="seller" placeholder="사용자 ID" >
+                        <label for="seller" th:text="${myPage.myPageUser}"></label>
                     </div>
                 </div>
             </aside>
             <div class="container mt-5">
-                <div class="text-center">
-
-                </div>
-                <hr>
-                <form class="mt-3" id="frm" method="post">
+             <form th:action="@{/myPage/{myPageUser}(myPageUser=${myPageUser})}" class="mt-3" id="frm" method="post">
                     <input type="hidden" name="_method" value="PUT">
+
                 <div class="col-sm">
-                    <textarea class="ms-5" id="intro" name="userMyPageContents" placeholder="자기 소개를 적어주세요" rows="3"
-                              style="width: 700px" ></textarea>
+                    <textarea class="ms-5" id="intro" name="userMyPageContents" placeholder="자기 소개를 적어주세요" rows="3" style="width: 700px" th:text="${myPage.userMyPageContents}"></textarea>
+
                     <label for="intro"></label>
                     <button type="button" class="mt-5 btn justify-content-end" style="background-color: #fff7c9" id="intro-edit">수정하기</button>
                 </div>
