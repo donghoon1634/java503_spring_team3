@@ -87,6 +87,7 @@
 
     <script>
         $(document).ready(function () {
+            var descOrAsc = "desc"
 
             // 댓글 추천 버튼에 대한 이벤트 위임
             $(document).on("click", ".ulCommentLike", function () {
@@ -120,8 +121,11 @@
                         button.closest('.d-flex.mb-3').remove();
                         alert("댓글이 삭제되었습니다.");  // 사용자에게 알림
 
+                        // 삭제 후 전체 댓글 목록을 다시 불러오기
+                        loadComments();  // 댓글을 다시 로드하는 함수 호출
+
                         // 댓글 삭제 후 더보기 버튼 상태 갱신
-                        checkLoadMoreButton();
+                        // checkLoadMoreButton();
                     },
                     error: function (xhr, status, error) {
                         // 실패 시 에러를 출력하고, 문제를 사용자에게 알림
@@ -133,10 +137,13 @@
 
             // 댓글 등록순 버튼 클릭
             $(document).on("click", "#ulCommentIdxAsc", function () {
-
+                var offset = 0;  // 첫 번째 로딩은 0부터 시작
+                var limit = 5;   // 한 번에 5개씩 로드
+                descOrAsc = "asc"
                 $.ajax({
                     url: "/ulComment/asc/" + ulIdx,
                     method: "GET",
+                    data: { offset: offset, limit: limit}, // offset, limit 추가
                     success: function (data) {
                         let commentHtml = '';
                         data.forEach(function (comment) {
@@ -161,22 +168,33 @@
                     </div>
                 `;
                         });
+                        // 댓글 목록을 갱신
                         $("#commentsList").html(commentHtml);
+
+                        // 더보기 버튼 상태 갱신
+                        checkLoadMoreButton(); // 더보기 버튼 갱신
                         alert("등록순");
-                        checkLoadMoreButton(); // 더보기 버튼 상태 갱신
                     },
-                    error: function (error) {
-                        console.error("Error: " + error);
-                        alert("오류");
+                    error: function (xhr, status, error) {
+                        // 서버의 응답을 더 자세히 출력
+                        console.error("Error Status: " + status);
+                        console.error("Error Thrown: " + error);
+                        console.error("Response Text: " + xhr.responseText);
+
+                        // 오류 메시지 처리
+                        alert("서버에서 오류가 발생했습니다. 관리자에게 문의해주세요.");
                     }
                 });
             });
-
             // 댓글 최신순 버튼 클릭
             $(document).on("click", "#ulCommentIdxDesc", function () {
+                var offset = 0;  // 첫 번째 로딩은 0부터 시작
+                var limit = 5;   // 한 번에 5개씩 로드
+                descOrAsc = "desc";
                 $.ajax({
                     url: "/ulComment/desc/" + ulIdx,
                     method: "GET",
+                    data: { offset: offset, limit: limit}, // offset, limit 추가
                     success: function (data) {
                         let commentHtml = '';
                         data.forEach(function (comment) {
@@ -201,13 +219,21 @@
                     </div>
                 `;
                         });
+                        // 댓글 목록을 갱신
                         $("#commentsList").html(commentHtml);
+
+                        // 더보기 버튼 상태 갱신
+                        checkLoadMoreButton(); // 더보기 버튼 갱신
                         alert("최신순");
-                        checkLoadMoreButton(); // 더보기 버튼 상태 갱신
                     },
-                    error: function (error) {
-                        console.error("Error: " + error);
-                        alert("오류");
+                    error: function (xhr, status, error) {
+                        // 서버의 응답을 더 자세히 출력
+                        console.error("Error Status: " + status);
+                        console.error("Error Thrown: " + error);
+                        console.error("Response Text: " + xhr.responseText);
+
+                        // 오류 메시지 처리
+                        alert("서버에서 오류가 발생했습니다. 관리자에게 문의해주세요.");
                     }
                 });
             });
@@ -215,9 +241,17 @@
             // 더보기 버튼 클릭 시
             $(document).on("click", "#loadMoreComments", function () {
                 var offset = $("#commentsList .comment").length;  // 현재 로드된 댓글 수로 offset 설정
-                $.get("/board/" + ulIdx + "/moreComments", {offset: offset}, function (data) {
-                    for (var i = 0; i < data.length; i++) {
-                        var commentHtml = `
+                var limit = 5;  // limit 값을 5로 설정
+                $.ajax({
+                    url: "/board/" + ulIdx + "/moreComments",
+                    method: "GET",
+                    data: { offset: offset, limit: limit, descOrAsc: descOrAsc }, // offset, limit 추가
+                    success: function (data) {
+                        console.log(data);  // 서버에서 반환된 데이터 확인
+                        if (Array.isArray(data)) {  // data가 배열인지 확인
+                            let commentHtml = '';
+                            for (var i = 0; i < data.length; i++) {
+                                commentHtml = `
                 <div class="d-flex mb-3 comment">
                         <div class="col-sm-1">
                             <img src="/img/프로필.jpg" style="width: 40px; height: 40px" alt="프로필">
@@ -237,13 +271,18 @@
                         </div>
                     </div>
             `;
-                        $("#commentsList").append(commentHtml);
+                                $("#commentsList").append(commentHtml);
+                            }
+                            // 더보기 버튼이 더 이상 필요 없으면 숨김 처리
+                            if (data.length < 5) {
+                                $("#loadMoreComments").hide();
+                            }
+                        } else {
+                            console.error("서버에서 반환된 데이터가 배열이 아닙니다.");
+                        }
                     }
-                    // 더보기 버튼이 더 이상 필요 없으면 숨김 처리
-                    if (data.length < 5) {
-                        $("#loadMoreComments").hide();
-                    }
-                });
+                    });
+
             });
 
             // 댓글 삭제 후 더보기 버튼 상태 확인
@@ -258,6 +297,50 @@
                     }
                 });
             }
+
+            // 댓글 목록을 다시 불러오는 함수
+            function loadComments() {
+                $.ajax({
+                    url: "/board/"+ulIdx+"/loadComments", // 댓글 목록을 가져오는 API
+                    method: "GET",
+                    // data: {offset: 5, limit: 5},
+                    success: function (data) {
+                        let commentHtml = '';
+                        data.forEach(function (comment) {
+                            commentHtml += `
+                    <div class="d-flex mb-3 comment">
+                        <div class="col-sm-1">
+                            <img src="/img/프로필.jpg" style="width: 40px; height: 40px" alt="프로필">
+                        </div>
+                        <div class="ml-1 flex-grow-1">
+                            <p class="d-none commentIdx" name="commentIdx">${comment.ulCommentIdx}</p>
+                            <p><strong>${comment.ulCommentNickname}</strong></p>
+                            <p><span>${comment.ulCommentLocation}</span> <span>${comment.ulCommentcreatedate}</span></p>
+                            <p><strong>${comment.ulCommentContents}</strong></p>
+                            <div class="d-flex justify-content-between align-items-center">
+                                <div class="d-flex align-items-center">
+                                    <img src="/img/good.png" style="width:22px; height: 22px;" alt="추천" class="ulCommentLike">
+                                    <span>${comment.ulCommentLike}</span>
+                                </div>
+                                <button type="button" class="btn btn-outline-dark text-dark ulcommentDelete">삭제</button>
+                            </div>
+                        </div>
+                    </div>
+                `;
+                        });
+                        $("#commentsList").html(commentHtml);  // 댓글 리스트 갱신
+                        checkLoadMoreButton();  // 더보기 버튼 상태 갱신
+                    },
+                    error: function (error) {
+                        console.log("Error: " + error);
+                        alert("댓글 목록을 불러오는 데 실패했습니다.");
+                    }
+                });
+            }
+
+            // 페이지 로드 시 더보기 버튼 상태 초기화
+            checkLoadMoreButton();  // 페이지 로딩 시 처음 댓글 수에 맞게 더보기 버튼 표시 여부 확인
+
         });
     </script>
 

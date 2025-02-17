@@ -21,13 +21,13 @@
     <select id="ulCommentAsc" resultType="bitc.fullstack503.java503_team3.dto.UserlifeCommentDTO">
         select ul_comment_idx,ul_comment_nickname,ul_comment_location, date_format(ul_comment_createdate,'%Y.%m.%d')
         as ul_comment_createdate, ul_comment_contents, ul_comment_like from userlife_comment
-        where ul_comment_ul_idx = #{ulCommentUlIdx} order by ul_comment_idx ASC
+        where ul_comment_ul_idx = #{ulIdx} order by ul_comment_idx ASC LIMIT #{offset}, #{limit}
     </select>
 <!--    최신순 댓글 조회-->
     <select id="ulCommentDesc" resultType="bitc.fullstack503.java503_team3.dto.UserlifeCommentDTO">
         select ul_comment_idx,ul_comment_nickname,ul_comment_location, date_format(ul_comment_createdate,'%Y.%m.%d')
         as ul_comment_createdate, ul_comment_contents, ul_comment_like from userlife_comment
-        where ul_comment_ul_idx = #{ulCommentUlIdx} order by ul_comment_idx desc
+        where ul_comment_ul_idx = #{ulIdx} order by ul_comment_idx desc LIMIT #{offset}, #{limit}
     </select>
 <!--    댓글을 추가하는 API-->
     <insert id="ulCommentInsert" parameterType="bitc.fullstack503.java503_team3.dto.UserlifeCommentDTO">
@@ -41,10 +41,18 @@
 
     <!-- 페이지별로 댓글 가져오기 -->
     <select id="selectCommentsByPage" resultType="bitc.fullstack503.java503_team3.dto.UserlifeCommentDTO">
-        SELECT * FROM userlife_comment
-        WHERE ul_comment_ul_idx = #{ulIdx}
-        ORDER BY ul_comment_createdate DESC
-        LIMIT #{offset}, #{limit}
+        select ul_comment_idx,ul_comment_nickname,ul_comment_location, date_format(ul_comment_createdate,'%Y.%m.%d')
+        as ul_comment_createdate, ul_comment_contents, ul_comment_like from userlife_comment
+        where ul_comment_ul_idx = #{ulIdx} order by ul_comment_idx desc LIMIT #{offset}, #{limit}
     </select>
 
+    <select id="selectCommentsAscByPage" resultType="bitc.fullstack503.java503_team3.dto.UserlifeCommentDTO">
+        select ul_comment_idx,ul_comment_nickname,ul_comment_location, date_format(ul_comment_createdate,'%Y.%m.%d')
+        as ul_comment_createdate, ul_comment_contents, ul_comment_like from userlife_comment
+        where ul_comment_ul_idx = #{ulIdx} order by ul_comment_idx asc LIMIT #{offset}, #{limit}
+    </select>
+
+    <select id="getTotalCommentCount" resultType="int">
+        SELECT COUNT(*) FROM  userlife_comment   WHERE ul_comment_ul_idx = #{ulIdx}
+    </select>
 </mapper>

@@ -26,13 +26,13 @@ public class UlCommentServiceImpl implements UlCommentService {
     }
     // 댓글 등록순
     @Override
-    public List<UserlifeCommentDTO> ulCommentAsc(int ulIdx) {
-        return ulCommentMapper.ulCommentAsc(ulIdx);
+    public List<UserlifeCommentDTO> ulCommentAsc(int ulIdx, int offset, int limit) {
+        return ulCommentMapper.ulCommentAsc(ulIdx, offset, limit);
     }
-    // 댓글 추천순
+    // 댓글 최신순
     @Override
-    public List<UserlifeCommentDTO> ulCommentDesc(int ulIdx) {
-        return ulCommentMapper.ulCommentDesc(ulIdx);
+    public List<UserlifeCommentDTO> ulCommentDesc(int ulIdx, int offset, int limit) {
+        return ulCommentMapper.ulCommentDesc(ulIdx, offset, limit);
     }
     // 댓글을 추가하는 API
     @Override
@@ -44,10 +44,32 @@ public class UlCommentServiceImpl implements UlCommentService {
     public void ulCommentdelet(int ulIdx) {
         ulCommentMapper.ulCommentdelet(ulIdx);
     }
-    // 댓글 5개씩
+    // 기본댓글 5개씩
     @Override
     public List<UserlifeCommentDTO> getCommentsByPage(int ulIdx, int offset, int limit) {
         return ulCommentMapper.selectCommentsByPage(ulIdx, offset, limit);
     }
+
+    @Override
+    public int getTotalCommentCount(Long ulIdx) {
+        return ulCommentMapper.getTotalCommentCount(ulIdx);
+    }
+
+    // 더보기
+    @Override
+    public List<UserlifeCommentDTO> getCommentsByPage(int ulIdx, int offset, int limit, String descOrAsc) {
+        if ("desc".equalsIgnoreCase(descOrAsc)) {
+            // 내림차순인 경우
+            return ulCommentMapper.selectCommentsByPage(ulIdx, offset, limit);
+        } else if ("asc".equalsIgnoreCase(descOrAsc)) {
+            // 오름차순인 경우
+            return ulCommentMapper.selectCommentsAscByPage(ulIdx, offset, limit);
+        } else {
+            // desc 또는 asc 외의 값이 들어왔을 경우에 대한 처리 (옵션)
+            throw new IllegalArgumentException("Invalid value for descOrAsc: " + descOrAsc);
+        }
+
+    }
+
 
 }

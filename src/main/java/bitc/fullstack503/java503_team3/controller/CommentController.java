@@ -9,7 +9,9 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import bitc.fullstack503.java503_team3.service.UlCommentService;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @Controller
 
@@ -17,25 +19,30 @@ public class CommentController {
 
     @Autowired
     private UlCommentService ulCommentService;
-    
+
     // 댓글 등록순
     @ResponseBody
     @GetMapping("/ulComment/asc/{ulIdx}")
-    public List<UserlifeCommentDTO> ulCommentAsc(@PathVariable int ulIdx) {
-        return ulCommentService.ulCommentAsc(ulIdx);
+    public List<UserlifeCommentDTO> ulCommentAsc(@PathVariable int ulIdx, @RequestParam("offset") int offset,
+                                                 @RequestParam("limit") int limit) {
+        return ulCommentService.ulCommentAsc(ulIdx, offset, limit);
     }
+
     // 댓글 최신순
     @ResponseBody
     @GetMapping("/ulComment/desc/{ulIdx}")
-    public List<UserlifeCommentDTO> ulCommentDesc(@PathVariable int ulIdx) {
-        return ulCommentService.ulCommentDesc(ulIdx);
+    public List<UserlifeCommentDTO> ulCommentDesc(@PathVariable int ulIdx, @RequestParam("offset") int offset,
+                                                  @RequestParam("limit") int limit) {
+        return ulCommentService.ulCommentDesc(ulIdx, offset, limit);
     }
+
     // 댓글 추천수를 증가시키는 API
     @ResponseBody
     @PostMapping("/ulComment/like/{ulCommentIdx}")
     public Object ulCommentLikeUpDate(@PathVariable("ulCommentIdx") int ulCommentIdx) throws Exception {
         return ulCommentService.ulCommentLikeUpDate(ulCommentIdx);  // ulCommentIdx를 서비스로 전달
     }
+
     // 댓글 등록 처리
     @PostMapping("/board/{ulIdx}/add")
     public String ulCommentInsert(@PathVariable("ulIdx") int ulIdx, UserlifeCommentDTO ulcDTO, HttpServletRequest request) throws Exception {
@@ -43,6 +50,7 @@ public class CommentController {
         ulCommentService.ulCommentInsert(ulcDTO);
         return "redirect:/board/" + ulIdx;
     }
+
     // 댓글 삭제
     @DeleteMapping("/board/comment/{ulIdx}")
     public ResponseEntity<String> ulCommentDelete(@PathVariable("ulIdx") int ulIdx) throws Exception {
@@ -56,11 +64,29 @@ public class CommentController {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("댓글 삭제에 실패했습니다.");
         }
     }
+
     // 댓글 5개씩
     @GetMapping("/board/{ulIdx}/moreComments")
     @ResponseBody
-    public List<UserlifeCommentDTO> getMoreComments(@PathVariable("ulIdx") int ulIdx, @RequestParam("offset") int offset) {
-        return ulCommentService.getCommentsByPage(ulIdx, offset, 5); // offset을 기준으로 댓글 가져오기
+    public List<UserlifeCommentDTO> getMoreComments(@PathVariable("ulIdx") int ulIdx, @RequestParam("offset") int offset, @RequestParam("limit") int limit, @RequestParam("descOrAsc") String descOrAsc) {
+        return ulCommentService.getCommentsByPage(ulIdx, offset, 5, descOrAsc); // offset을 기준으로 댓글 가져오기
+    }
+
+    // 댓글 총 개수 요청 처리
+    @GetMapping("/board/{ulIdx}/totalCommentCount")
+    @ResponseBody
+    public ResponseEntity<Map<String, Integer>> getTotalCommentCount(@PathVariable("ulIdx") Long ulIdx) {
+        int totalCount = ulCommentService.getTotalCommentCount(ulIdx);
+        Map<String, Integer> response = new HashMap<>();
+        response.put("totalCount", totalCount);
+        return ResponseEntity.ok(response);
+    }
+
+    // 댓글목록다시 들고오기
+    @ResponseBody
+    @GetMapping("/board/{ulIdx}/loadComments")
+    public List<UserlifeCommentDTO> getUlCommentByUlIdx(@PathVariable int ulIdx) {
+        return ulCommentService.getUlCommentByUlIdx(ulIdx);
     }
 
 }

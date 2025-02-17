@@ -14,13 +14,17 @@ public interface UlCommentMapper {
     // 추천수 가져오기
     Object ulCommentLikeSelect(int ulCommentIdx);
     // 등록순 댓글 조회
-    List<UserlifeCommentDTO> ulCommentAsc(int ulIdx);
+    List<UserlifeCommentDTO> ulCommentAsc(int ulIdx, int offset, int limit);
     // 최신순 댓글 조회
-    List<UserlifeCommentDTO> ulCommentDesc(int ulIdx);
+    List<UserlifeCommentDTO> ulCommentDesc(int ulIdx, int offset, int limit);
     // 댓글을 추가하는 API
     int ulCommentInsert(UserlifeCommentDTO ulcDTO);
     // 댓글 삭제
     void ulCommentdelet(int ulIdx);
-    // 댓글 5개씩
+    // 기본댓글 5개씩 최신순
     List<UserlifeCommentDTO> selectCommentsByPage(int ulIdx, int offset, int limit);
+    // 댓글 총 개수 반환
+    int getTotalCommentCount(Long ulIdx);
+    // 댓글목록 등록순으로 댓글목록 다시불러오기
+    List<UserlifeCommentDTO> selectCommentsAscByPage(int ulIdx, int offset, int limit);
 }
