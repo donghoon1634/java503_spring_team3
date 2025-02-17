@@ -7,6 +7,7 @@ public class productEditDTO {
     private int idx;
     private int productEditBoardIdx;
     private String productEditUser;
+    private String productEditImg;
     private String productEditTitle;
     private int productEditPrice;
     private String productEditContents;

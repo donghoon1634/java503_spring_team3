@@ -15,4 +15,26 @@
         where mypage_user = #{myPageUser}
         order by user_mypage_idx desc;
     </select>
+
+    <select id="selectMyPageProduct" resultType="bitc.fullstack503.java503_team3.dto.userMyPageProductEditDTO">
+        SELECT
+        user_mypage_product_edit_idx ,user_mypage_product_edit_name ,user_mypage_product_edit_imgs ,user_mypage_product_edit_price
+        FROM user_mypage_product_edit
+        WHERE user_mypage_product_edit_mypage_user = #{userMyPageProductEditMyPageUser}
+    </select>
+
+
+    <select id="selectMyPage1" resultType="bitc.fullstack503.java503_team3.dto.userMyPageDTO">
+        select  mypage_user, user_mypage_contents
+        from user_mypage
+        where mypage_user = #{myPageUser}
+        order by user_mypage_idx desc;
+    </select>
+
+    <select id="selectMyPageProduct1" resultType="bitc.fullstack503.java503_team3.dto.userMyPageProductEditDTO">
+        SELECT
+        user_mypage_product_edit_idx ,user_mypage_product_edit_name ,user_mypage_product_edit_imgs ,user_mypage_product_edit_price
+        FROM user_mypage_product_edit
+        WHERE user_mypage_product_edit_mypage_user = #{userMyPageProductEditMyPageUser}
+    </select>
 </mapper>

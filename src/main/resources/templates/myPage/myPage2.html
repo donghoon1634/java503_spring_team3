@@ -2,7 +2,7 @@
 <html lang="ko" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title>내가 보는 마이페이지</title>
+    <title>남이 보는 마이페이지</title>
 
     <link rel="stylesheet" href="/css/bootstrap.css">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
@@ -55,9 +55,6 @@
                                   style="width: 700px" th:text="${myPage.userMyPageContents}"></textarea>
 
                         <label for="intro"></label>
-                        <button type="button" class="mt-5 btn justify-content-end" style="background-color: #fff7c9"
-                                id="intro-edit">수정하기
-                        </button>
                     </div>
                 </form>
             </div>
@@ -70,7 +67,7 @@
             <div class="form-floating mt-3 d-flex">
                 <div class="container d-flex">
                     <div th:each="product:${umpe}" class="me-3">
-                        <a href="/potato/myPage/edit">
+                        <a href="#">
                             <img src="/image/box.png" alt="기본 이미지"
                                          th:src="${product.userMyPageProductEditImgs}" width="200px" height="200px"></a>
                         <div th:text="${product.userMyPageProductEditName}">이름</div>
