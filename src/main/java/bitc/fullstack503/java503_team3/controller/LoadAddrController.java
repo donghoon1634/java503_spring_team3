@@ -14,15 +14,6 @@ public class LoadAddrController
   @Autowired
   private LoadAddrService loadAddrService;
   
-  @GetMapping ("/test")
-  public ModelAndView test () throws Exception
-  {
-    ModelAndView mv = new ModelAndView ("/test");
-    List<String> guList = loadAddrService.selectLoadAddrGu ();
-    mv.addObject ("guList", guList);
-    return mv;
-  }
-  
   @GetMapping ("/test/getDong")
   @ResponseBody
   public List<String> getSelectedValue (@RequestParam ("gu") String gu) throws Exception
@@ -49,5 +40,19 @@ public class LoadAddrController
   public List<String> getSelectedValue (@RequestParam ("gu") String gu, @RequestParam ("dong") String dong, @RequestParam ("ro") String ro, @RequestParam ("mainNum") String mainNum) throws Exception
   {
     return loadAddrService.selectLoadAddrSubNum (gu, dong, ro, mainNum);
+  }
+  
+  @GetMapping ("/test/getAddr")
+  @ResponseBody
+  public String getLoadAddr (@RequestParam ("gu") String gu, @RequestParam ("dong") String dong, @RequestParam ("ro") String ro, @RequestParam ("mainNum") String mainNum) throws Exception
+  {
+    return loadAddrService.selectLoadAddr (gu, dong, ro, mainNum);
+  }
+  
+  @GetMapping ("/test/getAddrWithSubNum")
+  @ResponseBody
+  public String getLoadAddr (@RequestParam ("gu") String gu, @RequestParam ("dong") String dong, @RequestParam ("ro") String ro, @RequestParam ("mainNum") String mainNum, @RequestParam ("subNum") String subNum) throws Exception
+  {
+    return loadAddrService.selectLoadAddrWithSubNum (gu, dong, ro, mainNum, subNum);
   }
 }

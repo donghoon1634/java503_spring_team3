@@ -16,10 +16,16 @@
     values (#{memberId}, #{memberPw}, #{memberNickname}, #{memberPhone}, #{memberAddr}, #{memberAddrDetail})
   </insert>
   <select id="signIn" parameterType="bitc.fullstack503.java503_team3.dto.MemberDTO"
-          resultType="bitc.fullstack503.java503_team3.dto.MemberDTO">
+          resultType="int">
     select count(*)
     from member
     where member_id = #{memberId}
       and member_pw = #{memberPw}
+  </select>
+  
+  <select id="memberInfo" resultType="bitc.fullstack503.java503_team3.dto.MemberDTO">
+    select *
+    from member
+    where member_id = #{memberId}
   </select>
 </mapper>

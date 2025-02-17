@@ -39,4 +39,32 @@
       and load_addr_main_num = #{loadAddrMainNum}
     order by load_addr_sub_num asc
   </select>
+  
+  <select id="selectLoadAddr" parameterType="java.lang.String"
+          resultType="java.lang.String">
+    select load_addr_idx
+    from load_addr
+    where load_addr_gu = #{loadAddrGu}
+      and load_addr_dong = #{loadAddrDong}
+      and load_addr_ro = #{loadAddrRo}
+      and load_addr_main_num = #{loadAddrMainNum}
+  </select>
+  
+  <select id="selectLoadAddrWithSubNum" parameterType="java.lang.String"
+          resultType="java.lang.String">
+    select load_addr_idx
+    from load_addr
+    where load_addr_gu = #{loadAddrGu}
+      and load_addr_dong = #{loadAddrDong}
+      and load_addr_ro = #{loadAddrRo}
+      and load_addr_main_num = #{loadAddrMainNum}
+      and load_addr_sub_num = #{loadAddrSubNum}
+  </select>
+  
+  <select id="selectLoadAddrIdx" parameterType="java.lang.String"
+          resultType="bitc.fullstack503.java503_team3.dto.LoadAddrDTO">
+    select *
+    from load_addr
+    where load_addr_idx = #{loadAddrIdx}
+  </select>
 </mapper>

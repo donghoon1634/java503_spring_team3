@@ -8,5 +8,7 @@ public interface MemberService
   
   public void signUp (MemberDTO member) throws Exception;
   
-  public MemberDTO signIn (MemberDTO member) throws Exception;
+  public boolean signIn (MemberDTO member) throws Exception;
+  
+  public MemberDTO memberInfo (String memberId) throws Exception;
 }

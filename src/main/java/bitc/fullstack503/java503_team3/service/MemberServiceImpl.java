@@ -30,9 +30,14 @@ public class MemberServiceImpl implements MemberService
   }
   
   @Override
-  public MemberDTO signIn (MemberDTO member) throws Exception
+  public boolean signIn (MemberDTO member) throws Exception
   {
-    memberMapper.signIn (member);
-    return null;
+    return memberMapper.signIn (member) > 0;
+  }
+  
+  @Override
+  public MemberDTO memberInfo (String memberId) throws Exception
+  {
+    return memberMapper.memberInfo (memberId);
   }
 }
