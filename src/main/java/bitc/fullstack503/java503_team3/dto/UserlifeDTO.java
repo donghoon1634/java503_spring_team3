@@ -2,6 +2,10 @@ package bitc.fullstack503.java503_team3.dto;
 
 
 import lombok.Data;
+import org.springframework.web.multipart.MultipartFile;
+
+import java.util.List;
+
 
 @Data
 public class UserlifeDTO {
@@ -17,9 +21,6 @@ public class UserlifeDTO {
     private String ulCate;
     private String ulMemberId;
     private String ulUpdateDate;
-    private String ulImg;
-
-
 
 
 

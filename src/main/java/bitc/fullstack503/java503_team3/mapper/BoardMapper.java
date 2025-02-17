@@ -1,6 +1,7 @@
 package bitc.fullstack503.java503_team3.mapper;
 
 import bitc.fullstack503.java503_team3.dto.UserlifeDTO;
+import bitc.fullstack503.java503_team3.dto.UserlifeFileDTO;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 
@@ -16,6 +17,8 @@ public interface BoardMapper {
 
     //    게시물 작성
     void insertBoard(UserlifeDTO ul);
+//    void insertBoard(List<UserlifeDTO> fileList) throws Exception;
+void insertFileList(@Param("fileList") List<UserlifeFileDTO> fileList,@Param("ulIdx")int ulIdx);
 
     // 상세
     UserlifeDTO selectBoardDetail(int ulIdx);

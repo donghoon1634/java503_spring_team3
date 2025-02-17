@@ -10,10 +10,13 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 import org.springframework.web.servlet.ModelAndView;
 
+import java.io.File;
 import java.util.List;
+import java.util.UUID;
 
 @Controller
 public class BoardController {
@@ -39,6 +42,9 @@ public class BoardController {
         return mav;
     }
 
+
+
+
 //    게시글 쓰기
 // 작성 화면
 @GetMapping("/board/write")
@@ -53,10 +59,11 @@ public String insertBoard(HttpServletRequest request) throws Exception {
     return "board/BoardWrite";
 
 }
-
+// 등록처리
     @PostMapping("/board/write")
-    public String insertBoard(UserlifeDTO ul, MultipartHttpServletRequest multipart, HttpServletRequest request)throws Exception{
-        HttpSession session = request.getSession();
+    public String insertBoard( UserlifeDTO ul, MultipartHttpServletRequest multipart , HttpServletRequest request)throws Exception{
+
+//        HttpSession session = request.getSession();
 //        if (session.getAttribute("id") == null) {
 //            return "redirect:/login"; // 로그인하지 않은 겨우
 //        }
@@ -64,9 +71,12 @@ public String insertBoard(HttpServletRequest request) throws Exception {
 //            boardService.insertBoard(ul);
 //            return "redirect:/board";
 //        }
-        boardService.insertBoard(ul);
+        boardService.insertBoard(ul,multipart);
         return "redirect:/board";
     }
+
+
+
 
     //  @PathVariable : @RequestParam 과 동일한 역할을 하는 어노테이션, REST 방식 사용 시 URI 에 {} 로 지정해 놓은 리소스 값을 받아오는 어노테이션
 //  게시물 상세
@@ -98,6 +108,7 @@ public String insertBoard(HttpServletRequest request) throws Exception {
         boardService.deleteBoard(ulIdx);
         return "redirect:/board";
     }
+
 
 
 

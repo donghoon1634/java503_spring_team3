@@ -12,10 +12,20 @@
     </select>
 
 <!--게시글 작성-->
-    <insert id="insertBoard" parameterType="bitc.fullstack503.java503_team3.dto.UserlifeDTO">
+    <insert id="insertBoard" parameterType="map" >
         insert into userlife(ul_title ,ul_nickname, ul_contents, ul_place, ul_create_date, ul_cate, ul_member_id)
-        values(#{ulTitle},#{ulNickname},#{ulContents},#{ulPlace},now(),#{ulCate},#{ulMemberId})
+        values(#{ulTitle},#{ulNickname},#{ulContents},#{ulPlace}, now(), #{ulCate}, #{ulMemberId})
     </insert>
+
+<!--첨부파일추가-->
+    <insert id="insertFileList" parameterType="bitc.fullstack503.java503_team3.dto.UserlifeFileDTO">
+        insert into userlife_file(ul_idx,ul_original_file_name,ul_stored_file_name,ul_file_size)
+        values
+        <foreach collection="fileList" item="file" separator=",">
+            (#{ulIdx}, #{file.ulOriginalFileName}, #{file.ulStoredFileName}, #{file.ulFileSize})
+        </foreach>
+    </insert>
+
 
 
 
