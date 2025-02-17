@@ -17,26 +17,25 @@ public class CommentController {
 
     @Autowired
     private UlCommentService ulCommentService;
-
+    
+    // 댓글 등록순
     @ResponseBody
     @GetMapping("/ulComment/asc/{ulIdx}")
     public List<UserlifeCommentDTO> ulCommentAsc(@PathVariable int ulIdx) {
         return ulCommentService.ulCommentAsc(ulIdx);
     }
-
+    // 댓글 최신순
     @ResponseBody
     @GetMapping("/ulComment/desc/{ulIdx}")
     public List<UserlifeCommentDTO> ulCommentDesc(@PathVariable int ulIdx) {
         return ulCommentService.ulCommentDesc(ulIdx);
     }
-
     // 댓글 추천수를 증가시키는 API
     @ResponseBody
     @PostMapping("/ulComment/like/{ulCommentIdx}")
     public Object ulCommentLikeUpDate(@PathVariable("ulCommentIdx") int ulCommentIdx) throws Exception {
         return ulCommentService.ulCommentLikeUpDate(ulCommentIdx);  // ulCommentIdx를 서비스로 전달
     }
-
     // 댓글 등록 처리
     @PostMapping("/board/{ulIdx}/add")
     public String ulCommentInsert(@PathVariable("ulIdx") int ulIdx, UserlifeCommentDTO ulcDTO, HttpServletRequest request) throws Exception {
@@ -44,7 +43,6 @@ public class CommentController {
         ulCommentService.ulCommentInsert(ulcDTO);
         return "redirect:/board/" + ulIdx;
     }
-
     // 댓글 삭제
     @DeleteMapping("/board/comment/{ulIdx}")
     public ResponseEntity<String> ulCommentDelete(@PathVariable("ulIdx") int ulIdx) throws Exception {
@@ -58,7 +56,7 @@ public class CommentController {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("댓글 삭제에 실패했습니다.");
         }
     }
-
+    // 댓글 5개씩
     @GetMapping("/board/{ulIdx}/moreComments")
     @ResponseBody
     public List<UserlifeCommentDTO> getMoreComments(@PathVariable("ulIdx") int ulIdx, @RequestParam("offset") int offset) {

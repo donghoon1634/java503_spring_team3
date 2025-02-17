@@ -3,35 +3,35 @@
         PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="bitc.fullstack503.java503_team3.mapper.BoardMapper">
-
-
     <!--    게시글 목록 조회-->
     <select id="selectBoardList" resultType="bitc.fullstack503.java503_team3.dto.UserlifeDTO">
         select ul_idx,ul_title,ul_nickname,ul_contents,ul_place,ul_cate,ul_likes,date_format(ul_create_date,'%Y.%m.%d %H:%i:%s')
         as ul_create_date,ul_hit_cnt from userlife
         order by ul_idx DESC
     </select>
-
     <!--게시글 작성-->
-    <insert id="insertBoard" parameterType="bitc.fullstack503.java503_team3.dto.UserlifeDTO">
+    <insert id="insertBoard" parameterType="map" >
         insert into userlife(ul_title ,ul_nickname, ul_contents, ul_place, ul_create_date, ul_cate, ul_member_id)
-        values(#{ulTitle},#{ulNickname},#{ulContents},#{ulPlace},now(),#{ulCate},#{ulMemberId})
+        values(#{ulTitle},#{ulNickname},#{ulContents},#{ulPlace}, now(), #{ulCate}, #{ulMemberId})
     </insert>
-
-
-
+    <!--첨부파일추가-->
+    <insert id="insertFileList" parameterType="bitc.fullstack503.java503_team3.dto.UserlifeFileDTO">
+        insert into userlife_file(ul_idx,ul_original_file_name,ul_stored_file_name,ul_file_size)
+        values
+        <foreach collection="fileList" item="file" separator=",">
+            (#{ulIdx}, #{file.ulOriginalFileName}, #{file.ulStoredFileName}, #{file.ulFileSize})
+        </foreach>
+    </insert>
     <!--게시글 상세보기-->
     <select id="selectBoardDetail" parameterType="int" resultType="bitc.fullstack503.java503_team3.dto.UserlifeDTO">
         select ul_idx ,ul_title ,ul_nickname ,ul_contents, ul_place,ul_create_date , ul_hit_cnt,ul_likes,ul_cate,ul_member_id
         from userlife
         where ul_idx= #{ulIdx}
     </select>
-
     <!--    조회수 증가-->
     <update id="updateHitCnt" parameterType="int">
         UPDATE userlife SET ul_hit_cnt = ul_hit_cnt + 1 WHERE ul_idx = #{ulIdx};
     </update>
-
     <!--추천수 증가-->
     <update id="plusLike" parameterType="int">
         UPDATE userlife SET ul_likes = ul_likes + 1 WHERE ul_idx=#{ulIdx}
@@ -40,24 +40,20 @@
     <select id="selectLikeCount" parameterType="int" resultType="int">
         select ul_likes from userlife where ul_idx=#{ulIdx}
     </select>
-
     <!--    게시물 수정-->
     <update id="updateBoard" parameterType="bitc.fullstack503.java503_team3.dto.UserlifeDTO">
         update userlife set ul_title=#{ulTitle} , ul_contents=#{ulContents},ul_nickname=#{ulNickname},ul_update_date=now()
         where ul_idx=#{ulIdx}
     </update>
-
     <!--    게시물 삭제-->
     <update id="deleteBoard">
         delete from userlife where ul_idx=#{ulIdx}
     </update>
-
-    <!-- 이긴글순 -->
+    <!-- 인기글 -->
     <select id="getPopularPosts" resultType="bitc.fullstack503.java503_team3.dto.UserlifeDTO">
         SELECT * FROM  userlife
         ORDER BY ul_hit_cnt DESC
         LIMIT #{limit}
     </select>
-
 
 </mapper>

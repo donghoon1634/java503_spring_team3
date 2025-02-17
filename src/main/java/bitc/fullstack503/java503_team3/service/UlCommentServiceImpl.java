@@ -39,12 +39,12 @@ public class UlCommentServiceImpl implements UlCommentService {
     public void ulCommentInsert(UserlifeCommentDTO ulcDTO) {
         ulCommentMapper.ulCommentInsert(ulcDTO);
     }
-
+    // 댓글 삭제
     @Override
     public void ulCommentdelet(int ulIdx) {
         ulCommentMapper.ulCommentdelet(ulIdx);
     }
-
+    // 댓글 5개씩
     @Override
     public List<UserlifeCommentDTO> getCommentsByPage(int ulIdx, int offset, int limit) {
         return ulCommentMapper.selectCommentsByPage(ulIdx, offset, limit);

@@ -19,8 +19,8 @@ public interface UlCommentMapper {
     List<UserlifeCommentDTO> ulCommentDesc(int ulIdx);
     // 댓글을 추가하는 API
     int ulCommentInsert(UserlifeCommentDTO ulcDTO);
-
+    // 댓글 삭제
     void ulCommentdelet(int ulIdx);
-
+    // 댓글 5개씩
     List<UserlifeCommentDTO> selectCommentsByPage(int ulIdx, int offset, int limit);
 }
