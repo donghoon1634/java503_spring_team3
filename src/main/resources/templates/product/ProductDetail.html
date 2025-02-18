@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <link rel="stylesheet" href="../css/bootstrap.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+  <script src="../js/bootstrap.bundle.js"></script>
+  <link rel="stylesheet" href="/static/css/productDetail.css">
+  <title>중고거래창</title>
+</head>
+<body>
+<header>
+  <div class="header">
+    <div class="logo-box">
+      <a href="" class="logo"><span class="logo">(로고이미지)</span></a>
+    </div>
+    <div class="header-category-box">
+      <div class="header-category">
+        <a href="">중고거래</a>
+        <a href="">동네생활</a>
+      </div>
+    </div>
+    <div class="header-user-box">
+      <div class="header-user">
+        <a href="">로그인</a>
+        <a href="">회원가입</a>
+      </div>
+    </div>
+  </div>
+</header>
+<hr>
+<article class="main-container-box">
+  <nav class="category-nav">
+    <div class="category-nav-box">
+      <span class="category-home"><a href="">home</a></span>
+      <span class="category-title"><a href="">중고거래</a></span>
+      <span class="category-sub" style="font-weight: bold;">
+        <a href="" th:text="${product.productName}">상품명</a>
+      </span>
+    </div>
+  </nav>
+  <div class="main-container">
+    <article class="product-image-user-box">
+      <div class="product-image">
+        <img th:src="@{${product.productImg}}" alt="상품 이미지">
+      </div>
+      <div class="product-user-profile">
+        <div class="user-profile-img">
+          <a href=""><img th:src="@{${product.userImg}}" alt="사용자 이미지"></a>
+        </div>
+        <div class="user-profile">
+          <div class="user-nickname"><a href=""><span th:text="${product.userNickname}">닉네임</span></a></div>
+          <div class="user-address"><a href=""><span th:text="${product.userAddress}">읍면동</span></a></div>
+        </div>
+      </div>
+    </article>
+    <article class="product-detail-box">
+      <div class="product-detail-info">
+        <div class="product-detail-title"><span th:text="${product.productName}">상품명</span></div>
+        <div class="product-category">
+          <a href=""><span th:text="${product.categoryName}">카테고리</span></a>
+        </div>
+
+        <div class="product-price"><span>가격</span></div>
+        <div class="product-price" th:text="${product.productPrice}">100000원</div>
+      </div>
+      <div class="product-detail-content">
+        <span th:text="${product.productDescription}">세부내용</span>
+      </div>
+      <div class="product-buy-btn">
+        <button class="buy-btn">문의하기</button>
+      </div>
+    </article>
+  </div>
+</article>
+
+</body>
+</html>
