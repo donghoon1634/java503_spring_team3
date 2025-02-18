@@ -9,7 +9,7 @@ public class productEditDTO {
     private String productEditUser;
     private String productEditImg;
     private String productEditTitle;
-    private int productEditPrice;
+    private String productEditPrice;
     private String productEditContents;
     private String originalFileName;
     private String storedFileName;

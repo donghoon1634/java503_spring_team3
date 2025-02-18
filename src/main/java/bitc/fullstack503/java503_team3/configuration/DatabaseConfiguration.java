@@ -1,4 +1,4 @@
-package bitc.fullstack503.java503_team3.config;
+package bitc.fullstack503.java503_team3.configuration;
 
 import com.zaxxer.hikari.HikariConfig;
 import com.zaxxer.hikari.HikariDataSource;
@@ -11,14 +11,13 @@ import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.PropertySource;
-import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
 
 import javax.sql.DataSource;
 
 @Configuration
 @PropertySource("classpath:/application.properties")
 
-public class databaseConfig {
+public class DatabaseConfiguration {
 
     @Autowired
     private ApplicationContext applicationContext;

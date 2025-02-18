@@ -11,15 +11,19 @@
 
     <script>
         $(document).ready(function () {
-            $("#btn-list").on("click", function (){
+            $("#btn-list").on("click", function () {
                 history.back();
             });
 
-            $("#btn-edit").on("click", function (){
-                history.back();
+            $("#btn-edit").on("click", function () {
+                $("#method").val("PUT");
+
+                var frm = $("#frm")[0];
+                frm.action = "/potato/myPage/edit/1";
+                frm.submit();
             });
 
-            $("#btn-delete").on("click", function (){
+            $("#btn-delete").on("click", function () {
                 history.back();
             });
 
@@ -33,46 +37,44 @@
         <section>
             <aside>
                 <div class="row mt-5">
-                    <img src="https://img.kr.gcp-karroter.net/origin/article/202502/9be1aaa2550f973c9b9fe9e270955076ebcddb4230c1fae17b25d212dd1a1e33_0.webp?f=webp&q=95&s=720x720&t=inside" style="width: 300px" height="300px" alt="기본 이미지">
+                    <img src="https://img.kr.gcp-karroter.net/origin/article/202502/9be1aaa2550f973c9b9fe9e270955076ebcddb4230c1fae17b25d212dd1a1e33_0.webp?f=webp&q=95&s=720x720&t=inside"
+                         style="width: 300px" height="300px" alt="기본 이미지">
                 </div>
                 <div class="col-sm mt-2">
                     <div class="form-floating">
-                        <input type="text" class="form-control" id="seller" name="seller" readonly>
+                        <input type="text" class="form-control" id="seller" name="productEditUser" readonly >
                         <label for="seller">판매자</label>
                     </div>
                 </div>
             </aside>
         </section>
 
-        <div class="container row mt-5">
-            <div class="form-floating">
-                <div class="col-sm">
-                <input type="text" class="form-control" id="title" name="title" placeholder="제목을 입력하세요">
-                <label for="title"></label>
+        <form class="mt-3" id="frm" method="post">
+            <input type="hidden" id="method" name="_method" value="PUT">
+            <div class="container row mt-5" th:each="item:${editList}">
+                <div class="form-floating">
+                    <div class="col-sm">
+                        <input type="text" class="form-control" id="title" name="productEditTitle" placeholder="제목을 입력하세요" th:value="${editList.productEditTitle}">
+                        <label for="title"></label>
+                    </div>
                 </div>
-            </div>
 
-            <div class="form-floating">
-                <div class="col-sm">
-                <input type="text" class="form-control" id="price" name="price" placeholder="가격을 입력하세요">
-                <label for="price"></label>
+                <div class="form-floating">
+                    <div class="col-sm">
+                        <input type="text" class="form-control" id="price" name="productEditPrice" placeholder="가격을 입력하세요" th:value="${editList.productEditPrice}">
+                        <label for="price"></label>
+                    </div>
                 </div>
-            </div>
 
-            <div class="form-floating">
-                <div class="col-sm">
-                <textarea class="form-control" id="comment" name="comment" placeholder="내용을 입력하세요" rows="10" style="height: 200px"></textarea>
-                <label for="comment"></label>
+                <div class="form-floating">
+                    <div class="col-sm">
+                        <textarea class="form-control" id="comment" name="productEditContents" placeholder="내용을 입력하세요" th:text="${editList.productEditContents}" rows="10"
+                                  style="height: 200px"></textarea>
+                        <label for="comment"></label>
+                    </div>
                 </div>
             </div>
-
-            <div class="form-floating mt-2">
-                <div class="col-sm">
-                <input type="file" class="form-control" id="file" name="file" placeholder="파일 추가하기">
-                <label for="file"></label>
-                </div>
-            </div>
-        </div>
+        </form>
 
 
     </main>

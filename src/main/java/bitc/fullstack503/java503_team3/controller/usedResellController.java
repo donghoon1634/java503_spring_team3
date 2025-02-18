@@ -1,9 +1,11 @@
 package bitc.fullstack503.java503_team3.controller;
 
+import bitc.fullstack503.java503_team3.dto.productEditDTO;
 import bitc.fullstack503.java503_team3.dto.userMyPageDTO;
 import bitc.fullstack503.java503_team3.dto.userMyPageProductEditDTO;
 import bitc.fullstack503.java503_team3.dto.userTradeCommentDTO;
 import bitc.fullstack503.java503_team3.service.MyPageService;
+import bitc.fullstack503.java503_team3.service.TradeUpdateEditService;
 import bitc.fullstack503.java503_team3.service.tradeUserCommentService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -22,6 +24,9 @@ public class usedResellController {
 
     @Autowired
     private tradeUserCommentService tradeUserCommentService;
+
+    @Autowired
+    private TradeUpdateEditService tradeUpdateEditService;
 
     // 거래문의 게시판 댓글 등록
     @PostMapping("/tradeChat/{tradeBoardIdx}")
@@ -56,18 +61,31 @@ public class usedResellController {
     }
 
 
-    @RequestMapping("/myPage/edit")
+    @RequestMapping(value = "/myPage/edit/{productEditBoardIdx}", method = RequestMethod.PUT)
+    public String updateTradeEdit(@PathVariable("productEditBoardIdx") int productEditBoardIdx, @ModelAttribute productEditDTO productEditDTO) throws Exception {
+        if (productEditDTO.getProductEditTitle() == null || productEditDTO.getProductEditTitle().isEmpty()) {
+            throw new IllegalArgumentException("Product title cannot be empty.");
+        }
 
-    public String tradeEdit() {
-
-        return "/usedTrade/sellerProductEdit";
+        productEditDTO.setProductEditBoardIdx(productEditBoardIdx);
+        tradeUpdateEditService.updateTradeEdit(productEditDTO);
+        return "redirect:/potato/myPage/edit/1";
     }
 
-    // 안씀 일단은
-    @RequestMapping("/detail")
+    @GetMapping("/myPage/edit/{productEditBoardIdx}")
+    public ModelAndView getTradeEdit(@PathVariable("productEditBoardIdx") int productEditBoardIdx) {
+        ModelAndView mav = new ModelAndView("usedTrade/sellerProductEdit");
+        List<productEditDTO> editList = tradeUpdateEditService.selectTradeEdit(productEditBoardIdx);
+        if(!editList.isEmpty()) {
+            mav.addObject("editList", editList.get(0));
+        }
+        else{
+            mav.addObject("editList", new productEditDTO());
+        }
+        mav.addObject("editList", editList);
+        mav.addObject("productEditBoardIdx", productEditBoardIdx);
 
-    public String tradeDetail() {
-        return "/usedTrade/sellerProductDetail";
+        return mav;
     }
 
 //    마이 페이지 자기소개 등록

@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="bitc.fullstack503.java503_team3.mapper.TradeUpdateEditMapper">
+
+<update id="updateTradeEdit" parameterType="bitc.fullstack503.java503_team3.dto.productEditDTO">
+    update product_edit
+    set product_edit_title = #{productEditTitle},
+    product_edit_price = #{productEditPrice},
+    product_edit_contents = #{productEditContents}
+    where product_edit_board_idx = #{productEditBoardIdx};
+</update>
+
+<select id="selectTradeEdit" resultType="bitc.fullstack503.java503_team3.dto.productEditDTO">
+select  product_edit_img, product_edit_price, product_edit_title, product_edit_contents
+from product_edit
+where product_edit_board_idx = #{productEditBoardIdx}
+</select>
+
+</mapper>

@@ -13,4 +13,5 @@
         from usertrade_comment
         order by trade_create_date desc
     </select>
+
 </mapper>

@@ -70,7 +70,7 @@
             <div class="form-floating mt-3 d-flex">
                 <div class="container d-flex">
                     <div th:each="product:${umpe}" class="me-3">
-                        <a href="/potato/myPage/edit">
+                        <a href="/potato/myPage/edit/1">
                             <img src="/image/box.png" alt="기본 이미지"
                                          th:src="${product.userMyPageProductEditImgs}" width="200px" height="200px"></a>
                         <div th:text="${product.userMyPageProductEditName}">이름</div>
