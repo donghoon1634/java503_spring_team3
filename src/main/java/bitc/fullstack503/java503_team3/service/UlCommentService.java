@@ -23,5 +23,6 @@ public interface UlCommentService {
     int getTotalCommentCount(Long ulIdx);
     // 더보기
     List<UserlifeCommentDTO> getCommentsByPage(int ulIdx, int offset, int limit, String descOrAsc);
+
 }
 

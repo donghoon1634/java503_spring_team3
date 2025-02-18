@@ -88,5 +88,7 @@ public class CommentController {
         return ulCommentService.getUlCommentByUlIdx(ulIdx);
     }
 
+
+
 }
 

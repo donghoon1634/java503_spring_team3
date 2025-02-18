@@ -44,6 +44,7 @@ public class BoardController {
         List<UserlifeDTO> boardList = boardService.selectBoardList();
         mav.addObject("boardList", boardList);
 
+
         return mav;
     }
 
