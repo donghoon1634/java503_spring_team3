@@ -14,7 +14,26 @@
         $("#btn-cancel").on("click", function () {
             history.back();
         });
+        // 파일 선택 시 미리보기 기능
+        $("#ulImg").on("change", function (event) {
+            let files = event.target.files;
+            let previewContainer = $("#image-preview");
+            previewContainer.empty(); // 기존 이미지 초기화
+
+            if (files.length > 0) {
+                $.each(files, function (index, file) {
+                    let reader = new FileReader();
+                    reader.onload = function (e) {
+                        previewContainer.append(
+                            `<img src="${e.target.result}" class="img-thumbnail m-2" width="150">`
+                        );
+                    };
+                    reader.readAsDataURL(file);
+                });
+            }
+        });
     });
+
 </script>
 </head>
 <body>
