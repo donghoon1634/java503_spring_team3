@@ -16,12 +16,19 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.util.List;
 @Controller
+@RequestMapping ("/potato")
 public class MemberController
 {
   @Autowired
   private MemberService memberService;
   @Autowired
   private LoadAddrService loadAddrService;
+  
+  @GetMapping ({"/", ""})
+  public ModelAndView home () throws Exception
+  {
+    return new ModelAndView ("main");
+  }
   
   @RequestMapping ("/member")
   public ModelAndView member () throws Exception
@@ -38,7 +45,7 @@ public class MemberController
     if (id == null || id.isEmpty () || pw == null || pw.isEmpty ())
     {
       redirectAttributes.addFlashAttribute ("errMsg", "모든 항목을 입력해주세요.");
-      return "redirect:/member";
+      return "redirect:/potato/member";
     }
     MemberDTO member = new MemberDTO ();
     member.setMemberId (id);
@@ -52,12 +59,12 @@ public class MemberController
       session.setAttribute ("memberInfo", memberInfo);
       session.setAttribute ("loadAddrInfo", loadAddrInfo);
       session.setMaxInactiveInterval (60 * 30);
-      return "redirect:/";
+      return "redirect:/potato";
     }
     else
     {
       redirectAttributes.addFlashAttribute ("errMsg", "존재하지 않는 회원입니다.");
-      return "redirect:/member";
+      return "redirect:/potato/member";
     }
   }
   
@@ -67,14 +74,14 @@ public class MemberController
     if (id == null || id.isEmpty () || pw == null || pw.isEmpty () || nickname == null || nickname.isEmpty () || phone == null || phone.isEmpty () || addr == null || addr.isEmpty () || addrDetail == null || addrDetail.isEmpty ())
     {
       redirectAttributes.addFlashAttribute ("errMsg", "모든 항목을 입력해주세요.");
-      return "redirect:/member";
+      return "redirect:/potato/member";
     }
     boolean isId = memberService.isMemberId (id);
     boolean isName = memberService.isMemberNickname (nickname);
     if (isId || isName)
     {
       redirectAttributes.addFlashAttribute ("errMsg", "이미 있는 아이디거나 있는 이름입니다.");
-      return "redirect:/member";
+      return "redirect:/potato/member";
     }
     else
     {
@@ -86,7 +93,7 @@ public class MemberController
       member.setMemberAddr (addr);
       member.setMemberAddrDetail (addrDetail);
       memberService.signUp (member);
-      return "redirect:/member";
+      return "redirect:/potato/member";
     }
   }
   
