@@ -16,12 +16,12 @@ import javax.sql.DataSource;
 
 @Configuration
 @PropertySource("classpath:/application.properties")
-public class DatabaseConfig {
+public class DatabaseConfiguration {
 
   @Autowired
   private ApplicationContext applicationContext;
 
-  // HikariCP 설정을 application.properties에서 가져옴
+
   @Bean
   @ConfigurationProperties(prefix = "spring.datasource.hikari")
   public HikariConfig hikariConfig() {
@@ -54,7 +54,7 @@ public class DatabaseConfig {
 
   // MyBatis 설정을 application.properties에서 가져옴
   @Bean
-  @ConfigurationProperties(prefix = "mybatis.configuration")
+  @ConfigurationProperties(prefix="mybatis.configuration")
   public org.apache.ibatis.session.Configuration mybatisConfig() {
     return new org.apache.ibatis.session.Configuration();
   }
