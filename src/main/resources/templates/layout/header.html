@@ -17,7 +17,7 @@
 <header th:fragment="navbar" id="navbar" class="navbar sticky-top bg-white">
   <div class="header w-75 m-auto my-2 d-flex justify-content-between align-items-center position-relative">
     <div class="logo-box">
-      <a href="" class="logo" th:href="@{/}"><span class="logo">(로고이미지)</span></a>
+      <a href="" class="logo" th:href="@{/}"><span class="logo"><img src="/images/logo/potato_logo.png" alt="헤더로고" width="120"></span></a>
     </div>
     <div class="header-category-box position-absolute top-50 start-50 translate-middle">
       <div class="header-category">
@@ -57,32 +57,62 @@
 </header>
 <header th:fragment="search" id="search">
   <div class="d-flex w-75 m-auto my-2">
-    <div class="p-1 me-3 col-1 d-flex align-items-center justify-content-center rounded-5 bg-primary fw-bold" th:unless="${session.memberInfo == null}" th:text="${session.loadAddrInfo.getLoadAddrGu()}"></div>
+    <div class="p-1 me-3 col-1 d-flex align-items-center justify-content-center rounded-5 bg-primary fw-bold"
+         th:unless="${session.memberInfo == null}"
+         th:text="${session.loadAddrInfo.getLoadAddrGu()}">
+    </div>
+
     <div class="input-group">
-      <button class="btn btn-outline-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-bs-toggle="dropdown" aria-expanded="false" value="중고거래">
+      <!-- 드롭다운 버튼 -->
+      <button class="btn btn-outline-secondary dropdown-toggle" type="button"
+              id="dropdownMenuButton" data-bs-toggle="dropdown" aria-expanded="false"
+              data-value="buy-sell">
         중고거래
       </button>
       <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-        <li value="중고거래"><a class="dropdown-item" onclick="updateButtonText('중고거래')">중고거래</a></li>
-        <li value="동네생활"><a class="dropdown-item" onclick="updateButtonText('동네생활')">동네생활</a></li>
+        <li><a class="dropdown-item" onclick="updateButtonText('중고거래', 'buy-sell')">중고거래</a></li>
+        <li><a class="dropdown-item" onclick="updateButtonText('동네생활', 'community')">동네생활</a></li>
       </ul>
-      <input type="text" class="form-control" aria-label="Text input with dropdown button">
-      <button class="btn btn-outline-secondary" type="button">
+
+      <!-- 검색 입력 필드 -->
+      <input type="text" class="form-control" id="searchInput" aria-label="Text input with dropdown button">
+
+      <!-- 검색 버튼 -->
+      <button class="btn btn-outline-secondary" type="button" onclick="search()">
         <i class="fa-solid fa-magnifying-glass"></i>
       </button>
     </div>
   </div>
+
   <script>
-    window.onload = function () {
-      updateButtonText('중고거래')
+    // 드롭다운 버튼 업데이트 함수
+    function updateButtonText (text, value)
+    {
+      let dropdownButton = document.getElementById('dropdownMenuButton')
+      dropdownButton.textContent = text // 버튼 텍스트 변경
+      dropdownButton.dataset.value = value // data-value 속성 변경
     }
 
-    function updateButtonText (text)
+    // 검색 실행 함수
+    function search ()
     {
-      // 버튼 텍스트를 선택된 항목으로 업데이트
-      document.getElementById('dropdownMenuButton').textContent = text
+      let category = document.getElementById('dropdownMenuButton').dataset.value
+      let search = document.getElementById('searchInput').value
+
+      // 검색어가 비어있을 경우 경고
+      if (!search.trim())
+      {
+        alert('검색어를 입력해주세요!')
+        return
+      }
+
+      // GET 요청으로 페이지 이동 (정보 포함)
+      let url = `/search?category=${encodeURIComponent(category)}&search=${encodeURIComponent(search)}`
+      window.location.href = url
     }
   </script>
+
+  <!-- FontAwesome 아이콘 -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
 </header>
 </body>
