@@ -5,8 +5,8 @@
 <mapper namespace="bitc.fullstack503.java503_team3.mapper.MyPageMapper">
 
    <insert id="updateMyPage" parameterType="bitc.fullstack503.java503_team3.dto.userMyPageDTO">
-       insert into user_mypage (user_mypage_board_idx, mypage_user, user_mypage_contents)
-       values(#{userMyPageBoardIdx},#{myPageUser},#{userMyPageContents});
+       insert into user_mypage (user_mypage_board_idx, mypage_user, user_mypage_contents, user_mypage_nickname)
+       values(#{userMyPageBoardIdx},#{myPageUser},#{userMyPageContents}, #{userMyPageNickname});
    </insert>
 
     <select id="selectMyPage" resultType="bitc.fullstack503.java503_team3.dto.userMyPageDTO">

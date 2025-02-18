@@ -20,6 +20,13 @@ public class tradeUserCommentServiceImpl implements tradeUserCommentService {
 
     @Override
     public List<userTradeCommentDTO> getComment(int tradeBoardIdx) {
-        return tradeUserCommentMapper.getComment(tradeBoardIdx);
+
+        List<userTradeCommentDTO> comments = tradeUserCommentMapper.getComment(tradeBoardIdx);
+
+        for(userTradeCommentDTO comment : comments) {
+            String nickname = tradeUserCommentMapper.getMemberNickname(comment.getTradeUser());
+            comment.setMemberNickname(nickname);
+        }
+        return comments;
     }
 }

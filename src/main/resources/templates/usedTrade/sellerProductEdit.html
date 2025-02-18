@@ -32,6 +32,9 @@
     </script>
 </head>
 <body>
+<header th:replace="~{/layout/header :: navbar}"></header>
+<header th:replace="~{/layout/header :: search}"></header>
+
 <div class="container mt-5">
     <main class="d-flex">
         <section>
@@ -88,5 +91,7 @@
         </div>
     </div>
 </div>
+
+<footer th:replace="~{/layout/footer :: footer}"></footer>
 </body>
 </html>

@@ -11,4 +11,10 @@ public interface MemberService
   public boolean signIn (MemberDTO member) throws Exception;
   
   public MemberDTO memberInfo (String memberId) throws Exception;
+
+
+
+
+
+
 }

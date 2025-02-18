@@ -10,4 +10,6 @@ public interface TradeUpdateEditMapper {
     void updateTradeEdit(productEditDTO productEditDTO);
 
     List<productEditDTO> selectTradeEdit(int productEditBoardIdx);
+
+    void deleteTradeEdit(String productEditBoardIdx);
 }

@@ -9,4 +9,9 @@ public class userTradeCommentDTO {
     private String tradeUserComment;
     private String tradeUser;
     private String tradeCreateDate;
+
+    private String memberNickname;
+
+    public void setMemberNickname(String nickname) {
+    }
 }

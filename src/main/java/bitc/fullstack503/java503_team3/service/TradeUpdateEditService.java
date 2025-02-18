@@ -8,4 +8,6 @@ public interface TradeUpdateEditService {
     void updateTradeEdit(productEditDTO productEditDTO);
 
     List<productEditDTO> selectTradeEdit(int productEditBoardIdx);
+
+    void deleteTradeEdit(String productEditBoardIdx);
 }

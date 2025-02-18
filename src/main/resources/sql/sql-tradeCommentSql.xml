@@ -14,4 +14,9 @@
         order by trade_create_date desc
     </select>
 
+    <select id="getMemberNickname" resultType="string">
+        SELECT member_nickname
+        FROM member
+        WHERE member_id = #{memberId}
+    </select>
 </mapper>

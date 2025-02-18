@@ -23,4 +23,9 @@ public class TradeUpdateEditServiceImpl implements TradeUpdateEditService {
         List<productEditDTO> editList = tradeUpdateEditMapper.selectTradeEdit(productEditBoardIdx);
         return editList;
     }
+
+    @Override
+    public void deleteTradeEdit(String productEditBoardIdx) {
+        tradeUpdateEditMapper.deleteTradeEdit(productEditBoardIdx);
+    }
 }

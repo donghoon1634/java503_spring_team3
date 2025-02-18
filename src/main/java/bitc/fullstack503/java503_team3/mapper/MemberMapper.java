@@ -1,6 +1,8 @@
 package bitc.fullstack503.java503_team3.mapper;
 import bitc.fullstack503.java503_team3.dto.MemberDTO;
 import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Select;
+
 @Mapper
 public interface MemberMapper
 {
@@ -13,4 +15,9 @@ public interface MemberMapper
   public int signIn (MemberDTO member) throws Exception;
   
   public MemberDTO memberInfo (String memberId) throws Exception;
+
+
+
+  @Select("SELECT member_nickname FROM member WHERE member_id = #{memberId}")
+  String getNicknameById (String memberId) throws Exception;
 }

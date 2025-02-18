@@ -10,4 +10,5 @@ public interface tradeUserCommentMapper {
     void qnaComment(userTradeCommentDTO utc);
     List<userTradeCommentDTO> getComment(int tradeBoardIdx);
 
+    String getMemberNickname(String tradeUser);
 }

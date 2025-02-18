@@ -40,4 +40,10 @@ public class MemberServiceImpl implements MemberService
   {
     return memberMapper.memberInfo (memberId);
   }
+
+
+
+  public String getMemberNickname(String memberId) throws Exception {
+    return memberMapper.getNicknameById(memberId);
+  }
 }
