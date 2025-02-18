@@ -61,6 +61,7 @@
      delete from userlife where ul_idx=#{ulIdx}
  </update>
 
+<!--    인기글-->
     <select id="getPopularPosts" resultType="bitc.fullstack503.java503_team3.dto.UserlifeDTO">
         SELECT * FROM  userlife
         ORDER BY ul_hit_cnt DESC
