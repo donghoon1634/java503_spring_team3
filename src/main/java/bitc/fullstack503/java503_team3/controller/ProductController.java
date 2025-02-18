@@ -1,97 +1,76 @@
 package bitc.fullstack503.java503_team3.controller;
 
+import bitc.fullstack503.java503_team3.dto.CategoryDTO;
 import bitc.fullstack503.java503_team3.dto.ProductDTO;
 import bitc.fullstack503.java503_team3.service.ProductService;
-import jakarta.servlet.http.HttpServletResponse;
-import org.apache.commons.io.FileUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.util.ObjectUtils;
-import org.springframework.web.bind.annotation.*;
-import org.springframework.web.multipart.MultipartHttpServletRequest;
-import org.springframework.web.servlet.ModelAndView;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 
-import java.io.File;
-import java.net.URLEncoder;
+import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 
 @Controller
-@RequestMapping("/potato")
 public class ProductController {
 
   @Autowired
   private ProductService productService;
 
-  @GetMapping("/list")
-  public ModelAndView openProductList() throws Exception {
-    ModelAndView mv = new ModelAndView("product/productList");
-    List<ProductDTO> productList = productService.selectProductList();
-    mv.addObject("productList", productList);
-    return mv;
+  // 상품 목록 페이지 (일반적으로 렌더링)
+  @GetMapping("/potato/trade")
+  public String showProductList(Model model) {
+    List<ProductDTO> productList = productService.getAllProducts(); // 전체 상품 목록 가져오기
+    List<CategoryDTO> categoryList = productService.getAllCategories();   // 카테고리 목록 조회
+    List<String> localGuList = productService.getAllLocalGu(); // 지역구 목록 가져오기
+    model.addAttribute("productList", productList); // 타임리프로 전달될 상품 목록
+    model.addAttribute("categoryList", categoryList);  // 카테고리 목록
+    model.addAttribute("localGuList", localGuList);  // 타임리프로 전달될 지역구 목록
+    return "product/productList";
+  }
+  //지역 가져오기
+  @GetMapping("/potato/trade/local-gus")
+  @ResponseBody
+  public List<String> getLocalGuNames() {
+    return productService.getAllLocalGu();
+  }
+
+  // 지역에 따라 필터링된 상품 목록을 AJAX로 반환
+  @GetMapping("/potato/trade/products/local")
+  @ResponseBody
+  public List<ProductDTO> fetchProductsByLocal(@RequestParam("localGuName") String localGuName) {
+    List<ProductDTO> products = productService.getProductsByLocal(localGuName);
+    if (products == null) {
+      return new ArrayList<>();  // 빈 배열 반환
+    }
+    return products;
+  }
+
+  // 카테고리 목록 가져오기
+  @GetMapping("/potato/trade/categories")
+  @ResponseBody
+  public List<CategoryDTO> getCategories() {
+    return productService.getAllCategories();  // 카테고리 목록 반환
   }
 
   // 카테고리별 상품 목록 조회
-  @GetMapping("/product/category")
-  public ModelAndView getProductListByCategory(@RequestParam int categoryNum) throws Exception {
-    ModelAndView mv = new ModelAndView("product/productListByCategory");
-    List<ProductDTO> productList = productService.selectProductListByCategory(categoryNum);
-    mv.addObject("productList", productList);
-    return mv;
+  @GetMapping("/potato/trade/products/category")
+  @ResponseBody
+  public List<ProductDTO> fetchProductsByCategory(@RequestParam("categoryName") String categoryName) {
+    List<ProductDTO> products = productService.getProductsByCategoryName(categoryName);
+    if (products == null) {
+      return new ArrayList<>();  // 빈 배열 반환
+    }
+    return products;
   }
-
-  // 가격대별 상품 목록 조회
-  @GetMapping("/product/price")
-  public ModelAndView getProductListByPrice(@RequestParam Map<String, Object> priceRange) throws Exception {
-    ModelAndView mv = new ModelAndView("product/productListByPrice");
-    List<ProductDTO> productList = productService.selectProductListByPrice(priceRange);
-    mv.addObject("productList", productList);
-    return mv;
-  }
-
-  //  지역별 상품 목록 조회
-  @GetMapping("/product/local")
-  public ModelAndView getProductListByLocal(@RequestParam int localGuNum) throws Exception {
-    ModelAndView mv = new ModelAndView("product/productListByLocal");
-    List<ProductDTO> productList = productService.selectProductListByLocalGu(localGuNum);
-    mv.addObject("productList", productList);
-    return mv;
-  }
-
-  // 상품 등록 페이지
-  @GetMapping("/write")
-  public String productWrite() {
-    return "product/productWrite";
-  }
-
-  // 상품 등록 처리
-  @PostMapping("/insert")
-  public String insertProduct(ProductDTO product, MultipartHttpServletRequest multipart) throws Exception {
-    productService.insertProduct(product, multipart);
-    return "redirect:/potato/list";
-  }
-
-  // 상품 상세 보기
-  @GetMapping("/detail")
-  public ModelAndView productDetail(@RequestParam("productNum") int productNum) throws Exception {
-    ModelAndView mv = new ModelAndView("product/productDetail");
-    ProductDTO product = productService.selectProductDetail(productNum);
-    mv.addObject("product", product);
-    return mv;
-  }
-
-  // 상품 삭제
-  @PostMapping("/delete")
-  public String deleteProduct(@RequestParam("productNum") int productNum) throws Exception {
-    productService.deleteProduct(productNum);
-    return "redirect:/potato/list";
-  }
-
-  // 상품 수정 처리
-  @PostMapping("/update")
-  public String updateProduct(ProductDTO product) throws Exception {
-    productService.updateProduct(product);
-    return "redirect:/potato/list";
+  //나눔
+  @GetMapping("/potato/trade/products/share")
+  @ResponseBody
+  public List<ProductDTO> fetchShareProducts() {
+    // 'share' 상태인 상품 목록을 반환하는 서비스 메서드 호출
+    return productService.getShareProducts();
   }
 
 }

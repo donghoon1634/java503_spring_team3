@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/static/css/productWrite.css">
+    <title>Document</title>
+</head>
+<body>
+    <header>
+        <div class="header">
+            <div class="logo-box">
+                <a href="" class="logo"><span class="logo">(로고이미지)</span></a>
+            </div>
+            <div class="header-category-box">
+                <div class="header-category">
+                    <a href="">중고거래</a>
+                    <a href="">동네생활</a>
+                </div>
+            </div>
+            <div class="header-user-box">
+                <div class="header-user">
+                    <a href="">로그인</a>
+                    <a href="">회원가입</a>
+                </div>
+            </div>
+        </div>
+    </header>
+    <hr>
+    <article class="main-container-box">
+        <div class="product-img-contents-box">
+            <div class="write-photo-box">
+                <div class="write-photo-text">
+                    <span>사진</span>
+                </div>
+                <div class="photo-box">
+                    <div class="file-box">
+                        <label for="file" class="file-label">
+                            <div class="styled-file-input">
+                                <div class="attachment-button">🔗 파일 업로드</div>
+                                <p id="file-name" class="attached-file"></p>
+                            </div>
+                        </label>
+                        <input type="file" id="file" class="file-input" accept="image/*">
+                    </div>
+                    <div class="image-preview-box" style="display:none;">
+                        <img id="image-preview" src="" alt="Image Preview" style="max-width: 200px; max-height: 200px; margin-top: 10px;">
+                    </div>
+                </div>
+            </div>
+            <div class="write-content-box">
+                <div class="write-content-text">
+                    <span>내용</span>
+                </div>
+                <div class="write-content">
+                    <textarea name="product-info" id="product-info"></textarea>
+                </div>
+            </div>
+        </div>
+        <div class="write-container">
+            <div class="write-title-box">
+                <div class="write-title-text">
+                    <span>상품명</span>
+                </div>
+                <div class="write-title">
+                    <input type="text">
+                </div>
+            </div>
+            
+            <div class="write-local-gu-box">
+                <div class="write-local-gu-text">
+                    <span>지역</span>
+                </div>
+                <div class="write-local-gu">
+                    <input type="text">
+                </div>
+            </div>
+            <div class="write-product-price-box">
+                <div class="write-product-price-text">
+                    <span>가격</span>
+                </div>
+                <div class="write-product-price">
+                    <input type="number">
+                </div>
+            </div>            
+        </div>
+        <div class="post-btn-box">
+            <button class="post-btn">등록</button>
+        </div>
+    </article>
+
+
+    <script>
+        const fileInput = document.getElementById("file");
+        const fileInfo = document.getElementById("file-name");
+        const imagePreviewBox = document.querySelector(".image-preview-box");
+        const imagePreview = document.getElementById("image-preview");
+
+        // 파일이 선택되면 파일 이름과 X 버튼을 표시하고 이미지 미리보기
+        fileInput.addEventListener("change", function(event) {
+            const file = event.target.files[0];
+            if (file) {
+                const fileName = file.name;
+                fileInfo.innerHTML = `
+                    <span class="file-name">${fileName}</span>
+                    <span class="remove-button">❌</span>
+                `;
+                fileInfo.style.display = 'flex';
+                fileInfo.style.justifyContent = 'space-between';
+
+                // FileReader로 이미지를 미리 보기
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    imagePreview.src = e.target.result; // 이미지 미리보기 업데이트
+                    imagePreviewBox.style.display = 'block'; // 미리보기 영역 표시
+                };
+                reader.readAsDataURL(file); // 이미지 파일 읽기
+            }
+        });
+
+        // X 버튼을 클릭하면 첨부된 파일 삭제
+        fileInfo.addEventListener("click", function(event) {
+            if (event.target.classList.contains("remove-button")) {
+                fileInput.value = '';  // 파일 입력값 초기화
+                fileInfo.innerHTML = '';  // 파일 정보 삭제
+                fileInfo.style.display = 'none';  // 파일 정보 숨기기
+                imagePreviewBox.style.display = 'none'; // 미리보기 영역 숨기기
+            }
+        });
+    </script>
+</body>
+</html>

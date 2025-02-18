@@ -6,51 +6,48 @@
 <mapper namespace="bitc.fullstack503.java503_team3.mapper.ProductMapper">
 
     <!-- 상품 목록 조회 -->
-    <select id="selectProductList" resultType="bitc.fullstack503.java503_team3.dto.ProductDTO">
-        SELECT * FROM product ORDER BY productNum DESC
+    <select id="selectAllProducts" resultType="bitc.fullstack503.java503_team3.dto.ProductDTO">
+        SELECT product_num, product_name, product_price, product_img, local_gu_name
+        FROM product
     </select>
 
-    <!-- 상품 등록 -->
-    <insert id="insertProduct">
-        INSERT INTO product (productName, categoryNum, productPrice, productImg, localGuNum, localGuName, member_idx)
-        VALUES (#{productName}, #{categoryNum}, #{productPrice}, #{productImg}, #{localGuNum}, #{localGuName}, #{member_idx})
-    </insert>
-
-    <!-- 상품 상세 조회 -->
-    <select id="selectProductDetail" parameterType="int" resultType="bitc.fullstack503.java503_team3.dto.ProductDTO">
-        SELECT * FROM product WHERE productNum = #{productNum}
-    </select>
-
-    <!-- 상품 삭제 -->
-    <delete id="deleteProduct">
-        DELETE FROM product WHERE productNum = #{productNum}
-    </delete>
-
-    <!-- 상품 수정 -->
-    <update id="updateProduct">
-        UPDATE product
-        SET productName = #{productName}, categoryNum = #{categoryNum}, productPrice = #{productPrice},
-        productImg = #{productImg}, localGuNum = #{localGuNum}, localGuName = #{localGuName}
-        WHERE productNum = #{productNum}
-    </update>
-
-    <!-- 카테고리별 상품 목록 조회 -->
-    <select id="selectProductListByCategory" parameterType="int" resultType="bitc.fullstack503.java503_team3.dto.ProductDTO">
-        SELECT * FROM product
-        WHERE categoryNum = #{categoryNum}
-        ORDER BY productNum DESC
-    </select>
-
-    <!-- 가격대별 상품 목록 조회 -->
-    <select id="selectProductListByPrice" parameterType="map" resultType="bitc.fullstack503.java503_team3.dto.ProductDTO">
-        SELECT * FROM product
-        WHERE productPrice BETWEEN #{minPrice} AND #{maxPrice}
-        ORDER BY productNum DESC
+    <!-- 지역 목록 조회 -->
+    <select id="getAllLocalGu" resultType="String">
+        SELECT DISTINCT local_gu_name FROM product
+        WHERE local_gu_name IS NOT NULL
     </select>
 
     <!-- 지역별 상품 목록 조회 -->
-    <select id="selectProductListByLocalGu" parameterType="int" resultType="bitc.fullstack503.java503_team3.dto.ProductDTO">
-        SELECT * FROM product WHERE localGuNum = #{localGuNum} ORDER BY productNum DESC
+    <select id="getProductsByLocal" parameterType="String" resultType="bitc.fullstack503.java503_team3.dto.ProductDTO">
+        SELECT product_num, product_name, product_price, product_img, local_gu_name
+        FROM product
+        WHERE local_gu_name = #{localGuName}
     </select>
+
+    <!-- 카테고리 목록 조회 -->
+    <select id="getAllCategories" resultType="bitc.fullstack503.java503_team3.dto.CategoryDTO">
+        SELECT category_num, category_name
+        FROM category
+    </select>
+
+    <!-- 카테고리별 상품 목록 조회 -->
+    <select id="getProductsByCategoryName" parameterType="String" resultType="bitc.fullstack503.java503_team3.dto.ProductDTO">
+        SELECT product_num, product_name, product_price, product_img, local_gu_name, category_num
+        FROM product
+        WHERE category_num = (
+        SELECT category_num FROM category WHERE category_name = #{categoryName}
+        )
+    </select>
+
+    <!-- 나눔 상품 목록 조회 -->
+    <select id="getFreeProducts" resultType="bitc.fullstack503.java503_team3.dto.ProductDTO">
+        SELECT product_num, product_name, product_price, product_img, local_gu_name
+        FROM product
+        WHERE product_price = '나눔'
+    </select>
+
+
+
+
 
 </mapper>

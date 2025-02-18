@@ -34,33 +34,38 @@
     <div class="category-nav-box">
       <span class="category-home"><a href="">home</a></span>
       <span class="category-title"><a href="">중고거래</a></span>
-      <span class="category-sub" style="font-weight: bold;"><a href="">상품명</a></span>
+      <span class="category-sub" style="font-weight: bold;">
+        <a href="" th:text="${product.productName}">상품명</a>
+      </span>
     </div>
   </nav>
   <div class="main-container">
     <article class="product-image-user-box">
       <div class="product-image">
-        <img src="https://image.ohou.se/i/bucketplace-v2-development/uploads/productions/161293185766562881.jpg?gif=1&w=480&h=480&c=c&webp=1" alt="">
+        <img th:src="@{${product.productImg}}" alt="상품 이미지">
       </div>
       <div class="product-user-profile">
         <div class="user-profile-img">
-          <a href=""><img src="https://image.ohou.se/i/bucketplace-v2-development/uploads/productions/158943616734370728.jpg?gif=1&w=480&h=480&c=c&webp=1" alt=""></a>
+          <a href=""><img th:src="@{${product.userImg}}" alt="사용자 이미지"></a>
         </div>
         <div class="user-profile">
-          <div class="user-nickname"><a href=""><span>닉네임</span></a></div>
-          <div class="user-address"><a href=""><span>읍면동</span></a></div>
+          <div class="user-nickname"><a href=""><span th:text="${product.userNickname}">닉네임</span></a></div>
+          <div class="user-address"><a href=""><span th:text="${product.userAddress}">읍면동</span></a></div>
         </div>
       </div>
     </article>
     <article class="product-detail-box">
       <div class="product-detail-info">
-        <div class="product-detail-title"><span>상품명</span></div>
-        <div class="product-category"><a href=""><span>카테고리</span></a></div>
+        <div class="product-detail-title"><span th:text="${product.productName}">상품명</span></div>
+        <div class="product-category">
+          <a href=""><span th:text="${product.categoryName}">카테고리</span></a>
+        </div>
+
         <div class="product-price"><span>가격</span></div>
-        <div class="product-price">100000원</div>
+        <div class="product-price" th:text="${product.productPrice}">100000원</div>
       </div>
       <div class="product-detail-content">
-        <span>세부내용</span>
+        <span th:text="${product.productDescription}">세부내용</span>
       </div>
       <div class="product-buy-btn">
         <button class="buy-btn">문의하기</button>
@@ -68,5 +73,6 @@
     </article>
   </div>
 </article>
+
 </body>
 </html>

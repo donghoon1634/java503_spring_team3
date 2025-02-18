@@ -1,4 +1,4 @@
-package bitc.fullstack503.java503_team3.config;
+package bitc.fullstack503.java503_team3.configuration;
 
 import com.zaxxer.hikari.HikariConfig;
 import com.zaxxer.hikari.HikariDataSource;
