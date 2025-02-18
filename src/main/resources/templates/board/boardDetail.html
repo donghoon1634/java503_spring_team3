@@ -237,16 +237,9 @@
                                         위치</p>
                                     <input type="hidden" name="ulPlace" th:value="${ul.ulPlace}">
                                 </div>
-
-                                <!-- 작성 날짜 -->
-                                <div class="col p-0 ps-1 ">
-                                    <p class="small-text" id="ulCreateDate" th:text="${ul.ulCreateDate}">작성날짜</p>
-                                    <input type="hidden" name="ulCreateDate" th:value="${ul.ulCreateDate}">
-                                </div>
-
                                 <!-- 수정 날짜 -->
-                                <div class="col">
-                                    <p class="small-text" th:text="${ul.ulUpdateDate}">수정날짜</p>
+                                <div class="col p-0 ps-1">
+                                    <p class="small-text" th:text="${ul.ulUpdateDate != null ? ul.ulUpdateDate : ul.ulCreateDate}">수정날짜</p>
                                     <input type="hidden" name="ulUpdateDate" th:value="${ul.ulUpdateDate}">
                                 </div>
                             </div>
@@ -265,19 +258,18 @@
                 <!-- 글제목-->
                 <div>
                     <h3 class="row mt-1 ">
-                        <p th:text="${ul.ulTitle}"></p>
-                        <input type="hidden" id="ulTitle" name="ulTitle" th:value="${ul.ulTitle}" class="ps-2 p-0" >
+                        <input type="text" id="ulTitle" name="ulTitle" th:value="${ul.ulTitle}" class="ps-2 p-0" >
                     </h3>
                 </div>
                 <!-- 글 내용 -->
                 <div class="row mt-1">
                     <div class="col-sm">
-                        <div class="form">
-                            <input type="hidden" id="ulContents" name="ulContents" th:value="${ul.ulContents}">
+                        <div class="form ">
+                            <input type="hidden" id="ulContents" name="ulContents" th:value="${ul.ulContents}" class="p-0">
 
                             <!-- ✅ 사용자가 입력할 수 있는 영역 (자동 크기 조절) -->
                             <div id="editableDiv" contenteditable="true"
-                                 class="ps-2 p-0"
+                                 class=" p-0"
                                  style="border: none; width: 100%; min-height: 40px; overflow-wrap: break-word;"
                                  oninput="syncHiddenInput()"
                                  th:text="${ul.ulContents}"></div>

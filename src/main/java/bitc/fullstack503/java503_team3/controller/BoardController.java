@@ -17,7 +17,9 @@ import org.springframework.web.multipart.MultipartHttpServletRequest;
 import org.springframework.web.servlet.ModelAndView;
 
 import java.io.File;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.UUID;
 
@@ -115,8 +117,9 @@ public class BoardController {
 public String updateBoard(@PathVariable("ulIdx") int ulIdx, UserlifeDTO ul) throws Exception {
     ul.setUlIdx(ulIdx);
     System.out.println("수정 요청 제목: " + ul.getUlTitle());
+//    ul.setUlUpdateDate(new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date()));
     boardService.updateBoard(ul);
-    return "redirect:/board";
+    return "redirect:/board/"+ulIdx;
 }
 
 
