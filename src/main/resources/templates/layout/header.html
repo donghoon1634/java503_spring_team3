@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <script src="https://code.jquery.com/jquery-3.7.1.min.js"
+          integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo="
+          crossorigin="anonymous"></script>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
+        integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH"
+        crossorigin="anonymous">
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
+          integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
+          crossorigin="anonymous"></script>
+  <title>header</title>
+</head>
+<body>
+<header th:fragment="navbar" id="navbar" class="navbar sticky-top bg-white">
+  <div class="header w-75 m-auto my-2 d-flex justify-content-between align-items-center position-relative">
+    <div class="logo-box">
+      <a href="" class="logo" th:href="@{/}"><span class="logo"><img src="/images/logo/potato_logo.png" alt="헤더로고" width="120"></span></a>
+    </div>
+    <div class="header-category-box position-absolute top-50 start-50 translate-middle">
+      <div class="header-category">
+        <a href="#" class="me-5 link-dark hover-effect">중고거래</a>
+        <a href="#" class="link-dark hover-effect">동네생활</a>
+      </div>
+    </div>
+    <div class="header-user-box">
+      <div th:if="${session.memberInfo == null}">
+        <a href="" th:href="@{/member}" class="btn btn-outline-secondary">로그인</a>
+      </div>
+      <div th:unless="${session.memberInfo == null}">
+        <a href="" class="btn btn-outline-secondary me-2">내정보</a>
+        <button class="btn btn-outline-secondary" id="signOut">로그아웃</button>
+      </div>
+    </div>
+  </div>
+  <script>
+    $('#signOut').on('click', function () {
+      $.ajax({
+        url: '/member/signOut',
+        type: 'GET',
+        success: function (response) {
+          // 서버에서 "reload"라는 응답을 받으면 페이지를 리로드합니다.
+          if (response === 'reload')
+          {
+            window.location.reload()
+          }
+        },
+        error: function () {
+          alert('로그아웃 처리 실패! 다시 시도해 주세요.')
+        }
+      })
+    })
+  </script>
+  <link rel="stylesheet" th:href="@{/css/sdh/header.css}">
+</header>
+<header th:fragment="search" id="search">
+  <div class="d-flex w-75 m-auto my-2">
+    <div class="p-1 me-3 col-1 d-flex align-items-center justify-content-center rounded-5 bg-primary fw-bold"
+         th:unless="${session.memberInfo == null}"
+         th:text="${session.loadAddrInfo.getLoadAddrGu()}">
+    </div>
+
+    <div class="input-group">
+      <!-- 드롭다운 버튼 -->
+      <button class="btn btn-outline-secondary dropdown-toggle" type="button"
+              id="dropdownMenuButton" data-bs-toggle="dropdown" aria-expanded="false"
+              data-value="buy-sell">
+        중고거래
+      </button>
+      <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+        <li><a class="dropdown-item" onclick="updateButtonText('중고거래', 'buy-sell')">중고거래</a></li>
+        <li><a class="dropdown-item" onclick="updateButtonText('동네생활', 'community')">동네생활</a></li>
+      </ul>
+
+      <!-- 검색 입력 필드 -->
+      <input type="text" class="form-control" id="searchInput" aria-label="Text input with dropdown button">
+
+      <!-- 검색 버튼 -->
+      <button class="btn btn-outline-secondary" type="button" onclick="search()">
+        <i class="fa-solid fa-magnifying-glass"></i>
+      </button>
+    </div>
+  </div>
+
+  <script>
+    // 드롭다운 버튼 업데이트 함수
+    function updateButtonText (text, value)
+    {
+      let dropdownButton = document.getElementById('dropdownMenuButton')
+      dropdownButton.textContent = text // 버튼 텍스트 변경
+      dropdownButton.dataset.value = value // data-value 속성 변경
+    }
+
+    // 검색 실행 함수
+    function search ()
+    {
+      let category = document.getElementById('dropdownMenuButton').dataset.value
+      let search = document.getElementById('searchInput').value
+
+      // 검색어가 비어있을 경우 경고
+      if (!search.trim())
+      {
+        alert('검색어를 입력해주세요!')
+        return
+      }
+
+      // GET 요청으로 페이지 이동 (정보 포함)
+      let url = `/search?category=${encodeURIComponent(category)}&search=${encodeURIComponent(search)}`
+      window.location.href = url
+    }
+  </script>
+
+  <!-- FontAwesome 아이콘 -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
+</header>
+</body>
+</html>

@@ -1,0 +1,9 @@
+#footer {
+    font-size: 0.8rem;
+}
+
+.footer-links a {
+    color: #fff;
+    text-decoration: none;
+    margin-right: 10px;
+}
