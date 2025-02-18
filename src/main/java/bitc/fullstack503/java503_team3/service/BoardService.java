@@ -32,7 +32,7 @@ public interface BoardService {
 
 //    인기글 정렬
     List<UserlifeDTO> getPopularPosts(int limit);
-
-
+    // 해당 게시물의 댓글 개수 조회
+    int getUlCommentCount(int ulIdx);
 
 }

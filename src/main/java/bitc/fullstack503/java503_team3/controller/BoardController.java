@@ -17,6 +17,7 @@ import org.springframework.web.multipart.MultipartHttpServletRequest;
 import org.springframework.web.servlet.ModelAndView;
 
 import java.io.File;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
@@ -40,9 +41,12 @@ public class BoardController {
     @RequestMapping(value = "/board", method = RequestMethod.GET)
     public ModelAndView selectBoardList() throws Exception {
         ModelAndView mav = new ModelAndView("board/boardList");
-
+        // 게시물 목록 조회
         List<UserlifeDTO> boardList = boardService.selectBoardList();
         mav.addObject("boardList", boardList);
+
+//        int ulCommentCount = ulCommentService.ulCommentCount(board.getUlIdx());
+//        mav.addObject("ulCommentCount", ulCommentCount);
 
         return mav;
     }
@@ -87,12 +91,16 @@ public class BoardController {
         ModelAndView mav = new ModelAndView("board/boardDetail");
         UserlifeDTO ul = boardService.selectBoardDetail(ulIdx);
 
-
         // 게시물 번호에 해당하는 댓글 목록 가져오기
         List<UserlifeCommentDTO> ulcomment = ulCommentService.getCommentsByPage(ulIdx, 0, 5);
+
+        int getUlCommentCount = boardService.getUlCommentCount(ulIdx);
+
         mav.addObject("ul", ul);
         // ulcomment는 댓글정보
         mav.addObject("ulcomment", ulcomment);
+        mav.addObject("getUlCommentCount", getUlCommentCount);
+
 
 
         return mav;

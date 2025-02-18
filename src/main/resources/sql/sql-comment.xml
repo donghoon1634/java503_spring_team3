@@ -67,6 +67,11 @@
         delete from userlife_comment where ul_comment_ul_idx = #{ulCommentUlIdx}
     </delete>
 
+    <!-- 댓글 개수 가져오기 -->
+    <select id="getUlCommentCount" resultType="int">
+        SELECT COUNT(*) FROM  userlife_comment   WHERE ul_comment_ul_idx = #{ulIdx}
+    </select>
+
 
 
 

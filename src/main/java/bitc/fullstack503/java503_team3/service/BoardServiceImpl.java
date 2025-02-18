@@ -19,10 +19,21 @@ public class BoardServiceImpl implements BoardService {
 private BoardMapper boardMapper;
 @Autowired
 private UlCommentMapper ulCommentMapper;
+    @Autowired
+    private UlCommentService ulCommentService;
+
     //    목록
     @Override
     public List<UserlifeDTO> selectBoardList() {
-        return boardMapper.selectBoardList();
+
+        List<UserlifeDTO> ulBoardList = boardMapper.selectBoardList();
+
+        for (UserlifeDTO ulBoard : ulBoardList) {
+            int com = ulCommentMapper.getUlCommentCount(ulBoard.getUlIdx());
+            ulBoard.setUlCommentCount(com);
+        }
+
+        return ulBoardList;
     }
 
 
@@ -97,6 +108,11 @@ private UlCommentMapper ulCommentMapper;
     public List<UserlifeDTO> getPopularPosts(int limit) {
         return boardMapper.getPopularPosts(limit);
 
+    }
+    // 해당게시물의 댓글 갯수 조회
+    @Override
+    public int getUlCommentCount(int ulIdx) {
+        return ulCommentService.getUlCommentCount(ulIdx);
     }
 
 }
