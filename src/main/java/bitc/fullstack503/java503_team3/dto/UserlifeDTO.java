@@ -2,9 +2,7 @@ package bitc.fullstack503.java503_team3.dto;
 
 
 import lombok.Data;
-import org.springframework.web.multipart.MultipartFile;
 
-import java.util.List;
 
 
 @Data

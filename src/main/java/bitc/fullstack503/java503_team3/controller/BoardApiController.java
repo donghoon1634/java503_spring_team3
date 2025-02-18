@@ -18,7 +18,7 @@ public class BoardApiController {
 
 
     //    추천 수 증가
-    @PostMapping("/blog/{ulIdx}")
+    @PostMapping("/board/{ulIdx}")
     public Object plusLike(@PathVariable("ulIdx") int ulIdx) throws Exception {
         return boardService.plusLike(ulIdx);
     }

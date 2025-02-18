@@ -3,6 +3,7 @@ package bitc.fullstack503.java503_team3.service;
 import bitc.fullstack503.java503_team3.dto.UserlifeDTO;
 import bitc.fullstack503.java503_team3.dto.UserlifeFileDTO;
 import bitc.fullstack503.java503_team3.mapper.BoardMapper;
+import bitc.fullstack503.java503_team3.mapper.UlCommentMapper;
 import bitc.fullstack503.java503_team3.util.UlFileUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -61,6 +62,7 @@ private UlCommentMapper ulCommentMapper;
         return ul;
     }
     //추천수 중가
+
     @Override
     public Object plusLike(int ulIdx) {
         boardMapper.plusLike(ulIdx);
@@ -73,7 +75,6 @@ private UlCommentMapper ulCommentMapper;
     public void updateBoard(UserlifeDTO ul) {
         boardMapper.updateBoard(ul);
     }
-
     //    게시물 삭제
     @Override
     public void deleteBoard(int ulIdx) {
@@ -94,6 +95,5 @@ private UlCommentMapper ulCommentMapper;
         return boardMapper.getPopularPosts(limit);
 
     }
-
 
 }

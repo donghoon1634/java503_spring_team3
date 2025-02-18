@@ -1,7 +1,9 @@
 package bitc.fullstack503.java503_team3.controller;
 
+import bitc.fullstack503.java503_team3.dto.UserlifeCommentDTO;
 import bitc.fullstack503.java503_team3.dto.UserlifeDTO;
 import bitc.fullstack503.java503_team3.service.BoardService;
+import bitc.fullstack503.java503_team3.service.UlCommentService;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
@@ -23,6 +25,10 @@ public class BoardController {
 
     @Autowired
     private BoardService boardService;
+    @Autowired
+    private UlCommentService ulCommentService;
+
+
 
     @RequestMapping({"/", ""})
     public String index() {
@@ -87,7 +93,6 @@ public String insertBoard(HttpServletRequest request) throws Exception {
 
 
         // 게시물 번호에 해당하는 댓글 목록 가져오기
-//        List<UserlifeCommentDTO> ulcomment = ulCommentService.getUlCommentByUlIdx(ulIdx);
         List<UserlifeCommentDTO> ulcomment = ulCommentService.getCommentsByPage(ulIdx,0,5);
         mav.addObject("ul", ul);
         // ulcomment는 댓글정보
@@ -103,26 +108,30 @@ public String insertBoard(HttpServletRequest request) throws Exception {
 //@PutMapping :  클라이언트에서 데이터 전송방식을 put 로 설정한 URL만 접속
 //  @RequestMapping(method = RequestMethod.PUT 과 동일한 방식
     @PutMapping("/board/{ulIdx}")
-    public String updateBoard(UserlifeDTO ul) throws Exception {
+    public String updateBoard(@PathVariable("ulIdx") int ulIdx, UserlifeDTO ul) throws Exception {
+        ul.setUlIdx(ulIdx);
+        System.out.println("수정 요청 제목: " + ul.getUlTitle());
         boardService.updateBoard(ul);
         return "redirect:/board";
     }
+
+
 
     //    게시물 삭제
 //@DeleteMapping: 클라이언트에서 데이터 전송방식을 delete 로 설정한 URL만 접속
 //  @RequestMapping(method = RequestMethod.delete 과 동일한 방식
     @DeleteMapping("/board/{ulIdx}")
-    public String deleteBoard(@PathVariable("ulIdx") int ulIdx) throws Exception {
-
+    public ResponseEntity<String> deleteBoard(@PathVariable("ulIdx") int ulIdx) {
         boardService.deleteBoard(ulIdx);
-        return "redirect:/board";
+        return ResponseEntity.ok("삭제 성공");
     }
+//@PostMapping("/board/delete")
+//public String deleteBoard(@RequestParam("ulIdx") int ulIdx) {
+//    boardService.deleteBoard(ulIdx);
+//    return "redirect:/board"; // 삭제 후 목록 페이지로 이동
+//}
 
-
-
-
-
-    }
+}
 
 
 
