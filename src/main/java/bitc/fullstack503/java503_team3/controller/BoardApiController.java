@@ -1,8 +1,8 @@
 package bitc.fullstack503.java503_team3.controller;
 
-
 import bitc.fullstack503.java503_team3.dto.UserlifeDTO;
 import bitc.fullstack503.java503_team3.service.BoardService;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -11,7 +11,6 @@ import java.util.List;
 @RestController
 @RequestMapping("/board/api")
 public class BoardApiController {
-
     @Autowired
     private BoardService boardService;
 
@@ -19,7 +18,7 @@ public class BoardApiController {
 
 
     //    추천 수 증가
-    @PostMapping("/blog/{ulIdx}")
+    @PostMapping("/board/{ulIdx}")
     public Object plusLike(@PathVariable("ulIdx") int ulIdx) throws Exception {
         return boardService.plusLike(ulIdx);
     }

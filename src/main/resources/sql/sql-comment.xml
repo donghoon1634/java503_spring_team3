@@ -55,4 +55,19 @@
     <select id="getTotalCommentCount" resultType="int">
         SELECT COUNT(*) FROM  userlife_comment   WHERE ul_comment_ul_idx = #{ulIdx}
     </select>
+
+    <!--    게시물에 댓글 수 확인-->
+    <select id="countComment" parameterType="int" resultType="int" >
+        select count(*) as del_cnt from userlife_comment where ul_comment_ul_idx =#{ulCommentUlIdx}
+    </select>
+
+
+    <!--    게시물 확인 후 댓글 삭제 parameterType 받는값 resultType 보내는값 -->
+    <delete id="deleteComment" parameterType="int">
+        delete from userlife_comment where ul_comment_ul_idx = #{ulCommentUlIdx}
+    </delete>
+
+
+
+
 </mapper>

@@ -1,6 +1,9 @@
 package bitc.fullstack503.java503_team3.dto;
 
+
 import lombok.Data;
+
+
 
 @Data
 public class UserlifeDTO {
@@ -16,5 +19,8 @@ public class UserlifeDTO {
     private String ulCate;
     private String ulMemberId;
     private String ulUpdateDate;
+
+
+
 
 }

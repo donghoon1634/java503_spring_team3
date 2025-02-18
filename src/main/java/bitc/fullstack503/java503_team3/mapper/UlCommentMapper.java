@@ -27,4 +27,9 @@ public interface UlCommentMapper {
     int getTotalCommentCount(Long ulIdx);
     // 댓글목록 등록순으로 댓글목록 다시불러오기
     List<UserlifeCommentDTO> selectCommentsAscByPage(int ulIdx, int offset, int limit);
+
+    int countComment(int ulIdx);
+
+    void deleteComment(int ulIdx);
+
 }
