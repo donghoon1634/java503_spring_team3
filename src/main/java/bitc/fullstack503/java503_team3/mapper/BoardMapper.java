@@ -39,5 +39,6 @@ public interface BoardMapper {
     //    조회수 정렬
     List<UserlifeDTO> getPopularPosts(@Param("limit") int limit);
 
-
+    // 카테고리별 게시물 목록 페이지로 이동
+    List<UserlifeDTO> getBoardByCategory(String ulCate);
 }

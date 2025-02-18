@@ -11,6 +11,7 @@ import org.apache.catalina.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
@@ -51,6 +52,14 @@ public class BoardController {
 //        mav.addObject("ulCommentCount", ulCommentCount);
 
         return mav;
+    }
+
+    // 카테고리별 게시물 목록 페이지로 이동
+    @GetMapping("/board/category/{ulCate}")
+    public String getBoardByCategory(@PathVariable("ulCate") String ulCate, Model model) throws Exception {
+        List<UserlifeDTO> boardList = boardService.getBoardByCategory(ulCate);
+        model.addAttribute("boardList", boardList);
+        return "/board/boardList";
     }
 
 

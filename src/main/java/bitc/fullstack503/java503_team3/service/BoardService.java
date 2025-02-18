@@ -34,5 +34,6 @@ public interface BoardService {
     List<UserlifeDTO> getPopularPosts(int limit);
     // 해당 게시물의 댓글 개수 조회
     int getUlCommentCount(int ulIdx);
-
+    // 카테고리별 게시물 목록 페이지로 이동
+    List<UserlifeDTO> getBoardByCategory(String ulCate);
 }

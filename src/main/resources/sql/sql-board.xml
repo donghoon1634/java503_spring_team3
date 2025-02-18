@@ -68,4 +68,9 @@
         LIMIT #{limit}
     </select>
 
+    <!-- 카테고리별 게시물 목록 페이지로 이동 -->
+    <select id="getBoardByCategory" resultType="bitc.fullstack503.java503_team3.dto.UserlifeDTO">
+        SELECT * FROM userlife WHERE ul_cate = #{ulCate} ORDER BY ul_create_date DESC
+    </select>
+
 </mapper>

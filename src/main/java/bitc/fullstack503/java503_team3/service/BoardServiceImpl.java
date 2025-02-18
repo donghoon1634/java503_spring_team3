@@ -115,4 +115,10 @@ private UlCommentMapper ulCommentMapper;
         return ulCommentService.getUlCommentCount(ulIdx);
     }
 
+    // 카테고리별 게시물 목록 페이지로 이동
+    @Override
+    public List<UserlifeDTO> getBoardByCategory(String ulCate) {
+        return boardMapper.getBoardByCategory(ulCate);
+    }
+
 }
