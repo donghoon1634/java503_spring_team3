@@ -8,7 +8,7 @@ public class TestController
   @GetMapping ("/")
   public ModelAndView main () throws Exception
   {
-    return new ModelAndView ("/main");
+    return new ModelAndView ("main");
   }
   
   @GetMapping ("/footer")
@@ -21,5 +21,11 @@ public class TestController
   public ModelAndView header () throws Exception
   {
     return new ModelAndView ("/layout/header");
+  }
+  
+  @GetMapping ("/header2")
+  public ModelAndView header2 () throws Exception
+  {
+    return new ModelAndView ("header");
   }
 }

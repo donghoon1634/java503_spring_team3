@@ -1,4 +1,5 @@
 package bitc.fullstack503.java503_team3.controller;
+import bitc.fullstack503.java503_team3.dto.LoadAddrDTO;
 import bitc.fullstack503.java503_team3.dto.MemberDTO;
 import bitc.fullstack503.java503_team3.service.LoadAddrService;
 import bitc.fullstack503.java503_team3.service.MemberService;
@@ -46,8 +47,11 @@ public class MemberController
     if (isMember)
     {
       MemberDTO memberInfo = memberService.memberInfo (id);
+      LoadAddrDTO loadAddrInfo = loadAddrService.selectLoadAddrIdx (memberInfo.getMemberAddr ());
       HttpSession session = request.getSession ();
       session.setAttribute ("memberInfo", memberInfo);
+      session.setAttribute ("loadAddrInfo", loadAddrInfo);
+      session.setMaxInactiveInterval (60 * 30);
       return "redirect:/";
     }
     else
