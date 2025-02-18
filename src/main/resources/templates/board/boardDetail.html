@@ -70,10 +70,10 @@
 
             // 수정
             $("#btn-update").on("click", function () {
+                syncHiddenInput();  // ✅ 폼 전송 전에 hidden input 값 동기화
                 $("#method").val("PUT");
 
                 var frm = $("#frm")[0];
-
                 frm.action = "/board/" + $("#ulIdx2").val();
                 frm.submit();
             });
@@ -266,24 +266,28 @@
                 <div>
                     <h3 class="row mt-1 ">
                         <p th:text="${ul.ulTitle}"></p>
-                        <input type="hidden" id="ulTitle" name="ulTitle" th:value="${ul.ulTitle}" class="ps-2 p-0">
+                        <input type="hidden" id="ulTitle" name="ulTitle" th:value="${ul.ulTitle}" class="ps-2 p-0" >
                     </h3>
                 </div>
                 <!-- 글 내용 -->
-                <div class="row mt-1  ">
+                <div class="row mt-1">
                     <div class="col-sm">
                         <div class="form">
-                            <input type="hidden" id="ulContents" name="ulContents" th:value="${ul.ulContents}"
-                                   class="ps-2 p-0">
-                            <textarea name="ulContents" placeholder="글 내용" class="form-control p-0"
-                                      th:text="${ul.ulContents}" oninput="autoResize(this)"
-                                      style="resize: none; overflow-y: hidden; height: auto; border: none"></textarea>
+                            <input type="hidden" id="ulContents" name="ulContents" th:value="${ul.ulContents}">
+
+                            <!-- ✅ 사용자가 입력할 수 있는 영역 (자동 크기 조절) -->
+                            <div id="editableDiv" contenteditable="true"
+                                 class="ps-2 p-0"
+                                 style="border: none; width: 100%; min-height: 40px; overflow-wrap: break-word;"
+                                 oninput="syncHiddenInput()"
+                                 th:text="${ul.ulContents}"></div>
                             <label for="ulContents"></label>
                             <!-- 게시글 이미지 표시 -->
 <!--                            <div class="mt-3">-->
 <!--                                <img th:if="${ul.ulImg != null and ul.ulImg != ''}" th:src="@{'/upload/' + ${ul.ulImg}}"-->
 <!--                                     alt="게시글 이미지" class="post-image">-->
 <!--                            </div>-->
+<!--                            <img th:src="@{${file.ulStoredFileName}}" alt="이미지">-->
                         </div>
                     </div>
                     <!-- 글번호(안보임) -->
@@ -319,11 +323,9 @@
                 </div>
             </form>
             <script>
-                function autoResize(element) {
-                    element.style.height = 'auto';  // 기본 높이를 자동으로 설정
-                    element.style.height = (element.scrollHeight) + 'px'; // 내용에 맞게 높이를 조정
+                function syncHiddenInput() {
+                    document.getElementById("ulContents").value = document.getElementById("editableDiv").innerHTML;
                 }
-
                 // 페이지 로드 시 내용에 맞춰 높이를 자동 조정
                 window.addEventListener('load', function () {
                     var textarea = document.getElementById('ulContents');
