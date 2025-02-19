@@ -1,5 +1,8 @@
 package bitc.fullstack503.java503_team3.service;
 import bitc.fullstack503.java503_team3.dto.MemberDTO;
+import bitc.fullstack503.java503_team3.dto.MemberProfileDTO;
+
+import java.util.List;
 public interface MemberService
 {
   public boolean isMemberId (String id) throws Exception;
@@ -11,4 +14,8 @@ public interface MemberService
   public boolean signIn (MemberDTO member) throws Exception;
   
   public MemberDTO memberInfo (String memberId) throws Exception;
+  
+  public void memberProfile (List<MemberProfileDTO> memberProfile) throws Exception;
+  
+  public String memberProfileHref (String memberId) throws Exception;
 }

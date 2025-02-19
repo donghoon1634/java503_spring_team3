@@ -28,4 +28,21 @@
     from member
     where member_id = #{memberId}
   </select>
+  
+  <insert id="memberProfile" parameterType="bitc.fullstack503.java503_team3.dto.MemberProfileDTO">
+    INSERT INTO member_profile (member_profile_href, member_profile_member_id)
+    VALUES
+    <foreach collection="list" item="item" separator=",">
+      (#{item.memberProfileHref}, #{item.memberProfileMemberId})
+    </foreach>
+    ON DUPLICATE KEY UPDATE
+    member_profile_href = VALUES(member_profile_href);
+  </insert>
+  
+  
+  <select id="memberProfileHref" parameterType="java.lang.String" resultType="java.lang.String">
+    select member_profile_href
+    from member_profile
+    where member_profile_member_id = #{memberProfileMemberId};
+  </select>
 </mapper>
