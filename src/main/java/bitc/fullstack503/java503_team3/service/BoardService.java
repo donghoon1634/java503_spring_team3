@@ -43,5 +43,7 @@ public interface BoardService {
     // 카테고리별- 인기글 목록 페이지로 이동
     List<UserlifeDTO> getBoardByCategoryPopular();
 
+    UserlifeDTO getBoardById(int ulIdx);
 
+    String getBoardAuthorId(int ulIdx);
 }

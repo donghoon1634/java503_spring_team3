@@ -3,6 +3,7 @@ package bitc.fullstack503.java503_team3.dto;
 
 import lombok.Data;
 
+import java.util.List;
 
 
 @Data
@@ -19,6 +20,7 @@ public class UserlifeDTO {
     private String ulCate;
     private String ulMemberId;
     private String ulUpdateDate;
+    private List<UserlifeFileDTO> fileList;
     private int ulCommentCount;
 
 

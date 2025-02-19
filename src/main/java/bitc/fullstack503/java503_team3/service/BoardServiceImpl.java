@@ -15,10 +15,13 @@ import java.util.List;
 @Service
 public class BoardServiceImpl implements BoardService {
 
-@Autowired
-private BoardMapper boardMapper;
-@Autowired
-private UlCommentMapper ulCommentMapper;
+    @Autowired
+    private BoardMapper boardMapper;
+    @Autowired
+    private UlCommentMapper ulCommentMapper;
+    @Autowired
+    private UlFileUtils fileUtils;
+
     @Autowired
     private UlCommentService ulCommentService;
 
@@ -53,6 +56,7 @@ private UlCommentMapper ulCommentMapper;
     public void insertBoard(UserlifeDTO ul) {
         boardMapper.insertBoard(ul);
     }
+
     @Override
     public void insertBoard(UserlifeDTO ul, MultipartHttpServletRequest multipart) throws Exception {
 
@@ -65,44 +69,71 @@ private UlCommentMapper ulCommentMapper;
 //    CollectionUtils : 스프링 프레임워크에서 제공하는 컬렉션 타입의 객체를 활용할 수 있는 유틸 클래스
         if (CollectionUtils.isEmpty(fileList) == false) {
 //      생성된 파일 정보 목록을 데이터베이스에 추가
-            boardMapper.insertFileList(fileList,ul.getUlIdx());
+            boardMapper.insertFileList(fileList, ul.getUlIdx());
         }
 
 
     }
+
+
     //   상세
     @Override
     public UserlifeDTO selectBoardDetail(int ulIdx) {
         boardMapper.updateHitCnt(ulIdx);
-        UserlifeDTO ul= boardMapper.selectBoardDetail(ulIdx);
+        UserlifeDTO ul = boardMapper.selectBoardDetail(ulIdx);
+        List<UserlifeFileDTO> files = boardMapper.selectFilesByUlIdx(ulIdx); // 이미지 파일 가져오기
+
+        for (UserlifeFileDTO file : files) {
+            String path=file.getUlStoredFileName();
+            int index=path.lastIndexOf("/");
+            path=path.substring(index);
+            path="/upload"+path;
+            file.setUlStoredFileName(path);
+        }
+
+        ul.setFileList(files); // ✅ 게시글 DTO에 파일 리스트 추가
+        // 🔍 디버깅 로그 추가
+        System.out.println("게시글 내용: " + ul.getUlContents());
+        System.out.println("첨부 파일 개수: " + (files != null ? files.size() : 0));
+
         return ul;
     }
+
     //추천수 중가
+
     @Override
     public Object plusLike(int ulIdx) {
         boardMapper.plusLike(ulIdx);
 
         return boardMapper.selectLikeCount(ulIdx);
     }
+
     //    게시물 수정
     @Override
     public void updateBoard(UserlifeDTO ul) {
         boardMapper.updateBoard(ul);
     }
+
     //    게시물 삭제
     @Override
     public void deleteBoard(int ulIdx) {
 
 //        댓글 수 확인
         int count = ulCommentMapper.countComment(ulIdx);
-        if (count > 0) {
+//        int filecount= fileUtils.countFile(ulIdx);
+//        if (count > 0 && filecount > 0) {
+
             //댓글삭제
             ulCommentMapper.deleteComment(ulIdx);
+            fileUtils.deleteUlFile(ulIdx);
+//        }
+            boardMapper.deleteBoard(ulIdx);
 
         }
-        boardMapper.deleteBoard(ulIdx);
 
-    }
+
+
+
     //    인기글 정렬
     @Override
     public List<UserlifeDTO> getPopularPosts(int limit) {
@@ -154,5 +185,16 @@ private UlCommentMapper ulCommentMapper;
         }
         return ulBoardList;
     }
+//
+//    @Override
+    public UserlifeDTO getBoardById(int ulIdx) {
+        return boardMapper.getBoardById(ulIdx);
+    }
+
+    @Override
+    public String getBoardAuthorId(int ulIdx) {
+        return boardMapper.getBoardAuthorId(ulIdx);
+    }
+//
 
 }

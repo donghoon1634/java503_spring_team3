@@ -37,6 +37,7 @@
 </script>
 </head>
 <body>
+<<<<<<< HEAD
 
 <header th:replace="~{layout/header :: navbar}"></header>
 <header th:replace="~{layout/header :: search}"></header>
@@ -107,6 +108,57 @@
     </form>
 </div>
 <footer th:replace="~{layout/footer :: footer}"></footer>
+=======
+<div class="container mt-5">
+    <div class="card shadow-sm p-4 col-md-8 mx-auto">
+        <h2 class="mb-4 text-center">게시물 작성</h2>
+        <form action="/board/write" method="post" enctype="multipart/form-data">
+            <!-- 숨겨진 입력 필드 -->
+            <input type="hidden" id="ulMemberId" name="ulMemberId">
+            <input type="hidden" id="ulNickname" name="ulNickname">
+            <input type="hidden" id="ulPlace" name="ulPlace">
+
+            <!-- 카테고리 -->
+            <div class="mb-3">
+                <label for="ulCate" class="form-label fw-bold">카테고리</label>
+                <select class="form-select" id="ulCate" name="ulCate" required>
+                    <option selected>카테고리를 선택하세요</option>
+                    <option value="일상">일상</option>
+                    <option value="반려동물">반려동물</option>
+                    <option value="맛집">맛집</option>
+                    <option value="고민">고민</option>
+                    <option value="동네사건사고">동네사건사고</option>
+                </select>
+            </div>
+
+            <!-- 제목 -->
+            <div class="mb-3">
+                <label for="ulTitle" class="form-label fw-bold">제목</label>
+                <input type="text" class="form-control" id="ulTitle" name="ulTitle" required>
+            </div>
+
+            <!-- 글 내용 -->
+            <div class="mb-3">
+                <label for="ulContents" class="form-label fw-bold">글 내용</label>
+                <textarea class="form-control" id="ulContents" name="ulContents" rows="5" required></textarea>
+            </div>
+
+            <!-- 첨부파일 -->
+            <div class="mb-3">
+                <label for="ulImg" class="form-label fw-bold">첨부파일</label>
+                <input type="file" class="form-control" id="ulImg" name="ulImg" multiple>
+                <div id="image-preview" class="mt-2"></div>
+            </div>
+
+            <!-- 버튼 -->
+            <div class="d-flex justify-content-end gap-2">
+                <button type="submit" class="btn btn-primary px-4">전송</button>
+                <button type="reset" class="btn btn-secondary px-4">취소</button>
+            </div>
+        </form>
+    </div>
+</div>
+>>>>>>> 병합1의진
 
 </body>
 </html>

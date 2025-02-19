@@ -11,6 +11,19 @@
         order by ul_idx DESC
     </select>
 
+
+<!--    &lt;!&ndash; 게시물 조회 &ndash;&gt;-->
+<!--    <select id="getBoardById" resultType="bitc.fullstack503.java503_team3.dto.UserlifeDTO">-->
+<!--        SELECT * FROM userlife-->
+<!--        WHERE ulIdx = #{ulIdx}-->
+<!--    </select>-->
+
+
+        <select id="selectFilesByUlIdx" parameterType="int" resultType="bitc.fullstack503.java503_team3.dto.UserlifeFileDTO">
+            SELECT * FROM userlife_file WHERE ul_idx = #{ulIdx}
+        </select>
+
+
     <select id="selectBoardListByLocation" resultType="bitc.fullstack503.java503_team3.dto.UserlifeDTO">
         select ul_idx,ul_title,ul_nickname,ul_contents,ul_place,ul_cate,ul_likes,date_format(ul_create_date,'%Y.%m.%d %H:%i:%s')
         as ul_create_date, ul_hit_cnt from userlife where ul_place = #{memberGu}
@@ -18,7 +31,7 @@
     </select>
 
 <!--게시글 작성-->
-    <insert id="insertBoard" parameterType="map" >
+    <insert id="insertBoard" parameterType="map" useGeneratedKeys="true" keyProperty="ulIdx">
         insert into userlife(ul_title ,ul_nickname, ul_contents, ul_place, ul_create_date, ul_cate, ul_member_id)
         values(#{ulTitle},#{ulNickname},#{ulContents},#{ulPlace}, now(), #{ulCate}, #{ulMemberId})
     </insert>
@@ -31,13 +44,15 @@
             (#{ulIdx}, #{file.ulOriginalFileName}, #{file.ulStoredFileName}, #{file.ulFileSize})
         </foreach>
     </insert>
-
+    <delete id="deleteUlFile" parameterType="bitc.fullstack503.java503_team3.dto.UserlifeFileDTO">
+        delete  from userlife_file where ul_idx=#{ulIdx}
+    </delete>
 
 
 
 <!--게시글 상세보기-->
 <select id="selectBoardDetail" parameterType="int" resultType="bitc.fullstack503.java503_team3.dto.UserlifeDTO">
-    select ul_idx ,ul_title ,ul_nickname ,ul_contents, ul_place,ul_create_date,ul_update_date , ul_hit_cnt,ul_likes,ul_cate,ul_member_id
+    select ul_idx ,ul_title ,ul_nickname ,ul_contents, ul_place,ul_create_date , ul_hit_cnt,ul_likes,ul_cate,ul_member_id,ul_update_date
     from userlife
     where ul_idx= #{ulIdx}
 </select>
@@ -63,9 +78,13 @@
     </update>
 
 <!--    게시물 삭제-->
- <update id="deleteBoard">
-     delete from userlife where ul_idx=#{ulIdx}
- </update>
+    <delete id="deleteBoard" parameterType="int">
+<!--        &lt;!&ndash; 자식 테이블(userlife_file) 데이터 먼저 삭제 &ndash;&gt;-->
+<!--        DELETE FROM userlife_file WHERE ul_idx = #{ulIdx}-->
+
+        <!-- 부모 테이블(userlife) 데이터 삭제 -->
+        DELETE FROM userlife WHERE ul_idx = #{ulIdx}
+    </delete>
 
 <!--    인기글-->
     <select id="getPopularPosts" resultType="bitc.fullstack503.java503_team3.dto.UserlifeDTO">
@@ -87,5 +106,8 @@
     <select id="getBoardByCategoryPopular" resultType="bitc.fullstack503.java503_team3.dto.UserlifeDTO">
         select * from userlife order by ul_hit_cnt desc
     </select>
+
+
+
 
 </mapper>

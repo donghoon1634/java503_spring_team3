@@ -41,6 +41,8 @@ public interface BoardMapper {
     //    조회수 정렬
     List<UserlifeDTO> getPopularPosts(@Param("limit") int limit);
 
+// 이미지 가져오기
+    List<UserlifeFileDTO> selectFilesByUlIdx(int ulIdx);
     // 카테고리별 게시물 목록 페이지로 이동
     List<UserlifeDTO> getBoardByCategory(String ulCate);
     // 카테고리별 게시물 목록 페이지 - 로그인한 사람의 지역구 기준
@@ -49,4 +51,8 @@ public interface BoardMapper {
     // 카테고리별- 인기글 목록 페이지로 이동
     List<UserlifeDTO> getBoardByCategoryPopular();
 
+//    게시물 조회
+    UserlifeDTO getBoardById(int ulIdx);
+
+    String getBoardAuthorId(int ulIdx);
 }
