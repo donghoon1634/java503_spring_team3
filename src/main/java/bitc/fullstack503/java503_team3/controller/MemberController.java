@@ -55,9 +55,11 @@ public class MemberController
     {
       MemberDTO memberInfo = memberService.memberInfo (id);
       LoadAddrDTO loadAddrInfo = loadAddrService.selectLoadAddrIdx (memberInfo.getMemberAddr ());
+      String memberProfile = memberService.memberProfileHref (id);
       HttpSession session = request.getSession ();
       session.setAttribute ("memberInfo", memberInfo);
       session.setAttribute ("loadAddrInfo", loadAddrInfo);
+      session.setAttribute ("memberProfile", memberProfile);
       session.setMaxInactiveInterval (60 * 30);
       return "redirect:/potato";
     }
@@ -99,11 +101,11 @@ public class MemberController
   }
   
   @GetMapping ("/member/signOut")
-  public ResponseEntity<String> signOutProcess (HttpServletRequest request) throws Exception
+  public String signOutProcess (HttpServletRequest request) throws Exception
   {
     HttpSession session = request.getSession ();
     session.invalidate ();
     // logout 버튼에 reload 응답을 받으면 페이지 리로드하게 하는 함수 추가
-    return ResponseEntity.ok ("reload");
+    return "redirect:/potato";
   }
 }

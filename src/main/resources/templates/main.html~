@@ -96,7 +96,7 @@
       for (let i = 1; i <= 20; i++)
       {
         let cardHTML = `
-        <a href="/potato/trade" class="text-decoration-none">
+        <a href="/potato/myPage" class="text-decoration-none">
           <div class="card border-0 flex-shrink-0">
             <div class="rounded-circle bg-secondary d-flex align-content-center justify-content-center">
               <div class="w-50 h-50 m-auto">
