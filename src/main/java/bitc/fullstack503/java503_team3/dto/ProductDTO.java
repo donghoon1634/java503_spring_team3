@@ -9,6 +9,7 @@ public class ProductDTO {
   private int categoryNum; //물품 카테고리 넘버
   private String categoryName; // 카테고리 명칭
   private String productPrice; //가격
+  private String productInfo; //제품 설명
   private String productImg; //상품 이미지
   private int localGuNum; //거래 지역 번호
   private String localGuName; //거래 지역명

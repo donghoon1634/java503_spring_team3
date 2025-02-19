@@ -40,14 +40,27 @@
     </select>
 
     <!-- 나눔 상품 목록 조회 -->
-    <select id="getFreeProducts" resultType="bitc.fullstack503.java503_team3.dto.ProductDTO">
+    <select id="getShareProducts" resultType="bitc.fullstack503.java503_team3.dto.ProductDTO">
         SELECT product_num, product_name, product_price, product_img, local_gu_name
         FROM product
         WHERE product_price = '나눔'
     </select>
 
+    <!-- 특정 상품 상세 조회 -->
+    <select id="getProductDetail" resultType="bitc.fullstack503.java503_team3.dto.ProductDTO">
+        SELECT
+        product_num AS productNum,
+        product_name AS productName,
+        product_price AS productPrice,
+        product_img AS productImg,
+        local_gu_name AS localGuName
+        FROM product
+        WHERE product_num = #{productNum}
+    </select>
 
-
-
+    <insert id="insertProduct" parameterType="bitc.fullstack503.java503_team3.dto.ProductDTO">
+        INSERT INTO product (product_name, product_info, product_price, local_gu_name, product_img ,member_idx)
+        VALUES (#{productName}, #{productInfo}, #{productPrice}, #{localGuName}, #{productImg}, #{member_idx})
+    </insert>
 
 </mapper>
