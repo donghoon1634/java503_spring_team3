@@ -1,6 +1,7 @@
 package bitc.fullstack503.java503_team3.controller;
 
 import bitc.fullstack503.java503_team3.dto.*;
+import bitc.fullstack503.java503_team3.service.MemberService;
 import bitc.fullstack503.java503_team3.service.MyPageService;
 import bitc.fullstack503.java503_team3.service.TradeUpdateEditService;
 import bitc.fullstack503.java503_team3.service.tradeUserCommentService;
@@ -11,6 +12,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.util.List;
 
@@ -26,10 +28,23 @@ public class usedResellController {
 
     @Autowired
     private TradeUpdateEditService tradeUpdateEditService;
+    @Autowired
+    private MemberService memberService;
 
     // 거래문의 게시판 댓글 등록
     @PostMapping("/tradeChat/{tradeBoardIdx}")
-    public String tradeChat(@PathVariable("tradeBoardIdx") int tradeBoardIdx, @ModelAttribute userTradeCommentDTO utc) throws Exception {
+    public ModelAndView tradeChat(@PathVariable("tradeBoardIdx") int tradeBoardIdx, @ModelAttribute userTradeCommentDTO utc, HttpServletRequest request) throws Exception {
+
+        HttpSession session = request.getSession();
+        MemberDTO loggedInUser = (MemberDTO) session.getAttribute("memberInfo");
+        System.out.println("로그인 한 유저 : "+loggedInUser);
+
+
+    if (loggedInUser == null) {
+        System.out.println("로그인 되지 않았습니다");
+            return new ModelAndView("redirect:/member");
+        }
+        utc.setTradeUser(loggedInUser.getMemberId());
 
         if (utc.getTradeUserComment() == null || utc.getTradeUserComment()
                 .trim().isEmpty()) {
@@ -41,22 +56,34 @@ public class usedResellController {
 
         ModelAndView mav = new ModelAndView("usedTrade/tradeChat");
 
+        mav.setViewName("redirect:/potato/tradeChat/" + tradeBoardIdx);
+
         mav.addObject("tradeBoardIdx", tradeBoardIdx);
         mav.addObject("tradeCommentList", tradeCommentList);
 
-        return "redirect:/potato/tradeChat/" + tradeBoardIdx;
+        return mav;
     }
+
+//    @RequestMapping(value = "tradeChat/{idx}" , method = RequestMethod.POST)
+//    public String deleteComment(@PathVariable("idx") int idx, @RequestParam("tradeBoardIdx") int tradeBoardIdx, RedirectAttributes redirectAttributes) throws Exception {
+//        tradeUserCommentService.deleteComment(idx);
+//
+//        redirectAttributes.addAttribute("tradeBoardIdx", tradeBoardIdx);
+//        return "redirect:/tradeChat/" + tradeBoardIdx;
+//    }
 
     // 거래문의 게시판 댓글 보기?
     @RequestMapping(value = "/tradeChat/{tradeBoardIdx}", method = RequestMethod.GET)
-    public String getTradeChat(@PathVariable("tradeBoardIdx") int tradeBoardIdx, Model model) throws Exception {
+    public ModelAndView getTradeChat(@PathVariable("tradeBoardIdx") int tradeBoardIdx) throws Exception {
 
         List<userTradeCommentDTO> tradeCommentList = tradeUserCommentService.getComment(tradeBoardIdx);
 
-        model.addAttribute("tradeBoardIdx", tradeBoardIdx);
-        model.addAttribute("tradeCommentList", tradeCommentList);
+        ModelAndView mav = new ModelAndView();
+        mav.addObject("tradeBoardIdx", tradeBoardIdx);
+        mav.addObject("tradeCommentList", tradeCommentList);
 
-        return "/usedTrade/tradeChat";
+        mav.setViewName("usedTrade/tradeChat");
+        return mav;
     }
 
 
@@ -184,4 +211,6 @@ public class usedResellController {
         mav.addObject("umpe", umpe);
         return mav;
     }
+
+
 }

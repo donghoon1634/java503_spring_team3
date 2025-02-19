@@ -8,4 +8,6 @@ public interface tradeUserCommentService {
     void qnaComment(userTradeCommentDTO utc);
 
     List<userTradeCommentDTO> getComment(int tradeBoardIdx);
+
+//    void deleteComment(int idx);
 }

@@ -12,6 +12,4 @@ public class userTradeCommentDTO {
 
     private String memberNickname;
 
-    public void setMemberNickname(String nickname) {
-    }
 }

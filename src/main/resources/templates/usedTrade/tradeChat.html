@@ -30,7 +30,7 @@
 <header th:replace="~{/layout/header :: search}"></header>
 <main class="container mt-3">
     <div class="mt-3 d-grid justify-content-center">
-        <img src="/image/GD2.jpg" width="300px" height="300px" alt="이미지 예시">
+        <img  src="/image/GD2.jpg" width="300px" height="300px" alt="이미지 예시">
     </div>
     <div>
         <h3>판매글 제목</h3>
@@ -44,9 +44,12 @@
 
                 <p><strong th:text="${comment.tradeUser}">작성자</strong> - <span th:text="${comment.tradeCreateDate}">작성일</span></p>
                 <p th:text="${comment.tradeUserComment}">문의 내용</p>
+<!--            <form th:action="@{/deleteComment/{idx}(idx=${comment.idx})}" method="post">-->
+<!--                <input type="hidden" name="tradeBoardIdx" th:value="${tradeBoardIdx}">-->
+<!--                <button type="submit" style="background-color: #FF766d">삭제</button>-->
+<!--            </form>-->
                 <div class="col-sm d-flex justify-content-end">
                 </div>
-
             <hr>
         </div>
     </form>

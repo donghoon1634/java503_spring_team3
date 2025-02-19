@@ -24,9 +24,19 @@ public class tradeUserCommentServiceImpl implements tradeUserCommentService {
         List<userTradeCommentDTO> comments = tradeUserCommentMapper.getComment(tradeBoardIdx);
 
         for(userTradeCommentDTO comment : comments) {
+            System.out.println("작성자 : " + comment.getMemberNickname());
+            System.out.println("tradeUser: " + comment.getTradeUser());
+
             String nickname = tradeUserCommentMapper.getMemberNickname(comment.getTradeUser());
             comment.setMemberNickname(nickname);
+            System.out.println("memberNickname: " + comment.getMemberNickname());
+
         }
         return comments;
     }
+
+//    @Override
+//    public void deleteComment(int idx) {
+//        tradeUserCommentMapper.deleteComment(idx);
+//    }
 }

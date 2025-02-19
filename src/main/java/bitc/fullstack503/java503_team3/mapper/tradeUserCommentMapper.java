@@ -11,4 +11,6 @@ public interface tradeUserCommentMapper {
     List<userTradeCommentDTO> getComment(int tradeBoardIdx);
 
     String getMemberNickname(String tradeUser);
+
+//    void deleteComment(int idx);
 }
