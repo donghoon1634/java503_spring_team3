@@ -182,6 +182,10 @@
 
 </head>
 <body>
+
+<header th:replace="~{layout/header :: navbar}"></header>
+<header th:replace="~{layout/header :: search}"></header>
+
 <main class="container mt-5">
     <!-- 상단 홈 > 동네생활 부분 -->
     <nav class="navbar navbar-expand-lg bg-white">
@@ -200,7 +204,12 @@
             </ul>
         </div>
     </nav>
-
+    <!-- 상단 지역, 글쓰기버튼 부분 -->
+    <div class="d-flex align-items-center mb-4">
+        <h2 class="mb-0"><b th:text="${memberGu}">동네생활</b></h2>
+        <h4 class="mb-0"><b >동네생활</b></h4>
+        <a href="/board/write" class="btn btn-danger ms-5 me-5">글쓰기</a>
+    </div>
     <section class="row">
         <!-- 카테고리 (cate) 영역 -->
         <div class="col-md-2 p-3">
@@ -351,5 +360,7 @@
     </section>
 
 </main>
+<footer th:replace="~{layout/footer :: footer}"></footer>
+
 </body>
 </html>

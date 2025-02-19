@@ -37,6 +37,10 @@
 </script>
 </head>
 <body>
+
+<header th:replace="~{layout/header :: navbar}"></header>
+<header th:replace="~{layout/header :: search}"></header>
+
 <div class="container mt-4">
     <h2 class="mb-4">게시물 작성</h2>
     <form action="/board/write" method="post" enctype="multipart/form-data">
@@ -102,5 +106,7 @@
         </div>
     </form>
 </div>
+<footer th:replace="~{layout/footer :: footer}"></footer>
+
 </body>
 </html>

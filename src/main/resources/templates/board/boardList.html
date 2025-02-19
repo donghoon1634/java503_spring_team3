@@ -50,6 +50,7 @@
             color: #6c757d;
         }
     </style>
+
 </head>
 <body>
 
@@ -77,7 +78,8 @@
     </nav>
     <!-- 상단 지역, 글쓰기버튼 부분 -->
     <div class="d-flex align-items-center mb-4">
-        <h2 class="mb-0"><b>부산광역시 남구 문현제2동 동네생활</b></h2>
+        <h2 class="mb-0"><b th:text="${memberGu}">동네생활</b></h2>
+        <h4 class="mb-0"><b >동네생활</b></h4>
         <a href="/board/write" class="btn btn-danger ms-5 me-5">글쓰기</a>
     </div>
     <!-- 하단 카데고리/ 게시글 목록 -->
@@ -126,5 +128,6 @@
     </div>
 
 </main>
+<footer th:replace="~{layout/footer :: footer}"></footer>
 </body>
 </html>

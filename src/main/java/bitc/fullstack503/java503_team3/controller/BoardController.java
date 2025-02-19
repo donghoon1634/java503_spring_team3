@@ -48,6 +48,7 @@ public class BoardController {
             String memberGu = memberAddr.getLoadAddrGu();
             List<UserlifeDTO> boardList = boardService.selectBoardListByLocation(memberGu);
             mav.addObject("boardList", boardList);
+            mav.addObject("memberGu", memberGu);
         }
         else {
             // 게시물 목록 조회
@@ -122,23 +123,36 @@ public class BoardController {
     //  @PathVariable : @RequestParam 과 동일한 역할을 하는 어노테이션, REST 방식 사용 시 URI 에 {} 로 지정해 놓은 리소스 값을 받아오는 어노테이션
 //  게시물 상세
     @RequestMapping(value = "/board/{ulIdx}", method = RequestMethod.GET)
-    public ModelAndView selectBoardDetail(@PathVariable("ulIdx") int ulIdx) throws Exception {
+    public ModelAndView selectBoardDetail(@PathVariable("ulIdx") int ulIdx, HttpServletRequest request) throws Exception {
         ModelAndView mav = new ModelAndView("board/boardDetail");
         UserlifeDTO ul = boardService.selectBoardDetail(ulIdx);
-
-        // 게시물 번호에 해당하는 댓글 목록 가져오기
-        List<UserlifeCommentDTO> ulcomment = ulCommentService.getCommentsByPage(ulIdx, 0, 5);
-
-        int getUlCommentCount = boardService.getUlCommentCount(ulIdx);
-
-        mav.addObject("ul", ul);
-        // ulcomment는 댓글정보
-        mav.addObject("ulcomment", ulcomment);
-        mav.addObject("getUlCommentCount", getUlCommentCount);
-
-
-
+        HttpSession session = request.getSession();
+        MemberDTO memberInfo = (MemberDTO) session.getAttribute("memberInfo");
+        LoadAddrDTO memberAddr = (LoadAddrDTO) session.getAttribute("loadAddrInfo");
+        if (memberInfo != null) {
+            String memberGu = memberAddr.getLoadAddrGu();
+            // 게시물 번호에 해당하는 댓글 목록 가져오기
+            List<UserlifeCommentDTO> ulcomment = ulCommentService.getCommentsByPage(ulIdx, 0, 5);
+            int getUlCommentCount = boardService.getUlCommentCount(ulIdx);
+            mav.addObject("ul", ul);
+            // ulcomment는 댓글정보
+            mav.addObject("ulcomment", ulcomment);
+            mav.addObject("getUlCommentCount", getUlCommentCount);
+            mav.addObject("memberGu", memberGu);
+        }
+        else {
+            // 게시물 번호에 해당하는 댓글 목록 가져오기
+            List<UserlifeCommentDTO> ulcomment = ulCommentService.getCommentsByPage(ulIdx, 0, 5);
+            int getUlCommentCount = boardService.getUlCommentCount(ulIdx);
+            mav.addObject("ul", ul);
+            // ulcomment는 댓글정보
+            mav.addObject("ulcomment", ulcomment);
+            mav.addObject("getUlCommentCount", getUlCommentCount);
+        }
         return mav;
+
+
+
     }
 
 
