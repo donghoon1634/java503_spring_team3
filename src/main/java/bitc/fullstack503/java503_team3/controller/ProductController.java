@@ -7,8 +7,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.servlet.ModelAndView;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -71,6 +73,23 @@ public class ProductController {
   public List<ProductDTO> fetchShareProducts() {
     // 'share' 상태인 상품 목록을 반환하는 서비스 메서드 호출
     return productService.getShareProducts();
+  }
+  // 전체 상품 목록을 반환하는 메서드(초기화 버튼)
+  @GetMapping("/potato/trade/products")
+  @ResponseBody
+  public List<ProductDTO> getAllProducts() {
+    return productService.getAllProducts();  // 전체 상품 목록을 반환
+  }
+
+
+  // 상품 정보 상세 페이지로 가져오기
+  @GetMapping("/potato/trade/productDetail")
+  public String productDetail(@RequestParam("productNum") int productNum, Model model) {
+
+    ProductDTO product = productService.getProductDetail(productNum);
+    model.addAttribute("product", product);
+    return "product/productDetail";
+
   }
 
 }

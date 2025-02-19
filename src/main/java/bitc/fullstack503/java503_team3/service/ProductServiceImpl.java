@@ -48,4 +48,10 @@ public class ProductServiceImpl implements ProductService {
   public List<ProductDTO> getShareProducts() {
     return productMapper.getShareProducts();  // '나눔' 상품을 가져오는 메서드 호출
   }
+
+  // 특정 상품의 세부 정보 조회
+  @Override
+  public ProductDTO getProductDetail(int productNum) {
+    return productMapper.getProductDetail(productNum); // 제품 상세 정보를 가져오기 위한 num
+  }
 }

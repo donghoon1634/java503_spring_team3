@@ -24,7 +24,8 @@ public interface ProductService {
   // "나눔" 상품 목록 가져오기
   List<ProductDTO> getShareProducts();
 
-
+  //  제품 상세 제품번호 가져오기
+  ProductDTO getProductDetail(int productNum);
 
 
 }

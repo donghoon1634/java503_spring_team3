@@ -28,4 +28,6 @@ public interface ProductMapper {
   // 나눔 상품 목록 조회
   List<ProductDTO> getShareProducts();
 
+  // 특정 상품의 상세 정보를 조회
+  ProductDTO getProductDetail(int productNum);
 }
