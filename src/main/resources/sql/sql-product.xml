@@ -58,9 +58,10 @@
         WHERE product_num = #{productNum}
     </select>
 
+<!--    제품 등록하기-->
     <insert id="insertProduct" parameterType="bitc.fullstack503.java503_team3.dto.ProductDTO">
         INSERT INTO product (product_name, product_info, product_price, local_gu_name, product_img ,member_idx)
-        VALUES (#{productName}, #{productInfo}, #{productPrice}, #{localGuName}, #{productImg}, #{member_idx})
+        VALUES (#{productName}, #{productInfo}, #{productPrice}, #{localGuName}, #{productImg}, #{memberIdx})
     </insert>
 
 </mapper>

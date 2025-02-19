@@ -330,7 +330,10 @@
         <div th:if="${#lists.size(productList)} > 0" th:each="product : ${productList}"
              class="product-card col-lg-3 col-md-4 col-sm-6 mb-4">
           <div class="card" th:onclick="|location.href='/potato/trade/productDetail?productNum=${product.productNum}'|" style="cursor: pointer;">
-            <img th:src="@{|${product.productImg}|}" class="card-img-top" alt="상품 이미지">
+            <img th:src="${#strings.startsWith(product.productImg, 'http') ? product.productImg : '/upload/dir/' + product.productImg}"
+                 class="card-img-top" alt="상품 이미지">
+
+
             <div class="card-body">
               <p class="card-title" th:text="${product.productName}">상품 제목</p>
               <p class="card-price" th:text="${product.productPrice}">1000원</p>
