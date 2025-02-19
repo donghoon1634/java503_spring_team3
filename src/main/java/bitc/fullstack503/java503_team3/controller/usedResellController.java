@@ -99,6 +99,10 @@ public class usedResellController {
 
         productEditDTO.setProductEditBoardIdx(productEditBoardIdx);
         tradeUpdateEditService.updateTradeEdit(productEditDTO);
+        userMyPageProductEditDTO user = myPageService.selectPInfo(productEditBoardIdx);
+        user.setUserMyPageProductEditName(productEditDTO.getProductEditTitle());
+        user.setUserMyPageProductEditPrice(productEditDTO.getProductEditPrice());
+        myPageService.uInfo(user);
         return "redirect:/potato/myPage/edit/1";
     }
     // 마이페이지 들어와서 등록한 판매 물품 수정 보는 곳?
@@ -182,11 +186,12 @@ public class usedResellController {
 
             String si = memberLoadAddr.getLoadAddrSido();
             String gu = memberLoadAddr.getLoadAddrGu();
-            String dong = memberLoadAddr.getLoadAddrDong();
             String ro = memberLoadAddr.getLoadAddrRo();
-            String addr = si + gu + dong + ro;
+            String mainNum = memberLoadAddr.getLoadAddrMainNum();
+            String subNum = memberLoadAddr.getLoadAddrSubNum();
+            String detail = memberInfo.getMemberAddrDetail();
+            String addr = si + " " + gu + " " + ro + " " + mainNum + " " + subNum + " " + detail;
             member.setMemberAddr(addr);
-            member.setMemberAddrDetail("");
 
             userPage.setMemberDTO(member);
 
@@ -199,6 +204,7 @@ public class usedResellController {
             if(umpe.isEmpty()) {
                 System.out.println("상품 없습니다.");
             }
+
         mav.addObject("myPageUser", myPageUser);
         mav.addObject("umpe", umpe);
         return mav;

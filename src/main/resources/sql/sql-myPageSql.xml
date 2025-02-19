@@ -37,4 +37,14 @@
         FROM user_mypage_product_edit
         WHERE user_mypage_product_edit_mypage_user = #{userMyPageProductEditMyPageUser}
     </select>
+
+    <update id="uInfo" parameterType="bitc.fullstack503.java503_team3.dto.userMyPageProductEditDTO">
+        update user_mypage_product_edit set user_mypage_product_edit_name = #{userMyPageProductEditName}, user_mypage_product_edit_price = #{userMyPageProductEditPrice} where user_mypage_product_edit_idx = #{userMyPageProductEditIdx}
+    </update>
+
+    <select id="selectPInfo" parameterType="int" resultType="bitc.fullstack503.java503_team3.dto.userMyPageProductEditDTO">
+        select *
+        from user_mypage_product_edit
+        where user_mypage_product_edit_idx = #{userMyPageProductEditIdx}
+    </select>
 </mapper>

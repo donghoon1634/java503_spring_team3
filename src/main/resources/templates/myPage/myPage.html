@@ -45,7 +45,7 @@
                 <div class="col-sm mt-2">
                     <div class="form-floating">
                         <input type="text" class="form-control" id="seller" name="seller"
-                               th:value="${myPage.myPageUser}">
+                               th:value="${myPage.memberDTO.memberNickname}">
                         <label for="seller"></label>
                     </div>
                 </div>
@@ -67,7 +67,7 @@
                     <br>
                     <div class="col-sm ms-5"> 주소</div>
                     <div class="col-sm ms-5">
-                        <span th:text="|${myPage.memberDTO.memberAddr} ${myPage.memberDTO.memberAddrDetail}|"></span> <!-- 주소 출력 -->
+                        <span th:text="${myPage.memberDTO.memberAddr}"></span> <!-- 주소 출력 -->
                     </div>
                     <br>
                     <div class="col-sm mt-5">
@@ -90,7 +90,8 @@
             <div class="form-floating mt-3 d-flex">
                 <div class="container d-flex">
                     <div th:each="product:${umpe}" class="me-3">
-                        <a href="/potato/myPage/edit/1">
+<!--                        <a href="/potato/myPage/edit/1">-->
+                        <a th:href="@{'/potato/myPage/edit/' + ${product.getUserMyPageProductEditIdx()}}">
                             <img src="/image/box.png" alt="기본 이미지"
                                          th:src="${product.userMyPageProductEditImgs}" width="200px" height="200px"></a>
                         <div th:text="${product.userMyPageProductEditName}">이름</div>

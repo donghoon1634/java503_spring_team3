@@ -53,4 +53,16 @@ private MyPageMapper myPageMapper;
 
         return myPageProduct;
     }
+
+    @Override
+    public void uInfo(userMyPageProductEditDTO userMyPageProductEditDTO) {
+        myPageMapper.uInfo(userMyPageProductEditDTO);
+    }
+
+    @Override
+    public userMyPageProductEditDTO selectPInfo(int idx) {
+        return myPageMapper.selectPInfo(idx);
+    }
+
+
 }

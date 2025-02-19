@@ -17,4 +17,8 @@ public interface MyPageMapper {
     List<userMyPageDTO> selectMyPage1(String myPageUser);
 
     List<userMyPageProductEditDTO> selectMyPageProduct1(String myPageUser);
+
+    void uInfo(userMyPageProductEditDTO userMyPageProductEditDTO);
+
+    userMyPageProductEditDTO selectPInfo(int idx);
 }
