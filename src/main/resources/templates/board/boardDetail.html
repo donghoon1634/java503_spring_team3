@@ -74,7 +74,7 @@
                 $("#method").val("PUT");
 
                 var frm = $("#frm")[0];
-                frm.action = "/potato/userlife/" + $("#ulIdx2").val();
+                frm.action = "/board/" + $("#ulIdx2").val();
                 frm.submit();
             });
 
@@ -88,7 +88,7 @@
                     return;
                 }
 
-                fetch("/potato/userlife/" + ulIdx, {
+                fetch("/board/" + ulIdx, {
                     method: "DELETE",
                     headers: {
                         "Content-Type": "application/json"
@@ -97,7 +97,7 @@
                     .then(response => {
                         if (response.ok) {
                             alert("삭제되었습니다.");
-                            window.location.href = "/potato/userlife";
+                            window.location.href = "/board";
                         } else {
                             alert("삭제 실패!");
                         }
@@ -129,7 +129,7 @@
                                                     //val(); value값을 들고오는 코드 ex) 251번줄 ulIdx2 값을 들고옴
                                                     //p 태그에는  text 값을 넣어야 함
                     $.ajax({
-                        url: '/potato/userlife/api/board/' + ulIdx,
+                        url: '/board/api/board/' + ulIdx,
                         method: 'POST',
                         success: function (data) {
                             $('#likeCount').text(data);
@@ -142,7 +142,7 @@
 
         function ax() {
             $.ajax({
-                url: "/potato/userlife/api/popular", // 🔹 인기글을 불러올 API
+                url: "/board/api/popular", // 🔹 인기글을 불러올 API
                 type: "GET",
                 data: {limit: 5}, // 🔹 인기글 5개 가져오기
                 success: function (data) {
@@ -155,8 +155,8 @@
                     data.forEach(ul => {
                         let listItem = `
                         <li class="popular-item">
-                            <h3>${ul.ulTitle}</h3>
-                            <p class="content">${ul.ulContents}</p>
+                            <h3><a href="/board/${ul.ulIdx}" class="text-dark text-decoration-none">${ul.ulTitle}</a></h3>
+                            <p class="content"><a href="/board/${ul.ulIdx}" class="text-dark text-decoration-none">${ul.ulContents}</a></p>
                             <p class="info">${ul.ulPlace} · ${ul.ulCate}</p>
                             <div class="icons">
                             <img src="/img/good.png" width="22px" height="22px" alt="" id="ulLikes" name="ulLikes" ${ul.ulLikes}>
@@ -248,8 +248,8 @@
 
                         <!-- 삭제 수정 버튼 -->
                         <div class="col-sm-auto text-end">
-                            <input type="hidden" id="ulIdx1" >
-                            <button type="button" class="btn btn-danger me-2" id="btn-delete" >삭제</button>
+                            <input type="hidden" id="ulIdx1" th:value="${ul.ulIdx}">
+                            <button type="button" class="btn btn-danger me-2" id="btn-delete">삭제</button>
                             <input type="hidden" id="ulIdx2" name="ulIdx" th:value="${ul.ulIdx}">
                             <button type="button" class="btn btn-warning" id="btn-update">수정</button>
                         </div>
@@ -314,16 +314,17 @@
                     </div>
                 </div>
             </form>
-            <script>
-                function syncHiddenInput() {
-                    document.getElementById("ulContents").value = document.getElementById("editableDiv").innerHTML;
-                }
-                // 페이지 로드 시 내용에 맞춰 높이를 자동 조정
-                window.addEventListener('load', function () {
-                    var textarea = document.getElementById('ulContents');
-                    autoResize(textarea);  // 페이지 로딩 시에도 크기 조정
-                });
-            </script>
+<!--            <script>-->
+<!--                function syncHiddenInput() {-->
+<!--                    document.getElementById("ulContents").value = document.getElementById("editableDiv").innerHTML;-->
+<!--                }-->
+<!--                // 페이지 로드 시 내용에 맞춰 높이를 자동 조정-->
+<!--                window.addEventListener('load', function () {-->
+<!--                    var textarea = document.getElementById('ulContents');-->
+<!--                    autoResize(textarea);  // 페이지 로딩 시에도 크기 조정-->
+<!--                });-->
+<!--            </script>-->
+
 
             <hr>
 

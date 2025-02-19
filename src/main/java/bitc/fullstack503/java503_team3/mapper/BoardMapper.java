@@ -41,4 +41,6 @@ public interface BoardMapper {
 
     // 카테고리별 게시물 목록 페이지로 이동
     List<UserlifeDTO> getBoardByCategory(String ulCate);
+    // 카테고리별- 인기글 목록 페이지로 이동
+    List<UserlifeDTO> getBoardByCategoryPopular();
 }

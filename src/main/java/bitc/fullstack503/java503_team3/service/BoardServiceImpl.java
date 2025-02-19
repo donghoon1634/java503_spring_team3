@@ -22,6 +22,7 @@ private UlCommentMapper ulCommentMapper;
     @Autowired
     private UlCommentService ulCommentService;
 
+
     //    목록
     @Override
     public List<UserlifeDTO> selectBoardList() {
@@ -98,6 +99,7 @@ private UlCommentMapper ulCommentMapper;
         if (count > 0) {
             //댓글삭제
             ulCommentMapper.deleteComment(ulIdx);
+
         }
         boardMapper.deleteBoard(ulIdx);
 
@@ -119,6 +121,11 @@ private UlCommentMapper ulCommentMapper;
     @Override
     public List<UserlifeDTO> getBoardByCategory(String ulCate) {
         return boardMapper.getBoardByCategory(ulCate);
+    }
+    // 카테고리별- 인기글 목록 페이지로 이동
+    @Override
+    public List<UserlifeDTO> getBoardByCategoryPopular() {
+        return boardMapper.getBoardByCategoryPopular();
     }
 
 }

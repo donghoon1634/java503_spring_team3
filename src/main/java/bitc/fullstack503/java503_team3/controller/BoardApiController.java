@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("/potato/userlife/api")
+@RequestMapping("/board/api")
 public class BoardApiController {
     @Autowired
     private BoardService boardService;
@@ -18,7 +18,7 @@ public class BoardApiController {
 
 
     //    추천 수 증가
-    @PostMapping("/userlife/{ulIdx}")
+    @PostMapping("/board/{ulIdx}")
     public Object plusLike(@PathVariable("ulIdx") int ulIdx) throws Exception {
         return boardService.plusLike(ulIdx);
     }
