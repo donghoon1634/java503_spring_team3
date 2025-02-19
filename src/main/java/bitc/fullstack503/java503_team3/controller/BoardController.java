@@ -216,13 +216,14 @@ public class BoardController {
         if (memberInfo == null) {
             return ResponseEntity.status(403).body("로그인이 필요합니다.");
         }
-
-
-        // 게시물 작성자 ID 가져오기
+        // 로그인한 사용자의 ID
         String memberId = memberInfo.getMemberId();
 
-        // 게시물 정보 조회 (여기서는 boardService.getBoard() 메서드를 통해 작성자 ID를 가져오는 예시)
-        String postAuthorId = boardService.getBoardAuthorId(ulIdx); // 해당 게시물의 작성자 ID를 가져오는 메서드
+        // 게시물 작성자 ID 조회
+        String postAuthorId = boardService.getBoardAuthorId(ulIdx);
+        if (postAuthorId == null) {
+            return ResponseEntity.status(404).body("게시물을 찾을 수 없습니다.");
+        }
 
         // 작성자 ID 비교
         if (!memberId.equals(postAuthorId)) {
@@ -233,6 +234,22 @@ public class BoardController {
         boardService.deleteBoard(ulIdx);
         return ResponseEntity.ok("삭제 성공");
     }
+
+//        // 게시물 작성자 ID 가져오기
+//        String memberId = memberInfo.getMemberId();
+//
+//        // 게시물 정보 조회 (여기서는 boardService.getBoard() 메서드를 통해 작성자 ID를 가져오는 예시)
+//        String postAuthorId = boardService.getBoardAuthorId(ulIdx); // 해당 게시물의 작성자 ID를 가져오는 메서드
+//
+//        // 작성자 ID 비교
+//        if (!memberId.equals(postAuthorId)) {
+//            return ResponseEntity.status(403).body("삭제 권한이 없습니다.");
+//        }
+//
+//        // 삭제 작업 진행
+//        boardService.deleteBoard(ulIdx);
+//        return ResponseEntity.ok("삭제 성공");
+//    }
 }
 //    @PostMapping("/board/delete")
 //    public String deleteBoard ( @RequestParam("ulIdx") int ulIdx){

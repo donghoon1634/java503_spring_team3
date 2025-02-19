@@ -119,13 +119,13 @@ public class BoardServiceImpl implements BoardService {
     public void deleteBoard(int ulIdx) {
 
 //        댓글 수 확인
-        int count = ulCommentMapper.countComment(ulIdx);
+//        int count = ulCommentMapper.countComment(ulIdx);
 //        int filecount= fileUtils.countFile(ulIdx);
 //        if (count > 0 && filecount > 0) {
 
             //댓글삭제
             ulCommentMapper.deleteComment(ulIdx);
-            fileUtils.deleteUlFile(ulIdx);
+            boardMapper.deleteUlFile(ulIdx);
 //        }
             boardMapper.deleteBoard(ulIdx);
 

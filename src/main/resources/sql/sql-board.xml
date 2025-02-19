@@ -44,7 +44,7 @@
             (#{ulIdx}, #{file.ulOriginalFileName}, #{file.ulStoredFileName}, #{file.ulFileSize})
         </foreach>
     </insert>
-    <delete id="deleteUlFile" parameterType="bitc.fullstack503.java503_team3.dto.UserlifeFileDTO">
+    <delete id="deleteUlFile" parameterType="int">
         delete  from userlife_file where ul_idx=#{ulIdx}
     </delete>
 
@@ -105,6 +105,10 @@
     <!-- 카테고리별- 인기글 목록 페이지로 이동 -->
     <select id="getBoardByCategoryPopular" resultType="bitc.fullstack503.java503_team3.dto.UserlifeDTO">
         select * from userlife order by ul_hit_cnt desc
+    </select>
+
+    <select id="getBoardAuthorId" resultType="string">
+        select ul_member_id from userlife where ul_idx = #{ulIdx}
     </select>
 
 

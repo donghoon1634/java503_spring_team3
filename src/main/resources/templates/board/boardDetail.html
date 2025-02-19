@@ -100,8 +100,7 @@
                             window.location.href = "/board";
                         } else {
                             response.text().then(errorMessage => {
-                                alert(errorMessage);  // 서버에서 보낸 오류 메시지 출력
-                            });
+                                console.log(errorMessage)                            });
                         }
                     })
                     .catch(error => console.error("삭제 중 오류 발생:", error));
@@ -368,7 +367,7 @@
             <section>
                 <div>
                     <div>
-                        <h2><b>문현제2동 인기글</b></h2>
+                        <h2><b>동네생활 인기글</b></h2>
                     </div>
                     <!-- AJAX로 인기글이 여기에 추가됨 -->
                     <ul id="popular-posts">
