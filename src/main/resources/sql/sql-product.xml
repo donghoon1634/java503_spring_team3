@@ -48,6 +48,13 @@
 
 
 
+<select id="selectProductByTradeBoardIdx" resultType="bitc.fullstack503.java503_team3.dto.ProductDTO">
+    SELECT p.*
+    FROM product p
+    JOIN usertrade_comment utc ON utc.trade_board_idx = p.product_num
+    WHERE utc.trade_board_idx = #{tradeBoardIdx}
+    limit 1;
 
+</select>
 
 </mapper>

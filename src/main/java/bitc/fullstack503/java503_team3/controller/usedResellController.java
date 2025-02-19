@@ -1,10 +1,7 @@
 package bitc.fullstack503.java503_team3.controller;
 
 import bitc.fullstack503.java503_team3.dto.*;
-import bitc.fullstack503.java503_team3.service.MemberService;
-import bitc.fullstack503.java503_team3.service.MyPageService;
-import bitc.fullstack503.java503_team3.service.TradeUpdateEditService;
-import bitc.fullstack503.java503_team3.service.tradeUserCommentService;
+import bitc.fullstack503.java503_team3.service.*;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -30,6 +27,8 @@ public class usedResellController {
     private TradeUpdateEditService tradeUpdateEditService;
     @Autowired
     private MemberService memberService;
+    @Autowired
+    private ProductService productService;
 
     // 거래문의 게시판 댓글 등록
     @PostMapping("/tradeChat/{tradeBoardIdx}")
@@ -78,9 +77,13 @@ public class usedResellController {
 
         List<userTradeCommentDTO> tradeCommentList = tradeUserCommentService.getComment(tradeBoardIdx);
 
+        ProductDTO productInfo = productService.getProductByTradeBoardIdx(tradeBoardIdx);
+
+
         ModelAndView mav = new ModelAndView();
         mav.addObject("tradeBoardIdx", tradeBoardIdx);
         mav.addObject("tradeCommentList", tradeCommentList);
+        mav.addObject("productInfo", productInfo);
 
         mav.setViewName("usedTrade/tradeChat");
         return mav;

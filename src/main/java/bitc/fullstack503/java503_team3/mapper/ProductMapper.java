@@ -28,4 +28,8 @@ public interface ProductMapper {
   // 나눔 상품 목록 조회
   List<ProductDTO> getShareProducts();
 
+
+
+  // 상품 정보 tradeBoardIdx로 가져오기
+    ProductDTO selectProductByTradeBoardIdx(int tradeBoardIdx);
 }

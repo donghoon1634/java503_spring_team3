@@ -14,27 +14,21 @@
             $("#btn-back").on("click", function (){
                 history.back();
             });
-
-            // $("#rpl").on("submit", function(event) {
-            //     var comment = $("#trade_user_comment").val();
-            //     if (comment.trim() === "") {
-            //         alert("댓글을 입력해주세요!");
-            //         event.preventDefault(); // 폼 제출을 막음
-            //     }
-            // });
         });
     </script>
 </head>
 <body>
 <header th:replace="~{/layout/header :: navbar}"></header>
 <header th:replace="~{/layout/header :: search}"></header>
+
 <main class="container mt-3">
+
     <div class="mt-3 d-grid justify-content-center">
-        <img  src="/image/GD2.jpg" width="300px" height="300px" alt="이미지 예시">
+        <img th:src="@{${productInfo.productImg}}" src="/image/GD2.jpg" width="300px" height="300px" alt="이미지 예시">
     </div>
     <div>
-        <h3>판매글 제목</h3>
-        <h5>가격: n원</h5>
+        <h3 th:text="${productInfo.productName}">판매글 제목</h3>
+        <h5 th:text="'가격: ' + ${productInfo.productPrice}">가격: n원</h5>
     </div>
     <hr>
     <br>
@@ -53,7 +47,7 @@
             <hr>
         </div>
     </form>
-        <form method="post" th:action="@{/potato/tradeChat/1}">
+        <form method="post" th:action="@{/potato/tradeChat/{tradeBoardIdx}(tradeBoardIdx = ${tradeBoardIdx})}">
         <div class="mb-3 d-flex align-items-center">
             <label for="trade_user_comment" class="form-label me-2">문의 하기</label>
             <textarea class="form-control" id="trade_user_comment" name="tradeUserComment" rows="3" style="width: 900px"

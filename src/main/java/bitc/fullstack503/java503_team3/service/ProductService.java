@@ -25,6 +25,6 @@ public interface ProductService {
   List<ProductDTO> getShareProducts();
 
 
-
-
+  // 상품 정보 tradeBoardIdx로 가져오기
+    ProductDTO getProductByTradeBoardIdx(int tradeBoardIdx);
 }
