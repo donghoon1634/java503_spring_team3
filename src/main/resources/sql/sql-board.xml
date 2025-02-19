@@ -11,6 +11,12 @@
         order by ul_idx DESC
     </select>
 
+    <select id="selectBoardListByLocation" resultType="bitc.fullstack503.java503_team3.dto.UserlifeDTO">
+        select ul_idx,ul_title,ul_nickname,ul_contents,ul_place,ul_cate,ul_likes,date_format(ul_create_date,'%Y.%m.%d %H:%i:%s')
+        as ul_create_date, ul_hit_cnt from userlife where ul_place = #{memberGu}
+        order by ul_idx DESC
+    </select>
+
 <!--게시글 작성-->
     <insert id="insertBoard" parameterType="map" >
         insert into userlife(ul_title ,ul_nickname, ul_contents, ul_place, ul_create_date, ul_cate, ul_member_id)
@@ -72,6 +78,11 @@
     <select id="getBoardByCategory" resultType="bitc.fullstack503.java503_team3.dto.UserlifeDTO">
         SELECT * FROM userlife WHERE ul_cate = #{ulCate} ORDER BY ul_create_date DESC
     </select>
+
+    <select id="getBoardByCategoryAndLocation" resultType="bitc.fullstack503.java503_team3.dto.UserlifeDTO">
+        SELECT * FROM userlife WHERE ul_cate = #{ulCate} and ul_place = #{memberGu} ORDER BY ul_create_date DESC
+    </select>
+
     <!-- 카테고리별- 인기글 목록 페이지로 이동 -->
     <select id="getBoardByCategoryPopular" resultType="bitc.fullstack503.java503_team3.dto.UserlifeDTO">
         select * from userlife order by ul_hit_cnt desc

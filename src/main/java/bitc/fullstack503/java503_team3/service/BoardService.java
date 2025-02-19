@@ -13,6 +13,8 @@ public interface BoardService {
 
     //    게시물목록
     public List<UserlifeDTO> selectBoardList();
+    // 로그인한 사용자의 지역구 정보
+    public List<UserlifeDTO> selectBoardListByLocation(String memberGu);
 
     //게시물 작성
     void insertBoard(UserlifeDTO ul) throws  Exception;
@@ -36,6 +38,10 @@ public interface BoardService {
     int getUlCommentCount(int ulIdx);
     // 카테고리별 게시물 목록 페이지로 이동
     List<UserlifeDTO> getBoardByCategory(String ulCate);
+    // 카테고리별 게시물 목록 - 로그인한사람의 지역구 기준
+    List<UserlifeDTO> getBoardByCategoryAndLocation(String ulCate, String memberGu);
     // 카테고리별- 인기글 목록 페이지로 이동
     List<UserlifeDTO> getBoardByCategoryPopular();
+
+
 }

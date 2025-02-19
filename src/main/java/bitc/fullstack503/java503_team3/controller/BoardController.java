@@ -1,5 +1,7 @@
 package bitc.fullstack503.java503_team3.controller;
 
+import bitc.fullstack503.java503_team3.dto.LoadAddrDTO;
+import bitc.fullstack503.java503_team3.dto.MemberDTO;
 import bitc.fullstack503.java503_team3.dto.UserlifeCommentDTO;
 import bitc.fullstack503.java503_team3.dto.UserlifeDTO;
 import bitc.fullstack503.java503_team3.service.BoardService;
@@ -33,28 +35,46 @@ public class BoardController {
     @Autowired
     private UlCommentService ulCommentService;
 
-    //  게시물 목록
+    //  전체 게시물 목록
 //  기존의 @RequestMapping 사용방법에서 URI 를 입력했던 부분을 value 속성으로 변경
 //  해당 URI와 통신하는 방식을 method 속성을 통해서 지정할 수 있음
     @RequestMapping(value = "/board", method = RequestMethod.GET)
-    public ModelAndView selectBoardList() throws Exception {
+    public ModelAndView selectBoardList(HttpServletRequest request) throws Exception {
         ModelAndView mav = new ModelAndView("board/boardList");
-        // 게시물 목록 조회
-        List<UserlifeDTO> boardList = boardService.selectBoardList();
-        mav.addObject("boardList", boardList);
-
-//        int ulCommentCount = ulCommentService.ulCommentCount(board.getUlIdx());
-//        mav.addObject("ulCommentCount", ulCommentCount);
-
+        HttpSession session = request.getSession();
+        MemberDTO memberInfo = (MemberDTO) session.getAttribute("memberInfo");
+        LoadAddrDTO memberAddr = (LoadAddrDTO) session.getAttribute("loadAddrInfo");
+        if (memberInfo != null) {
+            String memberGu = memberAddr.getLoadAddrGu();
+            List<UserlifeDTO> boardList = boardService.selectBoardListByLocation(memberGu);
+            mav.addObject("boardList", boardList);
+        }
+        else {
+            // 게시물 목록 조회
+            List<UserlifeDTO> boardList = boardService.selectBoardList();
+            mav.addObject("boardList", boardList);
+//String memberId = memberInfo.getMemberId();
+        }
         return mav;
     }
 
     // 카테고리별 게시물 목록 페이지로 이동
     @GetMapping("/board/category/{ulCate}")
-    public String getBoardByCategory(@PathVariable("ulCate") String ulCate, Model model) throws Exception {
-        List<UserlifeDTO> boardList = boardService.getBoardByCategory(ulCate);
-        model.addAttribute("boardList", boardList);
-        return "/board/boardList";
+    public String getBoardByCategory(@PathVariable("ulCate") String ulCate, Model model,HttpServletRequest request) throws Exception {
+        HttpSession session = request.getSession();
+        MemberDTO memberInfo = (MemberDTO) session.getAttribute("memberInfo");
+        LoadAddrDTO memberAddr = (LoadAddrDTO) session.getAttribute("loadAddrInfo");
+        if (memberInfo != null) {
+            String memberGu = memberAddr.getLoadAddrGu();
+            List<UserlifeDTO> boardList = boardService.getBoardByCategoryAndLocation(ulCate, memberGu);
+            model.addAttribute("boardList", boardList);
+            return "/board/boardList";
+        }
+        else {
+            List<UserlifeDTO> boardList = boardService.getBoardByCategory(ulCate);
+            model.addAttribute("boardList", boardList);
+            return "/board/boardList";
+        }
     }
 
     // 카테고리별- 인기글 목록 페이지로 이동
