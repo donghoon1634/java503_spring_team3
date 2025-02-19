@@ -46,4 +46,6 @@ public interface BoardService {
     UserlifeDTO getBoardById(int ulIdx);
 
     String getBoardAuthorId(int ulIdx);
+
+    List<UserlifeDTO> getBoardByCategoryPopularAndLocation(String memberGu);
 }

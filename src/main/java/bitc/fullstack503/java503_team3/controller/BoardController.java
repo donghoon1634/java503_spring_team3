@@ -29,7 +29,7 @@ import java.util.List;
 import java.util.UUID;
 
 @Controller
-
+@RequestMapping("/potato")
 public class BoardController {
 
     @Autowired
@@ -91,11 +91,24 @@ public class BoardController {
 
     // 카테고리별- 인기글 목록 페이지로 이동
     @GetMapping("/board/category/popular")
-    public String getBoardByCategoryPopular(Model model) throws Exception {
-        //인기글을 조회수 순으로 가져옴
-        List<UserlifeDTO> boardList = boardService.getBoardByCategoryPopular();
-        model.addAttribute("boardList", boardList);
-        return "/board/boardList";
+    public String getBoardByCategoryPopular(Model model,HttpServletRequest request) throws Exception {
+        HttpSession session = request.getSession();
+        MemberDTO memberInfo = (MemberDTO) session.getAttribute("memberInfo");
+        LoadAddrDTO memberAddr = (LoadAddrDTO) session.getAttribute("loadAddrInfo");
+        if (memberInfo != null) {
+            String memberGu = memberAddr.getLoadAddrGu();
+            //인기글을 조회수 순으로 가져옴
+            List<UserlifeDTO> boardList = boardService.getBoardByCategoryPopularAndLocation(memberGu);
+            model.addAttribute("boardList", boardList);
+            return "/board/boardList";
+        }
+        else {
+            //인기글을 조회수 순으로 가져옴
+            List<UserlifeDTO> boardList = boardService.getBoardByCategoryPopular();
+            model.addAttribute("boardList", boardList);
+            return "/board/boardList";
+        }
+
     }
 
 
@@ -130,7 +143,7 @@ public class BoardController {
     ul.setUlPlace(loadAddrInfo.getLoadAddrGu());
 
         boardService.insertBoard(ul, multipart);
-        return "redirect:/board";
+        return "redirect:/potato/board";
     }
 
 
@@ -187,20 +200,20 @@ public class BoardController {
         UserlifeDTO existingBoard = boardService.selectBoardDetail(ulIdx);
 
         // ✅ 게시글이 존재하지 않는 경우 예외 처리
-        if (existingBoard == null) {
-            return "redirect:/error"; // 오류 페이지로 이동 (필요에 따라 변경 가능)
-        }
+//        if (existingBoard == null) {
+//            return "redirect:/error"; // 오류 페이지로 이동 (필요에 따라 변경 가능)
+//        }
 
         // ✅ 로그인한 사용자가 게시글 작성자인지 확인
         if (!existingBoard.getUlMemberId().equals(memberInfo.getMemberId())) {
-            return "redirect:/board/" + ulIdx; // 작성자가 아니면 수정 불가, 상세 페이지로 이동
+            return "redirect/potato/board/" + ulIdx; // 작성자가 아니면 수정 불가, 상세 페이지로 이동
         }
 
         // ✅ 수정 가능 → 게시글 업데이트 진행
         ul.setUlIdx(ulIdx);
         boardService.updateBoard(ul);
 
-        return "redirect:/board/" + ulIdx; // 수정 완료 후 상세 페이지로 이동
+        return "redirect:/potato/board/" + ulIdx; // 수정 완료 후 상세 페이지로 이동
     }
 
 
