@@ -30,4 +30,7 @@ public interface ProductMapper {
 
   // 특정 상품의 상세 정보를 조회
   ProductDTO getProductDetail(int productNum);
+
+  //DB에 상품 등록하기
+  void insertProduct(ProductDTO productDTO); // 상품 등록 메서드
 }

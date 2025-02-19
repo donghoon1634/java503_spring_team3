@@ -27,5 +27,7 @@ public interface ProductService {
   //  제품 상세 제품번호 가져오기
   ProductDTO getProductDetail(int productNum);
 
+  // 상품 등록하기
+  void addProduct(ProductDTO productDTO);
 
 }

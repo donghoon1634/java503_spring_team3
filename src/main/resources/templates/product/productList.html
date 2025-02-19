@@ -280,6 +280,7 @@
 
 </head>
 <header th:replace="/layout/header :: navbar"></header>
+<header th:replace="/layout/header :: search"></header>
 <body>
 <div class="container mt-5 filter-container">
   <aside>
@@ -320,6 +321,10 @@
 
     <!--상품 목록-->
     <section class="row item-list" id="productList">
+      <!-- 로그인된 상태일 때만 제품 등록 버튼 보이기 -->
+      <div th:if="${isLoggedIn}">
+        <a href="/potato/trade/productWrite" class="btn btn-outline-warning">제품 등록</a>
+      </div>
       <div id="productListContainer" class="row">
         <!-- 타임리프로 서버에서 렌더링된 상품 목록 -->
         <div th:if="${#lists.size(productList)} > 0" th:each="product : ${productList}"

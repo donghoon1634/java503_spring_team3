@@ -54,4 +54,10 @@ public class ProductServiceImpl implements ProductService {
   public ProductDTO getProductDetail(int productNum) {
     return productMapper.getProductDetail(productNum); // 제품 상세 정보를 가져오기 위한 num
   }
+
+  @Override
+  public void addProduct(ProductDTO productDTO) {
+    // DB에 상품 추가
+    productMapper.insertProduct(productDTO);
+  }
 }
