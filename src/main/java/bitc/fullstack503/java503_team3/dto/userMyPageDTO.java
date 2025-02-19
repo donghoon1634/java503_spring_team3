@@ -7,6 +7,7 @@ public class userMyPageDTO {
     private int userMyPageIdx;
     private String userMyPageBoardIdx;
     private String myPageUser;
+    private String myPageUserId;
     private String userMyPageContents;
     private String userMyPageNickname;
     private MemberDTO memberDTO;

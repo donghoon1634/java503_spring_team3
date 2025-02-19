@@ -143,15 +143,27 @@ public class usedResellController {
 //    마이 페이지 자기소개 등록
     @RequestMapping(value = "/myPage/{myPageUser}", method = RequestMethod.PUT)
     public String updateMyPage(userMyPageDTO myPage) throws Exception {
+
+        if(myPage.getMemberDTO() == null) {
+            myPage.setMemberDTO(new MemberDTO());
+        }
+
+        myPage.getMemberDTO().setMemberNickname("새로운 닉네임");
+        String updatedNickname = myPage.getUserMyPageNickname();
+        myPage.getMemberDTO().setMemberNickname(updatedNickname);
+
         myPageService.updateMyPage(myPage);
         return "redirect:/potato/myPage/{myPageUser}";
     }
 
     // 내가 보는 내 정보 마이페이지
     @RequestMapping(value = "/myPage/{myPageUser}", method = RequestMethod.GET)
-    public ModelAndView getMyPage(@PathVariable("myPageUser") String myPageUser) throws Exception {
+    public ModelAndView getMyPage(@PathVariable("myPageUser") String myPageUser, HttpServletRequest request) throws Exception {
         System.out.println("Received myPageUser: " + myPageUser);
         ModelAndView mav = new ModelAndView("/myPage/myPage");
+        HttpSession session = request.getSession();
+        MemberDTO memberInfo = (MemberDTO) session.getAttribute("memberInfo");
+        LoadAddrDTO memberLoadAddr = (LoadAddrDTO) session.getAttribute("loadAddrInfo");
 
         List<userMyPageDTO> myPageList = myPageService.selectMyPage(myPageUser);
 
@@ -159,11 +171,22 @@ public class usedResellController {
         if (!myPageList.isEmpty()) {
             userMyPageDTO userPage = myPageList.get(0);
 
+            if(userPage.getMemberDTO() == null) {
+                userPage.setMemberDTO(new MemberDTO());
+            }
+            userPage.getMemberDTO().setMemberNickname("수정할 닉네임");
+
             MemberDTO member = new MemberDTO();
-            member.setMemberId(userPage.getMyPageUser());
-            member.setMemberNickname(userPage.getMyPageUser());
-            member.setMemberAddr("부산진구");
-            member.setMemberAddrDetail("양정동");
+            member.setMemberId(memberInfo.getMemberId());
+            member.setMemberNickname(memberInfo.getMemberNickname());
+
+            String si = memberLoadAddr.getLoadAddrSido();
+            String gu = memberLoadAddr.getLoadAddrGu();
+            String dong = memberLoadAddr.getLoadAddrDong();
+            String ro = memberLoadAddr.getLoadAddrRo();
+            String addr = si + gu + dong + ro;
+            member.setMemberAddr(addr);
+            member.setMemberAddrDetail("");
 
             userPage.setMemberDTO(member);
 
@@ -183,9 +206,12 @@ public class usedResellController {
 
     // 남이 보는 내 정보 페이지
     @RequestMapping(value = "/myPage/view/{myPageUser}", method = RequestMethod.GET)
-    public ModelAndView getMyPage1(@PathVariable("myPageUser") String myPageUser) throws Exception {
+    public ModelAndView getMyPage1(@PathVariable("myPageUser") String myPageUser, HttpServletRequest request) throws Exception {
         System.out.println("Received myPageUser: " + myPageUser);
         ModelAndView mav = new ModelAndView("/myPage/myPage2");
+        HttpSession session = request.getSession();
+        MemberDTO memberInfo = (MemberDTO) session.getAttribute("memberInfo");
+        LoadAddrDTO memberLoadAddr = (LoadAddrDTO) session.getAttribute("loadAddrInfo");
 
         List<userMyPageDTO> myPageList = myPageService.selectMyPage1(myPageUser);
 
@@ -194,10 +220,16 @@ public class usedResellController {
             userMyPageDTO userPage = myPageList.get(0);
 
             MemberDTO member = new MemberDTO();
-            member.setMemberId(userPage.getMyPageUser());
-            member.setMemberNickname(userPage.getMyPageUser());
-            member.setMemberAddr("부산진구");
-            member.setMemberAddrDetail("양정동");
+            member.setMemberId(memberInfo.getMemberId());
+            member.setMemberNickname(memberInfo.getMemberNickname());
+
+            String si = memberLoadAddr.getLoadAddrSido();
+            String gu = memberLoadAddr.getLoadAddrGu();
+            String dong = memberLoadAddr.getLoadAddrDong();
+            String ro = memberLoadAddr.getLoadAddrRo();
+            String addr = si + gu + dong + ro;
+            member.setMemberAddr(addr);
+            member.setMemberAddrDetail("");
 
             userPage.setMemberDTO(member);
 
