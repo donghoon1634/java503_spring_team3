@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -89,7 +90,8 @@ public class ProductController {
     ProductDTO product = productService.getProductDetail(productNum);
     model.addAttribute("product", product);
     return "product/productDetail";
-
   }
+
+
 
 }
