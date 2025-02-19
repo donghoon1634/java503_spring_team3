@@ -39,5 +39,11 @@ public interface BoardMapper {
     //    조회수 정렬
     List<UserlifeDTO> getPopularPosts(@Param("limit") int limit);
 
+// 이미지 가져오기
+    List<UserlifeFileDTO> selectFilesByUlIdx(int ulIdx);
 
+//    게시물 조회
+    UserlifeDTO getBoardById(int ulIdx);
+
+    String getBoardAuthorId(int ulIdx);
 }
