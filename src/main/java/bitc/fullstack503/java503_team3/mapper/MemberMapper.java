@@ -13,6 +13,8 @@ public interface MemberMapper
   
   public void signUp (MemberDTO member) throws Exception;
   
+  public void signUpInsert (MemberDTO member) throws Exception;
+  
   public int signIn (MemberDTO member) throws Exception;
   
   public MemberDTO memberInfo (String memberId) throws Exception;

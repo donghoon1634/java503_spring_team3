@@ -15,6 +15,11 @@
     insert into member (member_id, member_pw, member_nickname, member_phone, member_addr, member_addr_detail)
     values (#{memberId}, #{memberPw}, #{memberNickname}, #{memberPhone}, #{memberAddr}, #{memberAddrDetail})
   </insert>
+  <insert id="signUpInsert" parameterType="bitc.fullstack503.java503_team3.dto.MemberDTO">
+    INSERT INTO member_profile (member_profile_href, member_profile_member_id)
+    VALUES ('/member/basic.jpg', #{memberId});
+  </insert>
+  
   <select id="signIn" parameterType="bitc.fullstack503.java503_team3.dto.MemberDTO"
           resultType="int">
     select count(*)

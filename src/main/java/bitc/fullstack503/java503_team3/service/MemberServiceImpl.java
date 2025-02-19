@@ -33,6 +33,12 @@ public class MemberServiceImpl implements MemberService
   }
   
   @Override
+  public void signUpInsert (MemberDTO member) throws Exception
+  {
+    memberMapper.signUpInsert (member);
+  }
+  
+  @Override
   public boolean signIn (MemberDTO member) throws Exception
   {
     return memberMapper.signIn (member) > 0;

@@ -93,6 +93,7 @@ public class MemberController
       member.setMemberAddr (addr);
       member.setMemberAddrDetail (addrDetail);
       memberService.signUp (member);
+      memberService.signUpInsert (member);
       return "redirect:/potato/member";
     }
   }
