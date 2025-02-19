@@ -25,6 +25,7 @@ import java.util.List;
 import java.util.UUID;
 
 @Controller
+@RequestMapping("/potato")
 public class BoardController {
 
     @Autowired
@@ -32,16 +33,10 @@ public class BoardController {
     @Autowired
     private UlCommentService ulCommentService;
 
-
-    @RequestMapping({"/", ""})
-    public String index() {
-        return "index";
-    }
-
     //  게시물 목록
 //  기존의 @RequestMapping 사용방법에서 URI 를 입력했던 부분을 value 속성으로 변경
 //  해당 URI와 통신하는 방식을 method 속성을 통해서 지정할 수 있음
-    @RequestMapping(value = "/board", method = RequestMethod.GET)
+    @RequestMapping(value = "/userlife", method = RequestMethod.GET)
     public ModelAndView selectBoardList() throws Exception {
         ModelAndView mav = new ModelAndView("board/boardList");
         // 게시물 목록 조회
@@ -55,7 +50,7 @@ public class BoardController {
     }
 
     // 카테고리별 게시물 목록 페이지로 이동
-    @GetMapping("/board/category/{ulCate}")
+    @GetMapping("/userlife/category/{ulCate}")
     public String getBoardByCategory(@PathVariable("ulCate") String ulCate, Model model) throws Exception {
         List<UserlifeDTO> boardList = boardService.getBoardByCategory(ulCate);
         model.addAttribute("boardList", boardList);
@@ -65,7 +60,7 @@ public class BoardController {
 
     //    게시글 쓰기
 // 작성 화면
-    @GetMapping("/board/write")
+    @GetMapping("/userlife/write")
     public String insertBoard(HttpServletRequest request) throws Exception {
         HttpSession session = request.getSession();
 //        if (session.getAttribute("id") == null) {
@@ -79,7 +74,7 @@ public class BoardController {
     }
 
     // 등록처리
-    @PostMapping("/board/write")
+    @PostMapping("/userlife/write")
     public String insertBoard(UserlifeDTO ul, MultipartHttpServletRequest multipart, HttpServletRequest request) throws Exception {
 
 //        HttpSession session = request.getSession();
@@ -91,13 +86,13 @@ public class BoardController {
 //            return "redirect:/board";
 //        }
         boardService.insertBoard(ul, multipart);
-        return "redirect:/board";
+        return "redirect:/potato/userlife";
     }
 
 
     //  @PathVariable : @RequestParam 과 동일한 역할을 하는 어노테이션, REST 방식 사용 시 URI 에 {} 로 지정해 놓은 리소스 값을 받아오는 어노테이션
 //  게시물 상세
-    @RequestMapping(value = "/board/{ulIdx}", method = RequestMethod.GET)
+    @RequestMapping(value = "/userlife/{ulIdx}", method = RequestMethod.GET)
     public ModelAndView selectBoardDetail(@PathVariable("ulIdx") int ulIdx) throws Exception {
         ModelAndView mav = new ModelAndView("board/boardDetail");
         UserlifeDTO ul = boardService.selectBoardDetail(ulIdx);
@@ -122,20 +117,20 @@ public class BoardController {
 //    게시물 수정
 //@PutMapping :  클라이언트에서 데이터 전송방식을 put 로 설정한 URL만 접속
 //  @RequestMapping(method = RequestMethod.PUT 과 동일한 방식
-@PutMapping("/board/{ulIdx}")
+@PutMapping("/userlife/{ulIdx}")
 public String updateBoard(@PathVariable("ulIdx") int ulIdx, UserlifeDTO ul) throws Exception {
     ul.setUlIdx(ulIdx);
     System.out.println("수정 요청 제목: " + ul.getUlTitle());
 //    ul.setUlUpdateDate(new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date()));
     boardService.updateBoard(ul);
-    return "redirect:/board/"+ulIdx;
+    return "redirect:/potato/userlife/"+ulIdx;
 }
 
 
 //    게시물 삭제
 //@DeleteMapping: 클라이언트에서 데이터 전송방식을 delete 로 설정한 URL만 접속
 //  @RequestMapping(method = RequestMethod.delete 과 동일한 방식
-@DeleteMapping("/board/{ulIdx}")
+@DeleteMapping("/userlife/{ulIdx}")
 public ResponseEntity<String> deleteBoard(@PathVariable("ulIdx") int ulIdx) {
     boardService.deleteBoard(ulIdx);
     return ResponseEntity.ok("삭제 성공");
