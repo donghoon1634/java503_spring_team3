@@ -1,15 +1,24 @@
 package bitc.fullstack503.java503_team3.controller;
 
 import bitc.fullstack503.java503_team3.dto.CategoryDTO;
+import bitc.fullstack503.java503_team3.dto.MemberDTO;
 import bitc.fullstack503.java503_team3.dto.ProductDTO;
 import bitc.fullstack503.java503_team3.service.ProductService;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -21,15 +30,30 @@ public class ProductController {
 
   // 상품 목록 페이지 (일반적으로 렌더링)
   @GetMapping("/potato/trade")
-  public String showProductList(Model model) {
+  public String showProductList(Model model, HttpServletRequest request) {
+
+    HttpSession session = request.getSession(false);  // 이미 세션이 있다면 가져오기
+    if (session != null) {
+      MemberDTO memberInfo = (MemberDTO) session.getAttribute("memberInfo");  // 로그인된 사용자 정보 가져오기
+      if (memberInfo != null) {
+        model.addAttribute("isLoggedIn", true);  // 로그인한 상태로 표시
+      } else {
+        model.addAttribute("isLoggedIn", false);  // 로그인하지 않은 상태
+      }
+    } else {
+      model.addAttribute("isLoggedIn", false);  // 세션이 없으면 로그인하지 않은 상태
+    }
+
     List<ProductDTO> productList = productService.getAllProducts(); // 전체 상품 목록 가져오기
     List<CategoryDTO> categoryList = productService.getAllCategories();   // 카테고리 목록 조회
     List<String> localGuList = productService.getAllLocalGu(); // 지역구 목록 가져오기
+
     model.addAttribute("productList", productList); // 타임리프로 전달될 상품 목록
     model.addAttribute("categoryList", categoryList);  // 카테고리 목록
     model.addAttribute("localGuList", localGuList);  // 타임리프로 전달될 지역구 목록
     return "product/productList";
   }
+
   //지역 가져오기
   @GetMapping("/potato/trade/local-gus")
   @ResponseBody
@@ -65,12 +89,101 @@ public class ProductController {
     }
     return products;
   }
+
   //나눔
   @GetMapping("/potato/trade/products/share")
   @ResponseBody
   public List<ProductDTO> fetchShareProducts() {
     // 'share' 상태인 상품 목록을 반환하는 서비스 메서드 호출
     return productService.getShareProducts();
+  }
+
+  // 전체 상품 목록을 반환하는 메서드(초기화 버튼)
+  @GetMapping("/potato/trade/products")
+  @ResponseBody
+  public List<ProductDTO> getAllProducts() {
+    return productService.getAllProducts();  // 전체 상품 목록을 반환
+  }
+
+
+  // 상품 정보 상세 페이지로 가져오기
+  @GetMapping("/potato/trade/productDetail")
+  public String productDetail(@RequestParam("productNum") int productNum, Model model) {
+
+    ProductDTO product = productService.getProductDetail(productNum);
+    model.addAttribute("product", product);
+    return "product/productDetail";
+  }
+
+  //로그인시 제품등록 버튼이 보이고 누르면 페이지로 가는 메서드
+  @GetMapping("/potato/trade/productWrite")
+  public String productWritePage(HttpServletRequest request) {
+    // 세션에서 로그인 여부 확인
+    HttpSession session = request.getSession(false);
+    if (session != null && session.getAttribute("memberInfo") != null) {
+      // 로그인한 사용자라면 제품 등록 페이지로 이동
+      return "product/productWrite";  // productWrite.html로 이동
+    } else {
+      // 로그인 안 된 사용자라면 로그인 페이지로 리디렉션
+      return "redirect:/member";  // 로그인 페이지로 리디렉션
+    }
+  }
+
+  // 상품 등록 처리
+  @PostMapping("/potato/trade/productWrite")
+  public String productWrite(@RequestParam("productName") String productName,
+                             @RequestParam("productInfo") String productInfo,
+                             @RequestParam("productPrice") int productPrice,
+                             @RequestParam("localGuName") String localGuName,
+                             @RequestParam("file") MultipartFile file,
+                             HttpServletRequest request,  // 세션을 확인하기 위한 HttpServletRequest 추가
+                             RedirectAttributes redirectAttributes) {
+
+    // 세션에서 로그인된 회원의 idx 정보 가져오기
+    HttpSession session = request.getSession(false);
+    if (session == null || session.getAttribute("memberInfo") == null) {
+      redirectAttributes.addFlashAttribute("errMsg", "로그인이 필요합니다.");
+      return "redirect:/member";  // 로그인 페이지로 리디렉션
+    }
+    // 로그인된 사용자의 member_idx 추출
+    int memberIdx = (int) session.getAttribute("memberInfo");
+
+    if (!file.isEmpty()) {
+      try {
+        // 이미지 파일 저장 경로 설정
+        String uploadDir = "/path/to/upload/dir/";  // 실제 경로로 수정 필요
+        String fileName = file.getOriginalFilename();
+        Path filePath = Paths.get(uploadDir + fileName);
+
+        // 파일 저장
+        Files.write(filePath, file.getBytes());
+
+        // 이미지 URL 생성
+        String imageUrl = "/upload/dir/" + fileName;  // 웹 경로에 맞게 수정
+
+        // Product DTO에 데이터 설정
+        ProductDTO productDTO = new ProductDTO();
+        productDTO.setProductName(productName);
+        productDTO.setProductInfo(productInfo);
+        productDTO.setProductPrice(String.valueOf(productPrice));
+        productDTO.setLocalGuName(localGuName);
+        productDTO.setProductImg(imageUrl);
+        productDTO.setMemberIdx(memberIdx);  // 회원의 idx 추가
+
+        // 상품 등록 서비스 호출
+        productService.addProduct(productDTO);
+
+        redirectAttributes.addFlashAttribute("message", "상품이 성공적으로 등록되었습니다.");
+        return "redirect:/potato/trade";  // 상품 리스트 페이지로 리디렉션
+
+      } catch (IOException e) {
+        redirectAttributes.addFlashAttribute("errMsg", "파일 업로드 중 오류가 발생했습니다.");
+        return "redirect:/potato/trade/productWrite";  // 다시 등록 페이지로 리디렉션
+      }
+    } else {
+      redirectAttributes.addFlashAttribute("errMsg", "이미지가 첨부되지 않았습니다.");
+      return "redirect:/potato/trade/productWrite";  // 이미지 첨부 안됨 오류 메시지
+    }
   }
 
 }

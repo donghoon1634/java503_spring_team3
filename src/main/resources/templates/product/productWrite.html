@@ -3,29 +3,12 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="/static/css/productWrite.css">
+    <link rel="stylesheet" href="/css/productWrite.css">
     <title>Document</title>
 </head>
+<header th:replace="/layout/header :: navbar"></header>
 <body>
-    <header>
-        <div class="header">
-            <div class="logo-box">
-                <a href="" class="logo"><span class="logo">(로고이미지)</span></a>
-            </div>
-            <div class="header-category-box">
-                <div class="header-category">
-                    <a href="">중고거래</a>
-                    <a href="">동네생활</a>
-                </div>
-            </div>
-            <div class="header-user-box">
-                <div class="header-user">
-                    <a href="">로그인</a>
-                    <a href="">회원가입</a>
-                </div>
-            </div>
-        </div>
-    </header>
+
     <hr>
     <article class="main-container-box">
         <div class="product-img-contents-box">
@@ -129,4 +112,5 @@
         });
     </script>
 </body>
+<footer th:replace="/layout/footer :: footer"></footer>
 </html>

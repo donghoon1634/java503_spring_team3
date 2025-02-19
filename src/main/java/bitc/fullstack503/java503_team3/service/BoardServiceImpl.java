@@ -22,15 +22,35 @@ public class BoardServiceImpl implements BoardService {
     @Autowired
     private UlFileUtils fileUtils;
 
+    @Autowired
+    private UlCommentService ulCommentService;
 
 
     //    목록
     @Override
     public List<UserlifeDTO> selectBoardList() {
-        return boardMapper.selectBoardList();
+        List<UserlifeDTO> ulBoardList = boardMapper.selectBoardList();
+        for (UserlifeDTO ulBoard : ulBoardList) {
+            int com = ulCommentMapper.getUlCommentCount(ulBoard.getUlIdx());
+            ulBoard.setUlCommentCount(com);
+        }
+        return ulBoardList;
     }
+    // 게시글목록 -로그인한 사람의 지역구 기준
+    @Override
+    public List<UserlifeDTO> selectBoardListByLocation(String memberGu) {
+        // 1. 지역구에 맞는 게시물 조회
+        List<UserlifeDTO> ulBoardList = boardMapper.selectBoardListByLocation(memberGu);
 
+        // 2. 각 게시물의 댓글 수 조회하여 설정
+        for (UserlifeDTO ulBoard : ulBoardList) {
+            int com = ulCommentMapper.getUlCommentCount(ulBoard.getUlIdx());
+            ulBoard.setUlCommentCount(com);  // 댓글 수 설정
+        }
 
+        // 3. 댓글 수가 포함된 게시물 목록 반환
+        return ulBoardList;
+    }
     //    작성
     @Override
     public void insertBoard(UserlifeDTO ul) {
@@ -97,8 +117,9 @@ public class BoardServiceImpl implements BoardService {
     //    게시물 삭제
     @Override
     public void deleteBoard(int ulIdx) {
+
 //        댓글 수 확인
-        int count = ulCommentMapper.countComment(ulIdx);
+//        int count = ulCommentMapper.countComment(ulIdx);
 //        int filecount= fileUtils.countFile(ulIdx);
 //        if (count > 0 && filecount > 0) {
 
@@ -117,7 +138,52 @@ public class BoardServiceImpl implements BoardService {
     @Override
     public List<UserlifeDTO> getPopularPosts(int limit) {
         return boardMapper.getPopularPosts(limit);
+    }
+    // 해당게시물의 댓글 갯수 조회
+    @Override
+    public int getUlCommentCount(int ulIdx) {
+        return ulCommentService.getUlCommentCount(ulIdx);
+    }
+    // 카테고리별 게시물 목록 페이지로 이동
+    @Override
+    public List<UserlifeDTO> getBoardByCategory(String ulCate) {
+        List<UserlifeDTO> ulBoardList = boardMapper.getBoardByCategory(ulCate);
+        for (UserlifeDTO ulBoard : ulBoardList) {
+            int com = ulCommentMapper.getUlCommentCount(ulBoard.getUlIdx());
+            ulBoard.setUlCommentCount(com);
+        }
+        return ulBoardList;
+    }
+    // 카테고리별 게시물 목록 페이지로 이동-로그인한사람의 지역구 기준
+    @Override
+    public List<UserlifeDTO> getBoardByCategoryAndLocation(String ulCate, String memberGu) {
 
+        List<UserlifeDTO> ulBoardList = boardMapper.getBoardByCategoryAndLocation(ulCate, memberGu);
+        for (UserlifeDTO ulBoard : ulBoardList) {
+            int com = ulCommentMapper.getUlCommentCount(ulBoard.getUlIdx());
+            ulBoard.setUlCommentCount(com);
+        }
+        return ulBoardList;
+
+    }
+
+
+
+
+
+
+
+
+
+    // 카테고리별- 인기글 목록 페이지로 이동
+    @Override
+    public List<UserlifeDTO> getBoardByCategoryPopular() {
+        List<UserlifeDTO> ulBoardList = boardMapper.getBoardByCategoryPopular();
+        for (UserlifeDTO ulBoard : ulBoardList) {
+            int com = ulCommentMapper.getUlCommentCount(ulBoard.getUlIdx());
+            ulBoard.setUlCommentCount(com);
+        }
+        return ulBoardList;
     }
 //
 

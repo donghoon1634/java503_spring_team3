@@ -21,6 +21,7 @@ public class UserlifeDTO {
     private String ulMemberId;
     private String ulUpdateDate;
     private List<UserlifeFileDTO> fileList;
+    private int ulCommentCount;
 
 
 

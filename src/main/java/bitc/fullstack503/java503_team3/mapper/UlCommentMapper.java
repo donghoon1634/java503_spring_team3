@@ -31,5 +31,6 @@ public interface UlCommentMapper {
     int countComment(int ulIdx);
 
     void deleteComment(int ulIdx);
-
+    // 댓글 개수 가져오기
+    int getUlCommentCount(int ulIdx);
 }

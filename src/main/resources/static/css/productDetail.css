@@ -30,24 +30,6 @@ a{
     margin: auto;
 }
 
-/* 헤더 */
-.header{
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    width: 70%;
-    margin: 20px auto;
-    .header-category{
-        a:first-child{
-            margin-right: 30px;
-        }
-    }
-    .header-user{
-        a:first-child{
-            margin-right: 15px;
-        }
-    }
-}
 
 
 /* 상단 카테고리 */

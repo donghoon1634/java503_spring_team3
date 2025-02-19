@@ -100,12 +100,12 @@
                             window.location.href = "/board";
                         } else {
                             response.text().then(errorMessage => {
-                                console.log(errorMessage)
-                            });
+                                console.log(errorMessage)                            });
                         }
                     })
                     .catch(error => console.error("삭제 중 오류 발생:", error));
             });
+
 
             //
             // $("#btn-delete").on("click", function () {
@@ -157,8 +157,8 @@
                     data.forEach(ul => {
                         let listItem = `
                         <li class="popular-item">
-                            <h3>${ul.ulTitle}</h3>
-                            <p class="content">${ul.ulContents}</p>
+                            <h3><a href="/board/${ul.ulIdx}" class="text-dark text-decoration-none">${ul.ulTitle}</a></h3>
+                            <p class="content"><a href="/board/${ul.ulIdx}" class="text-dark text-decoration-none">${ul.ulContents}</a></p>
                             <p class="info">${ul.ulPlace} · ${ul.ulCate}</p>
                             <div class="icons">
                             <img src="/img/good.png" width="22px" height="22px" alt="" id="ulLikes" name="ulLikes" ${ul.ulLikes}>
@@ -183,6 +183,10 @@
 
 </head>
 <body>
+
+<header th:replace="~{layout/header :: navbar}"></header>
+<header th:replace="~{layout/header :: search}"></header>
+
 <main class="container mt-5">
     <!-- 상단 홈 > 동네생활 부분 -->
     <nav class="navbar navbar-expand-lg bg-white">
@@ -201,7 +205,12 @@
             </ul>
         </div>
     </nav>
-
+    <!-- 상단 지역, 글쓰기버튼 부분 -->
+    <div class="d-flex align-items-center mb-4">
+        <h2 class="mb-0"><b th:text="${memberGu}">동네생활</b></h2>
+        <h4 class="mb-0"><b >동네생활</b></h4>
+        <a href="/board/write" class="btn btn-danger ms-5 me-5">글쓰기</a>
+    </div>
     <section class="row">
         <!-- 카테고리 (cate) 영역 -->
         <div class="col-md-2 p-3">
@@ -267,7 +276,7 @@
                 <!-- 글제목-->
                 <div>
                     <h3 class="row mt-1 ">
-                        <input type="hidden" id="ulTitle" name="ulTitle" th:value="${ul.ulTitle}" class="ps-2 p-0" >
+                        <input type="text" id="ulTitle" name="ulTitle" th:value="${ul.ulTitle}" class="ps-2 p-0" >
                     </h3>
                 </div>
                 <!-- 글 내용 -->
@@ -280,7 +289,7 @@
 
                             <!-- ✅ 사용자가 입력할 수 있는 영역 (자동 크기 조절) -->
                             <div id="editableDiv" contenteditable="true"
-                                 class="ps-2 p-0"
+                                 class=" p-0"
                                  style="border: none; width: 100%; min-height: 40px; overflow-wrap: break-word;"
                                  oninput="syncHiddenInput()"
                                  th:text="${ul.ulContents}"></div>
@@ -321,11 +330,11 @@
                             </div>
 
 
-                            <!-- 댓글 -->
-                            <div class="col-sm-auto d-flex align-items-center">
-                                <img src="/img/commu.png" width="22px" height="22px" alt="">
-                                <div class="mb-0 ms-2">0</div>
-                            </div>
+                        <!-- 댓글 -->
+                        <div class="col-sm-auto d-flex align-items-center">
+                            <img src="/img/commu.png" width="22px" height="22px" alt="">
+                            <div class="mb-0 ms-2" th:text="${getUlCommentCount}">0</div>
+                        </div>
 
                             <!-- 조회수 -->
                             <div class="col-sm d-flex justify-content-end align-items-center"
@@ -358,7 +367,7 @@
             <section>
                 <div>
                     <div>
-                        <h2><b>문현제2동 인기글</b></h2>
+                        <h2><b>동네생활 인기글</b></h2>
                     </div>
                     <!-- AJAX로 인기글이 여기에 추가됨 -->
                     <ul id="popular-posts">
@@ -372,5 +381,7 @@
     </section>
 
 </main>
+<footer th:replace="~{layout/footer :: footer}"></footer>
+
 </body>
 </html>

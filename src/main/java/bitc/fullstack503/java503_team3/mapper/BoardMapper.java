@@ -11,6 +11,8 @@ import java.util.List;
 public interface BoardMapper {
     //    목록
     public List<UserlifeDTO> selectBoardList();
+    // 지역구에 맞는 게시물 조회
+    public List<UserlifeDTO> selectBoardListByLocation(String memberGu);
 
     //  조회수 증가
     public void updateHitCnt(int ulIdx);
@@ -41,6 +43,13 @@ public interface BoardMapper {
 
 // 이미지 가져오기
     List<UserlifeFileDTO> selectFilesByUlIdx(int ulIdx);
+    // 카테고리별 게시물 목록 페이지로 이동
+    List<UserlifeDTO> getBoardByCategory(String ulCate);
+    // 카테고리별 게시물 목록 페이지 - 로그인한 사람의 지역구 기준
+    List<UserlifeDTO> getBoardByCategoryAndLocation(String ulCate, String memberGu);
+
+    // 카테고리별- 인기글 목록 페이지로 이동
+    List<UserlifeDTO> getBoardByCategoryPopular();
 
 //    게시물 조회
 //    UserlifeDTO getBoardById(int ulIdx);

@@ -70,6 +70,16 @@ public class UlCommentServiceImpl implements UlCommentService {
         }
 
     }
+    // 댓글 수 조회
+    @Override
+    public int ulCommentCount(int ulIdx) {
+        return ulCommentMapper.countComment(ulIdx);
+    }
+    // eotrmf rotn fmf rkwudhrl
+    @Override
+    public int getUlCommentCount(int ulIdx) {
+        return ulCommentMapper.getUlCommentCount(ulIdx);
+    }
 
 
 }

@@ -50,6 +50,7 @@
             color: #6c757d;
         }
     </style>
+
 </head>
 <body>
 <header th:replace="~{/layout/header :: navbar}"></header>
@@ -75,7 +76,8 @@
     </nav>
     <!-- 상단 지역, 글쓰기버튼 부분 -->
     <div class="d-flex align-items-center mb-4">
-        <h2 class="mb-0"><b>부산광역시 남구 문현제2동 동네생활</b></h2>
+        <h2 class="mb-0"><b th:text="${memberGu}">동네생활</b></h2>
+        <h4 class="mb-0"><b >동네생활</b></h4>
         <a href="/board/write" class="btn btn-danger ms-5 me-5">글쓰기</a>
     </div>
     <!-- 하단 카데고리/ 게시글 목록 -->
@@ -112,7 +114,7 @@
                         </div>
                         <div class="col-sm-auto d-flex align-items-center">
                             <img src="/img/commu.png" alt="댓글수" width="22px" height="22px" class="ms-0" >
-                            <p class="mb-0 ms-2">0</p> <!-- 댓글 수 텍스트 -->
+                            <p class="mb-0 ms-2" th:text="${item.ulCommentCount}">0</p> <!-- 댓글 수 텍스트 -->
                         </div>
                     </div>
                     <!-- 게시물 목록 사이 선 -->
