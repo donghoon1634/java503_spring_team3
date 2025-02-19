@@ -12,11 +12,11 @@
     </select>
 
 
-<!--    &lt;!&ndash; 게시물 조회 &ndash;&gt;-->
-<!--    <select id="getBoardById" resultType="bitc.fullstack503.java503_team3.dto.UserlifeDTO">-->
-<!--        SELECT * FROM userlife-->
-<!--        WHERE ulIdx = #{ulIdx}-->
-<!--    </select>-->
+    <!-- 게시물 조회 -->
+    <select id="getBoardAuthorId" resultType="bitc.fullstack503.java503_team3.dto.UserlifeDTO">
+        SELECT * FROM userlife
+        WHERE ul_idx = #{ulIdx}
+    </select>
 
 
         <select id="selectFilesByUlIdx" parameterType="int" resultType="bitc.fullstack503.java503_team3.dto.UserlifeFileDTO">
@@ -38,8 +38,9 @@
             (#{ulIdx}, #{file.ulOriginalFileName}, #{file.ulStoredFileName}, #{file.ulFileSize})
         </foreach>
     </insert>
-    <delete id="deleteUlFile" parameterType="bitc.fullstack503.java503_team3.dto.UserlifeFileDTO">
-        delete  from userlife_file where ul_idx=#{ulIdx}
+<!--    첨부파일 삭제-->
+    <delete id="deleteUlFile" parameterType="int">
+        delete from userlife_file where ul_idx=#{ulIdx}
     </delete>
 
 

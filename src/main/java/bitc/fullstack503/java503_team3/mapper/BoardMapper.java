@@ -43,7 +43,9 @@ public interface BoardMapper {
     List<UserlifeFileDTO> selectFilesByUlIdx(int ulIdx);
 
 //    게시물 조회
-    UserlifeDTO getBoardById(int ulIdx);
+//    UserlifeDTO getBoardById(int ulIdx);
 
     String getBoardAuthorId(int ulIdx);
+
+    void deleteUlFile(int ulIdx);
 }

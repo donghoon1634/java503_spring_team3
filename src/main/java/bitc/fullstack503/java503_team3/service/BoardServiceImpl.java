@@ -104,7 +104,7 @@ public class BoardServiceImpl implements BoardService {
 
             //댓글삭제
             ulCommentMapper.deleteComment(ulIdx);
-            fileUtils.deleteUlFile(ulIdx);
+            boardMapper.deleteUlFile(ulIdx);
 //        }
             boardMapper.deleteBoard(ulIdx);
 
@@ -120,10 +120,7 @@ public class BoardServiceImpl implements BoardService {
 
     }
 //
-//    @Override
-    public UserlifeDTO getBoardById(int ulIdx) {
-        return boardMapper.getBoardById(ulIdx);
-    }
+
 
     @Override
     public String getBoardAuthorId(int ulIdx) {

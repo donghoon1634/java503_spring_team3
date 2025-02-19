@@ -34,7 +34,6 @@ public interface BoardService {
     List<UserlifeDTO> getPopularPosts(int limit);
 
 
-    UserlifeDTO getBoardById(int ulIdx);
-
     String getBoardAuthorId(int ulIdx);
+
 }

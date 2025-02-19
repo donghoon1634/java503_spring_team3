@@ -100,12 +100,12 @@
                             window.location.href = "/board";
                         } else {
                             response.text().then(errorMessage => {
-                                alert(errorMessage);  // 서버에서 보낸 오류 메시지 출력
+                                console.log(errorMessage)
                             });
                         }
                     })
+                    .catch(error => console.error("삭제 중 오류 발생:", error));
             });
-
 
             //
             // $("#btn-delete").on("click", function () {

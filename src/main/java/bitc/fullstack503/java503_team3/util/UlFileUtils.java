@@ -83,11 +83,5 @@ public class UlFileUtils {
         return fileList;
     }
 
-    public void deleteUlFile(int ulIdx) {
-    }
-
-//    public int countFile(int ulIdx) {
-//        return board
-//    }
 }
 
