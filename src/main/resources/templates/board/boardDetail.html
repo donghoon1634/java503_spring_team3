@@ -74,7 +74,7 @@
                 $("#method").val("PUT");
 
                 var frm = $("#frm")[0];
-                frm.action = "/board/" + $("#ulIdx2").val();
+                frm.action = "/potato/board/" + $("#ulIdx2").val();
                 frm.submit();
             });
 
@@ -88,7 +88,7 @@
                     return;
                 }
 
-                fetch("/board/" + ulIdx, {
+                fetch("/potato/board/" + ulIdx, {
                     method: "DELETE",
                     headers: {
                         "Content-Type": "application/json"
@@ -131,7 +131,7 @@
                                                     //val(); value값을 들고오는 코드 ex) 251번줄 ulIdx2 값을 들고옴
                                                     //p 태그에는  text 값을 넣어야 함
                     $.ajax({
-                        url: '/board/api/board/' + ulIdx,
+                        url: '/potato/api/board/' + ulIdx,
                         method: 'POST',
                         success: function (data) {
                             $('#likeCount').text(data);
@@ -144,7 +144,7 @@
 
         function ax() {
             $.ajax({
-                url: "/board/api/popular", // 🔹 인기글을 불러올 API
+                url: "/potato/api/popular", // 🔹 인기글을 불러올 API
                 type: "GET",
                 data: {limit: 5}, // 🔹 인기글 5개 가져오기
                 success: function (data) {
@@ -157,8 +157,8 @@
                     data.forEach(ul => {
                         let listItem = `
                         <li class="popular-item">
-                            <h3><a href="/board/${ul.ulIdx}" class="text-dark text-decoration-none">${ul.ulTitle}</a></h3>
-                            <p class="content"><a href="/board/${ul.ulIdx}" class="text-dark text-decoration-none">${ul.ulContents}</a></p>
+                            <h3><a href="/potato/board/${ul.ulIdx}" class="text-dark text-decoration-none">${ul.ulTitle}</a></h3>
+                            <p class="content"><a href="/potato/board/${ul.ulIdx}" class="text-dark text-decoration-none">${ul.ulContents}</a></p>
                             <p class="info">${ul.ulPlace} · ${ul.ulCate}</p>
                             <div class="icons">
                             <img src="/img/good.png" width="22px" height="22px" alt="" id="ulLikes" name="ulLikes" ${ul.ulLikes}>
@@ -209,7 +209,7 @@
     <div class="d-flex align-items-center mb-4">
         <h2 class="mb-0"><b th:text="${memberGu}">동네생활</b></h2>
         <h4 class="mb-0"><b >동네생활</b></h4>
-        <a href="/board/write" class="btn btn-danger ms-5 me-5">글쓰기</a>
+        <a href="/potato/board/write" class="btn btn-danger ms-5 me-5">글쓰기</a>
     </div>
     <section class="row">
         <!-- 카테고리 (cate) 영역 -->
@@ -285,7 +285,7 @@
                         <div class="form">
                             <input type="hidden" id="ulContents" name="ulContents" th:value="${ul.ulContents}">
                             <!-- ✅ 글 내용 표시 (HTML 적용 가능) -->
-                            <div th:utext="${ul.ulContents}"></div>
+<!--                            <div th:utext="${ul.ulContents}"></div>-->
 
                             <!-- ✅ 사용자가 입력할 수 있는 영역 (자동 크기 조절) -->
                             <div id="editableDiv" contenteditable="true"

@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("/board/api")
+@RequestMapping("/potato/api")
 public class BoardApiController {
     @Autowired
     private BoardService boardService;

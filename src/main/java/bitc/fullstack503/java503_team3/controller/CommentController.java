@@ -47,7 +47,7 @@ public class CommentController {
     public String ulCommentInsert(@PathVariable("ulIdx") int ulIdx, UserlifeCommentDTO ulcDTO, HttpServletRequest request) throws Exception {
         ulcDTO.setUlCommentUlIdx(ulIdx);
         ulCommentService.ulCommentInsert(ulcDTO);
-        return "redirect:/board/" + ulIdx;
+        return "redirect:/potato/board/" + ulIdx;
     }
 
     // 댓글 삭제

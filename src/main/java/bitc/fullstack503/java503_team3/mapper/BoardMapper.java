@@ -57,4 +57,6 @@ public interface BoardMapper {
     String getBoardAuthorId(int ulIdx);
 
     void deleteUlFile(int ulIdx);
+
+    List<UserlifeDTO> getBoardByCategoryPopularAndLocation(String memberGu);
 }
