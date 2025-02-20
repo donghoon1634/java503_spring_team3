@@ -55,6 +55,6 @@ public interface BoardMapper {
 //    UserlifeDTO getBoardById(int ulIdx);
 
     String getBoardAuthorId(int ulIdx);
-
+//파일 삭제
     void deleteUlFile(int ulIdx);
 }

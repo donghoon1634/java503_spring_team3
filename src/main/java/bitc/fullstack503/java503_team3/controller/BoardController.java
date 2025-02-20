@@ -118,19 +118,23 @@ public class BoardController {
 //        return "board/BoardWrite";
 
 
-    // 등록처리
-    @PostMapping("/board/write")
-    public String insertBoard(UserlifeDTO ul, MultipartHttpServletRequest multipart, HttpServletRequest request) throws Exception {
-        HttpSession session = request.getSession();
-        MemberDTO memberInfo = (MemberDTO) session.getAttribute("memberInfo");
+    // 댓글 등록 처리
+    @PostMapping("/board/{ulIdx}/add")
+    public String ulCommentInsert(@PathVariable("ulIdx") int ulIdx, UserlifeCommentDTO ulcDTO, HttpServletRequest request) throws Exception {
+        HttpSession session = request.getSession(); // 현재 사용자의 세션 가져오기
+        MemberDTO memberInfo = (MemberDTO) session.getAttribute("memberInfo"); // 로그인한 사용자 정보 가져오기
         LoadAddrDTO loadAddrInfo = (LoadAddrDTO) session.getAttribute("loadAddrInfo");
-
-    ul.setUlMemberId(memberInfo.getMemberId());
-    ul.setUlNickname(memberInfo.getMemberNickname());
-    ul.setUlPlace(loadAddrInfo.getLoadAddrGu());
-
-        boardService.insertBoard(ul, multipart);
-        return "redirect:/board";
+        if (memberInfo == null) {
+            return "redirect:/member";
+        }
+        else {
+            ulcDTO.setUlCommentUlIdx(ulIdx);
+            ulcDTO.setUlComMemberId(memberInfo.getMemberId()); // 댓글 작성자의 아이디
+            ulcDTO.setUlCommentNickname(memberInfo.getMemberNickname()); // 댓글 작성자의 닉네임
+            ulcDTO.setUlCommentLocation(loadAddrInfo.getLoadAddrGu()); // 댓글 작성자의 위치 (필요에 따라 수정)
+            ulCommentService.ulCommentInsert(ulcDTO);
+            return "redirect:/potato/board/" + ulIdx;
+        }
     }
 
 

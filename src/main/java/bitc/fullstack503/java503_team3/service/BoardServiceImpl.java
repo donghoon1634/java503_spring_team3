@@ -20,7 +20,7 @@ public class BoardServiceImpl implements BoardService {
     @Autowired
     private UlCommentMapper ulCommentMapper;
     @Autowired
-    private UlFileUtils fileUtils;
+   private UlFileUtils ulFileUtils;
 
     @Autowired
     private UlCommentService ulCommentService;

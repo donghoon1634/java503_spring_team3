@@ -7,6 +7,7 @@ import java.util.List;
 
 @Mapper
 public interface UlCommentMapper {
+
     // 게시물의 댓글 목록을 가져오는 API
     List<UserlifeCommentDTO> getUlCommentByUlIdx(int ulIdx);
     // 추천수 증가
@@ -20,7 +21,7 @@ public interface UlCommentMapper {
     // 댓글을 추가하는 API
     int ulCommentInsert(UserlifeCommentDTO ulcDTO);
     // 댓글 삭제
-    void ulCommentdelet(int ulIdx);
+//    void ulCommentdelet(int ulIdx);
     // 기본댓글 5개씩 최신순
     List<UserlifeCommentDTO> selectCommentsByPage(int ulIdx, int offset, int limit);
     // 댓글 총 개수 반환
@@ -30,7 +31,17 @@ public interface UlCommentMapper {
 
     int countComment(int ulIdx);
 
-    void deleteComment(int ulIdx);
+
     // 댓글 개수 가져오기
     int getUlCommentCount(int ulIdx);
+
+
+    String findCommentAuthor(int ulCommentIdx);
+
+    int deleteComment(int ulCommentIdx);
 }
+
+
+
+
+
