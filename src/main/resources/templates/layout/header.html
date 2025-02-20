@@ -22,7 +22,7 @@
     <div class="header-category-box position-absolute top-50 start-50 translate-middle">
       <div class="header-category">
         <a href="" th:href="@{/potato/trade}" class="me-5 link-dark hover-effect">중고거래</a>
-        <a href="" th:href="@{/potato/life}" class="link-dark hover-effect">동네생활</a>
+        <a href="" th:href="@{/potato/board}" class="link-dark hover-effect">동네생활</a>
       </div>
     </div>
     <div class="header-user-box">
@@ -30,7 +30,7 @@
         <a href="" th:href="@{/potato/member}" class="btn btn-outline-secondary">로그인</a>
       </div>
       <div th:unless="${session.memberInfo == null}">
-        <a href="" th:href="@{/potato/myPage/${session.memberInfo.getMemberNickname()}}" class="btn btn-outline-secondary me-2">내정보</a>
+        <a th:href="@{/potato/myPage/{nickname}(nickname=${session.memberInfo.memberId})}" class="btn btn-outline-secondary me-2">내정보</a>
         <button class="btn btn-outline-secondary" id="signOut">로그아웃</button>
       </div>
     </div>
