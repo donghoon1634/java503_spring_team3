@@ -8,9 +8,9 @@ import java.util.List;
 public interface MyPageService {
     void updateMyPage(userMyPageDTO myPage);
 
-    List<userMyPageDTO> selectMyPage(String myPageUser);
+    List<userMyPageDTO> selectMyPage(String memberId);
 
-    List<userMyPageProductEditDTO> selectMyPageProduct(String myPageUser);
+    List<userMyPageProductEditDTO> selectMyPageProduct(String memberId);
 
     List<userMyPageDTO> selectMyPage1(String myPageUser);
 

@@ -145,28 +145,46 @@ public class usedResellController {
     }
 
 //    마이 페이지 자기소개 등록
-    @RequestMapping(value = "/myPage/{myPageUser}", method = RequestMethod.PUT)
-    public String updateMyPage(userMyPageDTO myPage) throws Exception {
+    @RequestMapping(value = "/myPage/{memberId}", method = RequestMethod.PUT)
+    public String updateMyPage(@PathVariable("memberId") String memberId, HttpServletRequest request, @RequestParam("userMyPageContents") String content ) throws Exception {
 
-        if(myPage.getMemberDTO() == null) {
-            myPage.setMemberDTO(new MemberDTO());
+        HttpSession session = request.getSession();
+        MemberDTO memberInfo = (MemberDTO) session.getAttribute("memberInfo");
+
+        if(memberId == null) {
+            throw new IllegalArgumentException("로그인 정보 없음");
         }
+//
+//        if(myPage.getMemberDTO() == null) {
+//            myPage.setMemberDTO(new MemberDTO());
+//        }
+//
+//        myPage.getMemberDTO().setMemberId(memberId);
+//
+//        String updatedNickname = myPage.getUserMyPageNickname();
+//        myPage.getMemberDTO().setMemberNickname(updatedNickname);
 
-        myPage.getMemberDTO().setMemberNickname("새로운 닉네임");
-        String updatedNickname = myPage.getUserMyPageNickname();
-        myPage.getMemberDTO().setMemberNickname(updatedNickname);
-
+        userMyPageDTO myPage = new userMyPageDTO();
+        myPage.setMyPageUserId(memberId);
+        myPage.setUserMyPageContents(content);
         myPageService.updateMyPage(myPage);
-        return "redirect:/potato/myPage/{myPageUser}";
+        return "redirect:/potato/myPage/" + memberId;
     }
 
     // 내가 보는 내 정보 마이페이지
-    @RequestMapping(value = "/myPage/{myPageUser}", method = RequestMethod.GET)
-    public ModelAndView getMyPage(@PathVariable("myPageUser") String myPageUser, HttpServletRequest request) throws Exception {
-        System.out.println("Received myPageUser: " + myPageUser);
-        ModelAndView mav = new ModelAndView("/myPage/myPage");
+    @RequestMapping(value = "/myPage/{memberId}", method = RequestMethod.GET)
+    public ModelAndView getMyPage(@PathVariable("memberId") String memberId, HttpServletRequest request) throws Exception {
         HttpSession session = request.getSession();
         MemberDTO memberInfo = (MemberDTO) session.getAttribute("memberInfo");
+
+        if(memberInfo == null) {
+            throw new IllegalStateException("로그인 정보 없음");
+        }
+
+        String myPageUser = memberInfo.getMemberId();
+        System.out.println("Received myPageUser: " + myPageUser);
+        ModelAndView mav = new ModelAndView("/myPage/myPage");
+
         LoadAddrDTO memberLoadAddr = (LoadAddrDTO) session.getAttribute("loadAddrInfo");
 
         List<userMyPageDTO> myPageList = myPageService.selectMyPage(myPageUser);
@@ -175,15 +193,10 @@ public class usedResellController {
         if (!myPageList.isEmpty()) {
             userMyPageDTO userPage = myPageList.get(0);
 
-            if(userPage.getMemberDTO() == null) {
-                userPage.setMemberDTO(new MemberDTO());
-            }
-            userPage.getMemberDTO().setMemberNickname("수정할 닉네임");
-
             MemberDTO member = new MemberDTO();
             member.setMemberId(memberInfo.getMemberId());
             member.setMemberNickname(memberInfo.getMemberNickname());
-
+            String contents = userPage.getUserMyPageContents();
             String si = memberLoadAddr.getLoadAddrSido();
             String gu = memberLoadAddr.getLoadAddrGu();
             String ro = memberLoadAddr.getLoadAddrRo();
@@ -191,11 +204,11 @@ public class usedResellController {
             String subNum = memberLoadAddr.getLoadAddrSubNum();
             String detail = memberInfo.getMemberAddrDetail();
             String addr = si + " " + gu + " " + ro + " " + mainNum + " " + subNum + " " + detail;
-            member.setMemberAddr(addr);
 
             userPage.setMemberDTO(member);
-
-            mav.addObject("myPage", userPage);
+            mav.addObject("memberAddr", addr);
+            mav.addObject("memberInfo", memberInfo);
+            mav.addObject("contents", contents);
         } else {
             mav.addObject("myPage", new userMyPageDTO());
         }

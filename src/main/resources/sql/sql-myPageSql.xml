@@ -4,15 +4,16 @@
         "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="bitc.fullstack503.java503_team3.mapper.MyPageMapper">
 
-   <update id="updateMyPage" parameterType="bitc.fullstack503.java503_team3.dto.userMyPageDTO">
-       insert into user_mypage (user_mypage_board_idx, mypage_user, user_mypage_contents, user_mypage_nickname)
-       values(#{userMyPageBoardIdx},#{myPageUser},#{userMyPageContents}, #{userMyPageNickname})
-   </update>
+   <insert id="updateMyPage" parameterType="bitc.fullstack503.java503_team3.dto.userMyPageDTO">
+       INSERT INTO user_mypage (mypage_user_id, user_mypage_contents)
+       VALUES (#{myPageUserId}, #{userMyPageContents})
+       ON DUPLICATE KEY UPDATE user_mypage_contents = #{userMyPageContents};
+   </insert>
 
-    <select id="selectMyPage" resultType="bitc.fullstack503.java503_team3.dto.userMyPageDTO">
+    <select id="selectMyPage" parameterType="java.lang.String" resultType="bitc.fullstack503.java503_team3.dto.userMyPageDTO">
         select  mypage_user, user_mypage_contents, mypage_user_id
         from user_mypage
-        where mypage_user = #{myPageUser}
+        where mypage_user_id = #{memberId}
         order by user_mypage_idx desc;
     </select>
 
@@ -20,7 +21,7 @@
         SELECT
         user_mypage_product_edit_idx ,user_mypage_product_edit_name ,user_mypage_product_edit_imgs ,user_mypage_product_edit_price
         FROM user_mypage_product_edit
-        WHERE user_mypage_product_edit_mypage_user = #{userMyPageProductEditMyPageUser}
+        WHERE user_mypage_product_edit_user_id = #{memberId}
     </select>
 
 

@@ -48,10 +48,6 @@
                 <form th:action="@{/myPage/{myPageUser}(myPageUser=${myPageUser})}" class="mt-3" id="frm" method="post">
                     <input type="hidden" name="_method" value="PUT">
 
-                    <div class="col-sm ms-5"> 아이디</div>
-                    <div class="col-sm ms-5">
-                        <span th:text="${myPage.memberDTO.memberId}"></span> <!-- 아이디 출력 -->
-                    </div>
                     <br>
                     <div class="col-sm ms-5"> 닉네임</div>
                     <div class="col-sm ms-5">

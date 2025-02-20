@@ -21,15 +21,21 @@ private MyPageMapper myPageMapper;
     }
 
     @Override
-    public List<userMyPageDTO> selectMyPage(String myPageUser) {
-        List<userMyPageDTO> myPageList = myPageMapper.selectMyPage(myPageUser);
+    public List<userMyPageDTO> selectMyPage(String memberId) {
+        List<userMyPageDTO> myPageList = myPageMapper.selectMyPage(memberId);
 
+        if(myPageList == null || myPageList.isEmpty()) {
+            System.out.println("DB에서 마이페이지 정보가 없음");
+        }
+        else{
+            System.out.println("DB에서 받은 마이페이지 정보: " + myPageList);
+        }
         return myPageList;
     }
 
     @Override
-    public List<userMyPageProductEditDTO> selectMyPageProduct(String myPageUser) {
-        List<userMyPageProductEditDTO> myPageProduct = myPageMapper.selectMyPageProduct(myPageUser);
+    public List<userMyPageProductEditDTO> selectMyPageProduct(String memberId) {
+        List<userMyPageProductEditDTO> myPageProduct = myPageMapper.selectMyPageProduct(memberId);
         if(myPageProduct.isEmpty()) {
             System.out.println("상품 데이터 없음");
         }

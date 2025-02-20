@@ -15,11 +15,13 @@
                 history.back();
             });
 
+            var userMyPageProductEditIdx = 1
+
             $("#btn-edit").on("click", function () {
                 $("#method").val("PUT");
 
                 var frm = $("#frm")[0];
-                frm.action = "/potato/myPage/edit/1";
+                frm.action = "/potato/myPage/edit/" + userMyPageProductEditIdx;
                 frm.submit();
             });
 
@@ -42,12 +44,6 @@
                 <div class="row mt-5">
                     <img src="https://img.kr.gcp-karroter.net/origin/article/202502/9be1aaa2550f973c9b9fe9e270955076ebcddb4230c1fae17b25d212dd1a1e33_0.webp?f=webp&q=95&s=720x720&t=inside" th:src="${editList.productEditImg}"
                          style="width: 300px" height="300px" alt="기본 이미지">
-                </div>
-                <div class="col-sm mt-2">
-                    <div class="form-floating">
-                        <input type="text" class="form-control" id="seller" name="productEditUser" readonly >
-                        <label for="seller">판매자</label>
-                    </div>
                 </div>
             </aside>
         </section>
