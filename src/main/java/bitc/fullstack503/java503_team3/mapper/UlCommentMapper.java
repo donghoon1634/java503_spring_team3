@@ -36,6 +36,8 @@ public interface UlCommentMapper {
     int getUlCommentCount(int ulIdx);
     // 댓글 작성자 ID 조회
     String getCommentAuthorId(int ulCommentIdx);
+
+    void deleteComment(int ulIdx);
 }
 
 

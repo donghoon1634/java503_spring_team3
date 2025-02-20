@@ -52,11 +52,13 @@ public interface BoardMapper {
     List<UserlifeDTO> getBoardByCategoryPopular();
 
 //    게시물 조회
-//    UserlifeDTO getBoardById(int ulIdx);
+    UserlifeDTO getBoardById(int ulIdx);
 
     String getBoardAuthorId(int ulIdx);
 //파일 삭제
     void deleteUlFile(int ulIdx);
 
     List<UserlifeDTO> getBoardByCategoryPopularAndLocation(String memberGu);
+
+
 }

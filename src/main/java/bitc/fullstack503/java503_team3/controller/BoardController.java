@@ -10,6 +10,7 @@ import bitc.fullstack503.java503_team3.service.UlCommentService;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -178,13 +179,13 @@ public class BoardController {
 //@PutMapping :  클라이언트에서 데이터 전송방식을 put 로 설정한 URL만 접속
 //  @RequestMapping(method = RequestMethod.PUT 과 동일한 방식
     @PutMapping("/board/{ulIdx}")
-    public String updateBoard(@PathVariable("ulIdx") int ulIdx, UserlifeDTO ul, HttpServletRequest request) throws Exception {
-        HttpSession session = request.getSession(); // 현재 사용자의 세션 가져오기
-        MemberDTO memberInfo = (MemberDTO) session.getAttribute("memberInfo"); // 로그인한 사용자 정보 가져오기
+    public ResponseEntity<String> updateBoard(@PathVariable("ulIdx") int ulIdx, UserlifeDTO ul, HttpServletRequest request) throws Exception {
+        HttpSession session = request.getSession();
+        MemberDTO memberInfo = (MemberDTO) session.getAttribute("memberInfo");
 
         // ✅ 로그인 여부 확인
         if (memberInfo == null) {
-            return "redirect:/member"; // 로그인하지 않은 경우 로그인 페이지로 이동
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("<script>alert('로그인이 필요합니다.'); window.location.href='/member';</script>");
         }
 
         // ✅ 해당 게시글 정보 가져오기
@@ -192,19 +193,19 @@ public class BoardController {
 
         // ✅ 게시글이 존재하지 않는 경우 예외 처리
         if (existingBoard == null) {
-            return "redirect:/error"; // 오류 페이지로 이동 (필요에 따라 변경 가능)
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("<script>alert('게시물을 찾을 수 없습니다.'); history.back();</script>");
         }
 
         // ✅ 로그인한 사용자가 게시글 작성자인지 확인
         if (!existingBoard.getUlMemberId().equals(memberInfo.getMemberId())) {
-            return "redirect/potato/board/" + ulIdx; // 작성자가 아니면 수정 불가, 상세 페이지로 이동
+            return ResponseEntity.status(HttpStatus.FORBIDDEN).body("<script>alert('권한이 없습니다.'); history.back();</script>");
         }
 
         // ✅ 수정 가능 → 게시글 업데이트 진행
         ul.setUlIdx(ulIdx);
         boardService.updateBoard(ul);
 
-        return "redirect:/potato/board/" + ulIdx; // 수정 완료 후 상세 페이지로 이동
+        return ResponseEntity.ok("<script>alert('게시글이 수정되었습니다.'); window.location.href='/potato/board/" + ulIdx + "';</script>");
     }
 
 
