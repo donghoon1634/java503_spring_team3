@@ -29,7 +29,7 @@
                     <div class="d-flex mb-3">
                         <!--  댓글 작성자 프로필사진 -->
                         <div class="col-sm-1">
-                            <img src="/img/프로필.jpg" style="width: 40px; height: 40px" alt="프로필">
+                            <img th:src="@{${memberProfile}}" style="width: 40px; height: 40px" alt="프로필" class="rounded-circle">
                         </div>
                         <!-- 댓글 내용 -->
                         <div class="ml-1 flex-grow-1">
