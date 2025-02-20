@@ -79,22 +79,34 @@
     }
 
     // 검색 실행 함수
-    function search ()
-    {
-      let board = document.getElementById('dropdownMenuButton').dataset.value
-      let search = document.getElementById('searchInput').value
+    function search() {
+        let board = document.getElementById('dropdownMenuButton').dataset.value;
+        let search = document.getElementById('searchInput').value;
 
-      // 검색어가 비어있을 경우 경고
-      if (!search.trim())
-      {
-        alert('검색어를 입력해주세요!')
-        return
-      }
+        // null 체크 추가
+        let categoryDropdown = document.getElementById('categoryDropdown');
+        let categoryName = categoryDropdown ? categoryDropdown.value : '';
 
-      // GET 요청으로 페이지 이동 (정보 포함)
-      let url = `/potato/${encodeURIComponent(board)}/${encodeURIComponent(search)}`
-      window.location.href = url
+        let localGuDropdown = document.getElementById('localGuDropdown');
+        let localGuName = localGuDropdown ? localGuDropdown.value : '';
+
+        // 검색어가 비어있을 경우 경고
+        if (!search.trim()) {
+            alert('검색어를 입력해주세요!');
+            return;
+        }
+
+        // GET 요청으로 페이지 이동 (정보 포함)
+        let url = `/potato/trade/products/search?searchTerm=${encodeURIComponent(search)}`;
+        if (categoryName) {
+            url += `&categoryName=${encodeURIComponent(categoryName)}`;
+        }
+        if (localGuName) {
+            url += `&localGuName=${encodeURIComponent(localGuName)}`;
+        }
+        window.location.href = url;
     }
+
   </script>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
 </header>
