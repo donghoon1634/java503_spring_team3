@@ -133,7 +133,7 @@ public class ProductController {
   @PostMapping("/potato/trade/productWrite")
   public String productWrite(@RequestParam("productName") String productName,
                              @RequestParam("productInfo") String productInfo,
-                             @RequestParam("productPrice") int productPrice,
+                             @RequestParam("productPrice") String productPrice,
                              @RequestParam("localGuName") String localGuName,
                              @RequestParam("file") MultipartFile file,
                              HttpServletRequest request,  // 세션을 확인하기 위한 HttpServletRequest 추가
@@ -145,44 +145,56 @@ public class ProductController {
       redirectAttributes.addFlashAttribute("errMsg", "로그인이 필요합니다.");
       return "redirect:/member";  // 로그인 페이지로 리디렉션
     }
-    // 로그인된 사용자의 member_idx 추출
-    int memberIdx = (int) session.getAttribute("memberInfo");
 
-    if (!file.isEmpty()) {
-      try {
-        // 이미지 파일 저장 경로 설정
-        String uploadDir = "/path/to/upload/dir/";  // 실제 경로로 수정 필요
-        String fileName = file.getOriginalFilename();
-        Path filePath = Paths.get(uploadDir + fileName);
+    // 세션에서 MemberDTO 객체 가져오기
+    MemberDTO memberInfo = (MemberDTO) session.getAttribute("memberInfo");
 
-        // 파일 저장
-        Files.write(filePath, file.getBytes());
+    // memberInfo가 null이 아니라면, memberIdx 값을 가져오기
+    if (memberInfo != null) {
+      String memberIdx = memberInfo.getMemberId();  // MemberDTO에서 memberIdx 가져오기
 
-        // 이미지 URL 생성
-        String imageUrl = "/upload/dir/" + fileName;  // 웹 경로에 맞게 수정
+      if (!file.isEmpty()) {
+        try {
+          // 이미지 파일 저장 경로 설정
+          String uploadDir = "C:/fullstack503/spring/upload/trade/";  // 실제 경로로 수정 필요
+          String fileName = file.getOriginalFilename();
+          Path filePath = Paths.get(uploadDir + fileName);
 
-        // Product DTO에 데이터 설정
-        ProductDTO productDTO = new ProductDTO();
-        productDTO.setProductName(productName);
-        productDTO.setProductInfo(productInfo);
-        productDTO.setProductPrice(String.valueOf(productPrice));
-        productDTO.setLocalGuName(localGuName);
-        productDTO.setProductImg(imageUrl);
-        productDTO.setMemberIdx(memberIdx);  // 회원의 idx 추가
+          // 파일 저장
+          Files.write(filePath, file.getBytes());
 
-        // 상품 등록 서비스 호출
-        productService.addProduct(productDTO);
+          // 이미지 URL 생성
+          String imageUrl = "/resources/" + fileName;  // 정적 리소스 경로에 맞게 수정
+//          String imageUrl = "/upload/dir/" + fileName;  // 웹 경로에 맞게 수정
 
-        redirectAttributes.addFlashAttribute("message", "상품이 성공적으로 등록되었습니다.");
-        return "redirect:/potato/trade";  // 상품 리스트 페이지로 리디렉션
+          // productPrice를 String에서 int로 변환 (나눔도 처리)
+          int price = productPrice.equals("나눔") ? -1 : Integer.parseInt(productPrice);
+          // ProductDTO 에 데이터 설정
+          ProductDTO productDTO = new ProductDTO();
+          productDTO.setProductName(productName);
+          productDTO.setProductInfo(productInfo);
+          productDTO.setProductPrice(String.valueOf(price));  // 가격을 String으로 저장
+          productDTO.setLocalGuName(localGuName);
+          productDTO.setProductImg(imageUrl);
+          productDTO.setMemberIdx(memberIdx);  // 로그인된 회원의 idx 설정
 
-      } catch (IOException e) {
-        redirectAttributes.addFlashAttribute("errMsg", "파일 업로드 중 오류가 발생했습니다.");
-        return "redirect:/potato/trade/productWrite";  // 다시 등록 페이지로 리디렉션
+          // 상품 등록 서비스 호출
+          productService.addProduct(productDTO);
+
+          redirectAttributes.addFlashAttribute("message", "상품이 성공적으로 등록되었습니다.");
+          return "redirect:/potato/trade";  // 상품 리스트 페이지로 리디렉션
+
+        } catch (IOException e) {
+          redirectAttributes.addFlashAttribute("errMsg", "파일 업로드 중 오류가 발생했습니다.");
+          return "redirect:/potato/trade/productWrite";  // 다시 등록 페이지로 리디렉션
+        }
+      } else {
+        redirectAttributes.addFlashAttribute("errMsg", "이미지가 첨부되지 않았습니다.");
+        return "redirect:/potato/trade/productWrite";  // 이미지 첨부 안됨 오류 메시지
       }
     } else {
-      redirectAttributes.addFlashAttribute("errMsg", "이미지가 첨부되지 않았습니다.");
-      return "redirect:/potato/trade/productWrite";  // 이미지 첨부 안됨 오류 메시지
+      redirectAttributes.addFlashAttribute("errMsg", "로그인이 필요합니다.");
+      return "redirect:/member";  // 로그인 페이지로 리디렉션
     }
   }
 

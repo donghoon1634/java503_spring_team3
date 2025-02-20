@@ -13,5 +13,8 @@ public class ProductDTO {
   private String productImg; //상품 이미지
   private int localGuNum; //거래 지역 번호
   private String localGuName; //거래 지역명
-  private int memberIdx; //
+  private String memberIdx; //회원 번호
+
+
 }
+

@@ -241,7 +241,7 @@
 
               productCard.innerHTML = `
             <div class="card" style="cursor: pointer;">
-                <img src="${product.productImg}" class="card-img-top" alt="상품 이미지">
+                <img src="@{${product.productImg}}" class="card-img-top" alt="상품 이미지">
                 <div class="card-body">
                     <p class="card-title">${product.productName}</p>
                     <p class="card-price">${product.productPrice}</p>
@@ -330,7 +330,10 @@
         <div th:if="${#lists.size(productList)} > 0" th:each="product : ${productList}"
              class="product-card col-lg-3 col-md-4 col-sm-6 mb-4">
           <div class="card" th:onclick="|location.href='/potato/trade/productDetail?productNum=${product.productNum}'|" style="cursor: pointer;">
-            <img th:src="@{|${product.productImg}|}" class="card-img-top" alt="상품 이미지">
+            <!-- 외부 URL (http/https) 또는 로컬 경로 둘 다 지원 -->
+<!--            <img th:src="${#strings.startsWith(product.productImg, 'http') ? product.productImg : product.productImg}" alt="상품 이미지">-->
+            <img th:src="@{${product.productImg}}" alt="상품 이미지">
+
             <div class="card-body">
               <p class="card-title" th:text="${product.productName}">상품 제목</p>
               <p class="card-price" th:text="${product.productPrice}">1000원</p>
