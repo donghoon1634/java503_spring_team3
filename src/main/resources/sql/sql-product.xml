@@ -1,67 +1,64 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper
-        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
-        "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <mapper namespace="bitc.fullstack503.java503_team3.mapper.ProductMapper">
-
-    <!-- 상품 목록 조회 -->
-    <select id="selectAllProducts" resultType="bitc.fullstack503.java503_team3.dto.ProductDTO">
-        SELECT product_num, product_name, product_price, product_img, local_gu_name
-        FROM product
-    </select>
-
-    <!-- 지역 목록 조회 -->
-    <select id="getAllLocalGu" resultType="String">
-        SELECT DISTINCT local_gu_name FROM product
-        WHERE local_gu_name IS NOT NULL
-    </select>
-
-    <!-- 지역별 상품 목록 조회 -->
-    <select id="getProductsByLocal" parameterType="String" resultType="bitc.fullstack503.java503_team3.dto.ProductDTO">
-        SELECT product_num, product_name, product_price, product_img, local_gu_name
-        FROM product
-        WHERE local_gu_name = #{localGuName}
-    </select>
-
-    <!-- 카테고리 목록 조회 -->
-    <select id="getAllCategories" resultType="bitc.fullstack503.java503_team3.dto.CategoryDTO">
-        SELECT category_num, category_name
-        FROM category
-    </select>
-
-    <!-- 카테고리별 상품 목록 조회 -->
-    <select id="getProductsByCategoryName" parameterType="String" resultType="bitc.fullstack503.java503_team3.dto.ProductDTO">
-        SELECT product_num, product_name, product_price, product_img, local_gu_name, category_num
-        FROM product
-        WHERE category_num = (
-        SELECT category_num FROM category WHERE category_name = #{categoryName}
-        )
-    </select>
-
-    <!-- 나눔 상품 목록 조회 -->
-    <select id="getShareProducts" resultType="bitc.fullstack503.java503_team3.dto.ProductDTO">
-        SELECT product_num, product_name, product_price, product_img, local_gu_name
-        FROM product
-        WHERE product_price = '나눔'
-    </select>
-
-    <!-- 특정 상품 상세 조회 -->
-    <select id="getProductDetail" resultType="bitc.fullstack503.java503_team3.dto.ProductDTO">
-        SELECT
-        product_num AS productNum,
-        product_name AS productName,
-        product_price AS productPrice,
-        product_img AS productImg,
-        local_gu_name AS localGuName
-        FROM product
-        WHERE product_num = #{productNum}
-    </select>
-
-<!--    제품 등록하기-->
-    <insert id="insertProduct" parameterType="bitc.fullstack503.java503_team3.dto.ProductDTO">
-        INSERT INTO product (product_name, product_info, product_price, local_gu_name, product_img ,member_idx)
-        VALUES (#{productName}, #{productInfo}, #{productPrice}, #{localGuName}, #{productImg}, #{memberIdx})
-    </insert>
+  
+  <!-- 상품 목록 조회 -->
+  <select id="selectAllProducts" resultType="bitc.fullstack503.java503_team3.dto.ProductDTO">
+    SELECT product_num, product_name, product_price, product_img, local_gu_name
+    FROM product
+  </select>
+  
+  <!-- 지역 목록 조회 -->
+  <select id="getAllLocalGu" resultType="String">
+    SELECT DISTINCT local_gu_name FROM product
+    WHERE local_gu_name IS NOT NULL
+  </select>
+  
+  <!-- 지역별 상품 목록 조회 -->
+  <select id="getProductsByLocal" parameterType="String" resultType="bitc.fullstack503.java503_team3.dto.ProductDTO">
+    SELECT product_num, product_name, product_price, product_img, local_gu_name
+    FROM product
+    WHERE local_gu_name = #{localGuName}
+  </select>
+  
+  <!-- 카테고리 목록 조회 -->
+  <select id="getAllCategories" resultType="bitc.fullstack503.java503_team3.dto.CategoryDTO">
+    SELECT category_num, category_name
+    FROM category
+  </select>
+  
+  <!-- 카테고리별 상품 목록 조회 -->
+  <select id="getProductsByCategoryName" parameterType="String"
+          resultType="bitc.fullstack503.java503_team3.dto.ProductDTO">
+    SELECT product_num, product_name, product_price, product_img, local_gu_name, category_num
+    FROM product
+    WHERE category_num = (
+    SELECT category_num FROM category WHERE category_name = #{categoryName}
+    )
+  </select>
+  
+  <!-- 나눔 상품 목록 조회 -->
+  <select id="getShareProducts" resultType="bitc.fullstack503.java503_team3.dto.ProductDTO">
+    SELECT product_num, product_name, product_price, product_img, local_gu_name
+    FROM product
+    WHERE product_price = '나눔'
+  </select>
+  
+  <!-- 특정 상품 상세 조회 -->
+  <select id="getProductDetail" resultType="bitc.fullstack503.java503_team3.dto.ProductDTO">
+    SELECT
+    *
+    FROM product
+    WHERE product_num = #{productNum}
+  </select>
+  
+  <!--    제품 등록하기-->
+  <insert id="insertProduct" parameterType="bitc.fullstack503.java503_team3.dto.ProductDTO">
+    INSERT INTO product (product_name, product_info, product_price, local_gu_name, product_img ,member_idx)
+    VALUES (#{productName}, #{productInfo}, #{productPrice}, #{localGuName}, #{productImg}, #{memberIdx})
+  </insert>
 
 </mapper>
