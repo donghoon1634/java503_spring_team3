@@ -61,4 +61,9 @@ public class ProductServiceImpl implements ProductService {
     // DB에 상품 추가
     productMapper.insertProduct(productDTO);
   }
+  //상품 검색하기
+  @Override
+  public List<ProductDTO> searchProducts(String searchTerm, String categoryName, String localGuName) {
+    return productMapper.searchProducts(searchTerm, categoryName, localGuName);
+  }
 }

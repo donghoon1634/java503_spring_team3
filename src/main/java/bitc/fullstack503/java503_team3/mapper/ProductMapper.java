@@ -33,4 +33,9 @@ public interface ProductMapper {
 
   //DB에 상품 등록하기
   void insertProduct(ProductDTO productDTO); // 상품 등록 메서드
+
+  // 상품 검색 쿼리 호출
+  List<ProductDTO> searchProducts(@Param("searchTerm") String searchTerm,
+                                  @Param("categoryName") String categoryName,
+                                  @Param("localGuName") String localGuName);
 }
