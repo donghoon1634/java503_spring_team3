@@ -99,6 +99,10 @@
                             alert("삭제되었습니다.");
                             window.location.href = "/board";
                         }
+                        // 404 오류가 발생했을 때
+                        else if (response.status === 403) {
+                            alert("로그인 후 이용 해주세요.");
+                        }
 
                         else {
                             response.text().then(errorMessage => {
@@ -217,6 +221,13 @@
         <!-- 카테고리 (cate) 영역 -->
         <div class="col-md-2 p-3">
             <div th:replace="~{/layout/cate :: cate}"></div>
+        </div>
+
+        <!-- 오류 메시지가 있을 경우 출력 -->
+        <div th:if="${errorMessage != null}">
+            <script>
+                alert([[${errorMessage}]]);
+            </script>
         </div>
 
         <!-- 오른쪽 메인 콘텐츠 -->

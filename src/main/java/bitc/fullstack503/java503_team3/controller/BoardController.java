@@ -178,7 +178,7 @@ public class BoardController {
 //@PutMapping :  클라이언트에서 데이터 전송방식을 put 로 설정한 URL만 접속
 //  @RequestMapping(method = RequestMethod.PUT 과 동일한 방식
     @PutMapping("/board/{ulIdx}")
-    public String updateBoard(@PathVariable("ulIdx") int ulIdx, UserlifeDTO ul, HttpServletRequest request) throws Exception {
+    public String updateBoard(@PathVariable("ulIdx") int ulIdx, UserlifeDTO ul, HttpServletRequest request, Model model) throws Exception {
         HttpSession session = request.getSession(); // 현재 사용자의 세션 가져오기
         MemberDTO memberInfo = (MemberDTO) session.getAttribute("memberInfo"); // 로그인한 사용자 정보 가져오기
 
@@ -191,9 +191,10 @@ public class BoardController {
         UserlifeDTO existingBoard = boardService.selectBoardDetail(ulIdx);
 
         // ✅ 게시글이 존재하지 않는 경우 예외 처리
-//        if (existingBoard == null) {
-//            return "redirect:/error"; // 오류 페이지로 이동 (필요에 따라 변경 가능)
-//        }
+        if (existingBoard == null) {
+            model.addAttribute("errorMessage", "해당 게시글이 존재하지 않습니다.");
+            return "board/boardDetail";  // 게시글 상세 페이지로 이동 (오류 메시지 전달)
+        }
 
         // ✅ 로그인한 사용자가 게시글 작성자인지 확인
         if (!existingBoard.getUlMemberId().equals(memberInfo.getMemberId())) {
