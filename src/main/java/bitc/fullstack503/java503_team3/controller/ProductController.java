@@ -123,8 +123,11 @@ public class ProductController
   {
     ProductDTO product = productService.getProductDetail (productNum);
     String memberProfile = memberService.memberProfileHref (product.getMemberIdx ());
+    MemberDTO memberInfo = memberService.memberInfo (product.getMemberIdx ());
+    String memberName = memberInfo.getMemberNickname ();
     model.addAttribute ("product", product);
     model.addAttribute ("memberProfile", memberProfile);
+    model.addAttribute ("memberName", memberName);
     return "product/productDetail";
   }
   
