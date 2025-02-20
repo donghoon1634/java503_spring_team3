@@ -223,6 +223,7 @@
               .catch(error => console.error("나눔 상품 목록을 가져오는 중 오류 발생:", error));
       }
 
+
       // 상품 목록 업데이트
       function updateProductList(productList) {
           const productListContainer = document.getElementById("productListContainer");
@@ -241,7 +242,7 @@
 
               productCard.innerHTML = `
             <div class="card" style="cursor: pointer;">
-                <img src="@{${product.productImg}}" class="card-img-top" alt="상품 이미지">
+                <img src="${product.productImg}" class="card-img-top" alt="상품 이미지">
                 <div class="card-body">
                     <p class="card-title">${product.productName}</p>
                     <p class="card-price">${product.productPrice}</p>

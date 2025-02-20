@@ -49,11 +49,7 @@
     <!-- 특정 상품 상세 조회 -->
     <select id="getProductDetail" resultType="bitc.fullstack503.java503_team3.dto.ProductDTO">
         SELECT
-        product_num AS productNum,
-        product_name AS productName,
-        product_price AS productPrice,
-        product_img AS productImg,
-        local_gu_name AS localGuName
+        *
         FROM product
         WHERE product_num = #{productNum}
     </select>
