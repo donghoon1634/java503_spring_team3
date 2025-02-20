@@ -224,12 +224,19 @@ public class usedResellController {
     }
 
     // 남이 보는 내 정보 페이지
-    @RequestMapping(value = "/myPage/view/{myPageUser}", method = RequestMethod.GET)
-    public ModelAndView getMyPage1(@PathVariable("myPageUser") String myPageUser, HttpServletRequest request) throws Exception {
+    @RequestMapping(value = "/myPage/view/{memberId}", method = RequestMethod.GET)
+    public ModelAndView getMyPage1(@PathVariable("memberId") String memberId, HttpServletRequest request) throws Exception {
+        HttpSession session = request.getSession();
+
+        MemberDTO memberInfo = (MemberDTO) session.getAttribute("memberInfo");
+        if(memberInfo == null) {
+            throw new IllegalStateException("로그인 정보 없음");
+        }
+
+        String myPageUser = memberInfo.getMemberId();
         System.out.println("Received myPageUser: " + myPageUser);
         ModelAndView mav = new ModelAndView("/myPage/myPage2");
-        HttpSession session = request.getSession();
-        MemberDTO memberInfo = (MemberDTO) session.getAttribute("memberInfo");
+
         LoadAddrDTO memberLoadAddr = (LoadAddrDTO) session.getAttribute("loadAddrInfo");
 
         List<userMyPageDTO> myPageList = myPageService.selectMyPage1(myPageUser);
@@ -242,16 +249,21 @@ public class usedResellController {
             member.setMemberId(memberInfo.getMemberId());
             member.setMemberNickname(memberInfo.getMemberNickname());
 
+            String contents = userPage.getUserMyPageContents();
+
             String si = memberLoadAddr.getLoadAddrSido();
             String gu = memberLoadAddr.getLoadAddrGu();
-            String dong = memberLoadAddr.getLoadAddrDong();
             String ro = memberLoadAddr.getLoadAddrRo();
-            String addr = si + gu + dong + ro;
-            member.setMemberAddr(addr);
-            member.setMemberAddrDetail("");
+            String mainNum = memberLoadAddr.getLoadAddrMainNum();
+            String subNum = memberLoadAddr.getLoadAddrSubNum();
+            String detail = memberInfo.getMemberAddrDetail();
+            String addr = si + " " + gu + " " + ro + " " + mainNum + " " + subNum + " " + detail;
+
 
             userPage.setMemberDTO(member);
-
+            mav.addObject("memberAddr", addr);
+            mav.addObject("memberInfo", memberInfo);
+            mav.addObject("contents", contents);
             mav.addObject("myPage", userPage);
         } else {
             mav.addObject("myPage", new userMyPageDTO());
