@@ -32,24 +32,11 @@
 <!--    댓글을 추가하는 API-->
     <insert id="ulCommentInsert" parameterType="bitc.fullstack503.java503_team3.dto.UserlifeCommentDTO">
         insert into userlife_comment (ul_comment_ul_idx, ul_comment_nickname, ul_comment_contents, ul_comment_createdate, ul_comment_location,ul_com_member_id)
-        values(#{ulCommentUlIdx}, #{ulCommentNickname}, #{ulCommentContents},now(), #{ulCommentLocation}) ,#{ulComMemberId};
+        values(#{ulCommentUlIdx}, #{ulCommentNickname}, #{ulCommentContents},now(), #{ulCommentLocation}, #{ulComMemberId});
     </insert>
 <!--댓글 삭재-->
-<!--    <delete id="ulCommentdelet" parameterType="int">-->
-<!--        delete from userlife_comment where ul_comment_idx = #{ulCommentIdx}-->
-<!--    </delete>-->
-
-    <!-- 댓글 작성자 조회 -->
-    <select id="findCommentAuthor" parameterType="int" resultType="String">
-        SELECT ul_com_member_id
-        FROM userlife_comment
-        WHERE ul_comment_idx = #{ulCommentIdx}
-    </select>
-
-    <!-- 댓글 삭제 -->
-    <delete id="deleteComment" parameterType="int">
-        DELETE FROM userlife_comment
-        WHERE ul_comment_idx = #{ulCommentIdx}
+    <delete id="ulCommentdelet" parameterType="int">
+        delete from userlife_comment where ul_comment_idx = #{ulCommentIdx}
     </delete>
 
 
@@ -86,14 +73,10 @@
         SELECT COUNT(*) FROM  userlife_comment   WHERE ul_comment_ul_idx = #{ulIdx}
     </select>
 
-    <!-- 댓글 작성자 ID 조회 -->
-    <select id="findAuthorIdByCommentId" resultType="String">
-        SELECT author_id
-        FROM comments
-        WHERE comment_id = #{ulIdx}
+    <!-- 댓글 작성자ID 조회 -->
+    <select id="getCommentAuthorId" resultType="String">
+        select ul_com_member_id from userlife_comment where ul_comment_idx = #{ulCommentIdx}
     </select>
-
-
 
 
 

@@ -20,7 +20,7 @@ public class BoardServiceImpl implements BoardService {
     @Autowired
     private UlCommentMapper ulCommentMapper;
     @Autowired
-   private UlFileUtils ulFileUtils;
+    private UlFileUtils fileUtils;
 
     @Autowired
     private UlCommentService ulCommentService;
@@ -166,15 +166,6 @@ public class BoardServiceImpl implements BoardService {
         return ulBoardList;
 
     }
-
-
-
-
-
-
-
-
-
     // 카테고리별- 인기글 목록 페이지로 이동
     @Override
     public List<UserlifeDTO> getBoardByCategoryPopular() {
@@ -185,13 +176,27 @@ public class BoardServiceImpl implements BoardService {
         }
         return ulBoardList;
     }
-//
+    @Override
+    public List<UserlifeDTO> getBoardByCategoryPopularAndLocation(String memberGu) {
+        List<UserlifeDTO> ulBoardList = boardMapper.getBoardByCategoryPopularAndLocation(memberGu);
+        for (UserlifeDTO ulBoard : ulBoardList) {
+            int com = ulCommentMapper.getUlCommentCount(ulBoard.getUlIdx());
+            ulBoard.setUlCommentCount(com);
+        }
+        return ulBoardList;
+    }
 
+    @Override
+    public UserlifeDTO getBoardById(int ulIdx) {
+        return boardMapper.getBoardById(ulIdx);
+    }
 
     @Override
     public String getBoardAuthorId(int ulIdx) {
         return boardMapper.getBoardAuthorId(ulIdx);
     }
+
+
 //
 
 }

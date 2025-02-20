@@ -44,13 +44,11 @@ public class UlCommentServiceImpl implements UlCommentService {
     public void ulCommentInsert(UserlifeCommentDTO ulcDTO) {
         ulCommentMapper.ulCommentInsert(ulcDTO);
     }
-
-//    // 댓글 삭제
-//    @Override
-//    public void ulCommentdelet(int ulIdx) {
-//        ulCommentMapper.ulCommentdelet(ulIdx);
-//    }
-
+    // 댓글 삭제
+    @Override
+    public void ulCommentdelet(int ulCommentIdx) {
+        ulCommentMapper.ulCommentdelet(ulCommentIdx);
+    }
     // 기본댓글 5개씩
     @Override
     public List<UserlifeCommentDTO> getCommentsByPage(int ulIdx, int offset, int limit) {
@@ -89,32 +87,11 @@ public class UlCommentServiceImpl implements UlCommentService {
     public int getUlCommentCount(int ulIdx) {
         return ulCommentMapper.getUlCommentCount(ulIdx);
     }
-
-
-
-    // 댓글 작성자 조회
+    // 댓글 작성자 ID 조회
     @Override
-    public String getCommentAuthor(int ulCommentIdx) {
-        return ulCommentMapper.findCommentAuthor(ulCommentIdx);
+    public String getCommentAuthorId(int ulCommentIdx) {
+        return ulCommentMapper.getCommentAuthorId(ulCommentIdx);
     }
 
-    // 댓글 삭제 로직
-    @Override
-    public boolean deleteComment(int ulCommentIdx) {
-        String commentAuthorId = ulCommentMapper.findCommentAuthor(ulCommentIdx);
-
-        // 댓글이 존재하지 않으면 삭제 불가
-        if (commentAuthorId == null) {
-            return false;
-        }
-
-        // 댓글 삭제 수행
-        int deletedRows = ulCommentMapper.deleteComment(ulCommentIdx);
-        return deletedRows > 0;  // 삭제 성공 여부 반환
-    }
 
 }
-
-
-
-

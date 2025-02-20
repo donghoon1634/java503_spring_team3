@@ -9,27 +9,18 @@ import bitc.fullstack503.java503_team3.service.BoardService;
 import bitc.fullstack503.java503_team3.service.UlCommentService;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
-import lombok.RequiredArgsConstructor;
-import org.apache.catalina.User;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 import org.springframework.web.servlet.ModelAndView;
 
-import java.io.File;
-import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
-import java.util.UUID;
 
 @Controller
-
+@RequestMapping("/potato")
 public class BoardController {
 
     @Autowired
@@ -91,11 +82,24 @@ public class BoardController {
 
     // 카테고리별- 인기글 목록 페이지로 이동
     @GetMapping("/board/category/popular")
-    public String getBoardByCategoryPopular(Model model) throws Exception {
-        //인기글을 조회수 순으로 가져옴
-        List<UserlifeDTO> boardList = boardService.getBoardByCategoryPopular();
-        model.addAttribute("boardList", boardList);
-        return "/board/boardList";
+    public String getBoardByCategoryPopular(Model model,HttpServletRequest request) throws Exception {
+        HttpSession session = request.getSession();
+        MemberDTO memberInfo = (MemberDTO) session.getAttribute("memberInfo");
+        LoadAddrDTO memberAddr = (LoadAddrDTO) session.getAttribute("loadAddrInfo");
+        if (memberInfo != null) {
+            String memberGu = memberAddr.getLoadAddrGu();
+            //인기글을 조회수 순으로 가져옴
+            List<UserlifeDTO> boardList = boardService.getBoardByCategoryPopularAndLocation(memberGu);
+            model.addAttribute("boardList", boardList);
+            return "/board/boardList";
+        }
+        else {
+            //인기글을 조회수 순으로 가져옴
+            List<UserlifeDTO> boardList = boardService.getBoardByCategoryPopular();
+            model.addAttribute("boardList", boardList);
+            return "/board/boardList";
+        }
+
     }
 
 
@@ -118,23 +122,19 @@ public class BoardController {
 //        return "board/BoardWrite";
 
 
-    // 댓글 등록 처리
-    @PostMapping("/board/{ulIdx}/add")
-    public String ulCommentInsert(@PathVariable("ulIdx") int ulIdx, UserlifeCommentDTO ulcDTO, HttpServletRequest request) throws Exception {
-        HttpSession session = request.getSession(); // 현재 사용자의 세션 가져오기
-        MemberDTO memberInfo = (MemberDTO) session.getAttribute("memberInfo"); // 로그인한 사용자 정보 가져오기
+    // 등록처리
+    @PostMapping("/board/write")
+    public String insertBoard(UserlifeDTO ul, MultipartHttpServletRequest multipart, HttpServletRequest request) throws Exception {
+        HttpSession session = request.getSession();
+        MemberDTO memberInfo = (MemberDTO) session.getAttribute("memberInfo");
         LoadAddrDTO loadAddrInfo = (LoadAddrDTO) session.getAttribute("loadAddrInfo");
-        if (memberInfo == null) {
-            return "redirect:/member";
-        }
-        else {
-            ulcDTO.setUlCommentUlIdx(ulIdx);
-            ulcDTO.setUlComMemberId(memberInfo.getMemberId()); // 댓글 작성자의 아이디
-            ulcDTO.setUlCommentNickname(memberInfo.getMemberNickname()); // 댓글 작성자의 닉네임
-            ulcDTO.setUlCommentLocation(loadAddrInfo.getLoadAddrGu()); // 댓글 작성자의 위치 (필요에 따라 수정)
-            ulCommentService.ulCommentInsert(ulcDTO);
-            return "redirect:/potato/board/" + ulIdx;
-        }
+
+    ul.setUlMemberId(memberInfo.getMemberId());
+    ul.setUlNickname(memberInfo.getMemberNickname());
+    ul.setUlPlace(loadAddrInfo.getLoadAddrGu());
+
+        boardService.insertBoard(ul, multipart);
+        return "redirect:/potato/board";
     }
 
 
@@ -197,14 +197,14 @@ public class BoardController {
 
         // ✅ 로그인한 사용자가 게시글 작성자인지 확인
         if (!existingBoard.getUlMemberId().equals(memberInfo.getMemberId())) {
-            return "redirect:/board/" + ulIdx; // 작성자가 아니면 수정 불가, 상세 페이지로 이동
+            return "redirect/potato/board/" + ulIdx; // 작성자가 아니면 수정 불가, 상세 페이지로 이동
         }
 
         // ✅ 수정 가능 → 게시글 업데이트 진행
         ul.setUlIdx(ulIdx);
         boardService.updateBoard(ul);
 
-        return "redirect:/board/" + ulIdx; // 수정 완료 후 상세 페이지로 이동
+        return "redirect:/potato/board/" + ulIdx; // 수정 완료 후 상세 페이지로 이동
     }
 
 
