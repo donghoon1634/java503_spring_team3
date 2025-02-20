@@ -52,8 +52,7 @@ public class BoardController {
             List<UserlifeDTO> boardList = boardService.selectBoardListByLocation(memberGu);
             mav.addObject("boardList", boardList);
             mav.addObject("memberGu", memberGu);
-        }
-        else {
+        } else {
             // 게시물 목록 조회
             List<UserlifeDTO> boardList = boardService.selectBoardList();
             mav.addObject("boardList", boardList);
@@ -64,7 +63,7 @@ public class BoardController {
 
     // 카테고리별 게시물 목록 페이지로 이동
     @GetMapping("/board/category/{ulCate}")
-    public String getBoardByCategory(@PathVariable("ulCate") String ulCate, Model model,HttpServletRequest request) throws Exception {
+    public String getBoardByCategory(@PathVariable("ulCate") String ulCate, Model model, HttpServletRequest request) throws Exception {
         HttpSession session = request.getSession();
         MemberDTO memberInfo = (MemberDTO) session.getAttribute("memberInfo");
         LoadAddrDTO memberAddr = (LoadAddrDTO) session.getAttribute("loadAddrInfo");
@@ -73,8 +72,7 @@ public class BoardController {
             List<UserlifeDTO> boardList = boardService.getBoardByCategoryAndLocation(ulCate, memberGu);
             model.addAttribute("boardList", boardList);
             return "/board/boardList";
-        }
-        else {
+        } else {
             List<UserlifeDTO> boardList = boardService.getBoardByCategory(ulCate);
             model.addAttribute("boardList", boardList);
             return "/board/boardList";
@@ -83,7 +81,7 @@ public class BoardController {
 
     // 카테고리별- 인기글 목록 페이지로 이동
     @GetMapping("/board/category/popular")
-    public String getBoardByCategoryPopular(Model model,HttpServletRequest request) throws Exception {
+    public String getBoardByCategoryPopular(Model model, HttpServletRequest request) throws Exception {
         HttpSession session = request.getSession();
         MemberDTO memberInfo = (MemberDTO) session.getAttribute("memberInfo");
         LoadAddrDTO memberAddr = (LoadAddrDTO) session.getAttribute("loadAddrInfo");
@@ -93,8 +91,7 @@ public class BoardController {
             List<UserlifeDTO> boardList = boardService.getBoardByCategoryPopularAndLocation(memberGu);
             model.addAttribute("boardList", boardList);
             return "/board/boardList";
-        }
-        else {
+        } else {
             //인기글을 조회수 순으로 가져옴
             List<UserlifeDTO> boardList = boardService.getBoardByCategoryPopular();
             model.addAttribute("boardList", boardList);
@@ -113,10 +110,10 @@ public class BoardController {
 
         // ✅ 로그인하지 않은 경우 -> 로그인 페이지로 이동
         if (memberInfo == null) {
-            return "redirect:/member";
+            return "redirect:/potato/member";
         }
         // ✅ 로그인한 경우 -> 게시글 작성 페이지로 이동
-        return "board/BoardWrite";
+        return "board/boardWrite";
     }
 
 
@@ -130,9 +127,9 @@ public class BoardController {
         MemberDTO memberInfo = (MemberDTO) session.getAttribute("memberInfo");
         LoadAddrDTO loadAddrInfo = (LoadAddrDTO) session.getAttribute("loadAddrInfo");
 
-    ul.setUlMemberId(memberInfo.getMemberId());
-    ul.setUlNickname(memberInfo.getMemberNickname());
-    ul.setUlPlace(loadAddrInfo.getLoadAddrGu());
+        ul.setUlMemberId(memberInfo.getMemberId());
+        ul.setUlNickname(memberInfo.getMemberNickname());
+        ul.setUlPlace(loadAddrInfo.getLoadAddrGu());
 
         boardService.insertBoard(ul, multipart);
         return "redirect:/potato/board";
@@ -158,8 +155,7 @@ public class BoardController {
             mav.addObject("ulcomment", ulcomment);
             mav.addObject("getUlCommentCount", getUlCommentCount);
             mav.addObject("memberGu", memberGu);
-        }
-        else {
+        } else {
             // 게시물 번호에 해당하는 댓글 목록 가져오기
             List<UserlifeCommentDTO> ulcomment = ulCommentService.getCommentsByPage(ulIdx, 0, 5);
             int getUlCommentCount = boardService.getUlCommentCount(ulIdx);
@@ -169,7 +165,6 @@ public class BoardController {
             mav.addObject("getUlCommentCount", getUlCommentCount);
         }
         return mav;
-
 
 
     }
@@ -209,7 +204,6 @@ public class BoardController {
     }
 
 
-
     //    게시물 삭제
 //@DeleteMapping: 클라이언트에서 데이터 전송방식을 delete 로 설정한 URL만 접속
 //  @RequestMapping(method = RequestMethod.delete 과 동일한 방식
@@ -240,28 +234,7 @@ public class BoardController {
         return ResponseEntity.ok("삭제 성공");
     }
 
-//        // 게시물 작성자 ID 가져오기
-//        String memberId = memberInfo.getMemberId();
-//
-//        // 게시물 정보 조회 (여기서는 boardService.getBoard() 메서드를 통해 작성자 ID를 가져오는 예시)
-//        String postAuthorId = boardService.getBoardAuthorId(ulIdx); // 해당 게시물의 작성자 ID를 가져오는 메서드
-//
-//        // 작성자 ID 비교
-//        if (!memberId.equals(postAuthorId)) {
-//            return ResponseEntity.status(403).body("삭제 권한이 없습니다.");
-//        }
-//
-//        // 삭제 작업 진행
-//        boardService.deleteBoard(ulIdx);
-//        return ResponseEntity.ok("삭제 성공");
-//    }
 }
-//    @PostMapping("/board/delete")
-//    public String deleteBoard ( @RequestParam("ulIdx") int ulIdx){
-//        boardService.deleteBoard(ulIdx);
-//        return "redirect:/board"; // 삭제 후 목록 페이지로 이동
-//    }
-//}
 
 
 

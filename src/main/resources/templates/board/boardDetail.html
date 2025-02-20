@@ -54,7 +54,7 @@
             font-weight: bold;
         }
 
-         /*이미지 스타일 */
+        /*이미지 스타일 */
         .post-image {
             max-width: 100%;
             height: auto;
@@ -94,7 +94,7 @@
                             alert("권한이 없습니다.");  // 🚀 권한이 없을 경우 팝업
                         } else if (xhr.status === 401) {
                             alert("로그인이 필요합니다.");
-                            window.location.href = "/member";
+                            window.location.href = "/potato/member";
                         } else if (xhr.status === 404) {
                             alert("게시물을 찾을 수 없습니다.");
                         } else {
@@ -103,7 +103,6 @@
                     }
                 });
             });
-
 
 
             // 삭제
@@ -129,10 +128,10 @@
                         // 404 오류가 발생했을 때
                         else if (response.status === 403) {
                             alert("권한이 없습니다.");
-                        }
-                        else {
+                        } else {
                             response.text().then(errorMessage => {
-                                console.log(errorMessage)                            });
+                                console.log(errorMessage)
+                            });
                         }
                     })
                     .catch(error => console.error("삭제 중 오류 발생:", error));
@@ -186,18 +185,18 @@
                     popularList.empty(); // 🔹 기존 목록 초기화
 
                     // 🔹 받아온 데이터를 하나씩 <li> 태그로 추가
-                    data.forEach(ul => {
+                    data.forEach((ul, index) => {
                         let listItem = `
-                        <li class="popular-item">
-                            <h3><a href="/potato/board/${ul.ulIdx}" class="text-dark text-decoration-none">${ul.ulTitle}</a></h3>
-                            <p class="content"><a href="/potato/board/${ul.ulIdx}" class="text-dark text-decoration-none">${ul.ulContents}</a></p>
-                            <p class="info">${ul.ulPlace} · ${ul.ulCate}</p>
-                            <div class="icons">
-                            <img src="/img/good.png" width="22px" height="22px" alt="" id="ulLikes" name="ulLikes" ${ul.ulLikes}>
-                            <img src="/img/commu.png" width="22px" height="22px" alt="">
-                            </div>
-                        </li>
-                    `;
+    <li class="popular-item" style="margin-top: 28px;  margin-left: -28px;  list-style-type: none" >
+        <h3 style="font-size: 18px !important;"><a href="/potato/board/${ul.ulIdx}" class="text-dark text-decoration-none">${index + 1}. ${ul.ulTitle}</a></h3>
+        <!-- <p class="content"><a href="/potato/board/${ul.ulIdx}" class="text-dark text-decoration-none">${ul.ulContents}</a></p> -->
+        <!-- <p class="info">${ul.ulPlace} · ${ul.ulCate}</p> -->
+        <!-- <div class="icons">
+        <img src="/img/good.png" width="22px" height="22px" alt="" id="ulLikes" name="ulLikes" ${ul.ulLikes}>
+        <img src="/img/commu.png" width="22px" height="22px" alt="">
+        </div> -->
+    </li>
+    `;
                         popularList.append(listItem);
                     });
                 },
@@ -219,28 +218,12 @@
 <header th:replace="~{layout/header :: navbar}"></header>
 <header th:replace="~{layout/header :: search}"></header>
 
-<main class="container mt-5">
-    <!-- 상단 홈 > 동네생활 부분 -->
-    <nav class="navbar navbar-expand-lg bg-white">
-        <!-- id="navbarSupportedContent" 필요한 부분? -->
-        <div class="collapse navbar-collapse">
-            <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-                <li class="nav-item">
-                    <a class="nav-link active" aria-current="page" href="#">홈</a>
-                </li>
-                <li class="nav-item">
-                    <img src="/img/free-icon-arrow-right-6423875.png">
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="">동네생활</a>
-                </li>
-            </ul>
-        </div>
-    </nav>
+<main class="container mt-5" style="margin-left: 200px;" >
+
     <!-- 상단 지역, 글쓰기버튼 부분 -->
     <div class="d-flex align-items-center mb-4">
         <h2 class="mb-0"><b th:text="${memberGu}">동네생활</b></h2>
-        <h4 class="mb-0"><b >동네생활</b></h4>
+        <h4 class="mb-0"><b>동네생활</b></h4>
         <a href="/potato/board/write" class="btn btn-danger ms-5 me-5">글쓰기</a>
     </div>
     <section class="row">
@@ -274,22 +257,13 @@
                             </div>
                             <!--  위치, 작성 날짜, 수정 날짜 -->
                             <div class="row align-items-center mb-3">
-                                <!-- 위치 -->
-                                <div class="col-sm-1 pe-0">
-                                    <p class="small-text" id="ulPlace" th:text="${ul.ulPlace}" style="width: 45px;">
-                                        위치</p>
-                                    <input type="hidden" name="ulPlace" th:value="${ul.ulPlace}">
-                                </div>
-
-<!--                                &lt;!&ndash; 작성 날짜 &ndash;&gt;-->
-<!--                                <div class="col p-0 ps-1 ">-->
-<!--                                    <p class="small-text" id="ulCreateDate" th:text="${ul.ulCreateDate}">작성날짜</p>-->
-<!--                                    <input type="hidden" name="ulCreateDate" th:value="${ul.ulCreateDate}">-->
-<!--                                </div>-->
-
-                                <!-- 수정 날짜 -->
                                 <div class="col p-0 ps-1">
-                                    <p class="small-text" th:text="${ul.ulUpdateDate != null ? ul.ulUpdateDate : ul.ulCreateDate}">수정날짜</p>
+                                    <p class="small-text d-flex align-items-baseline">
+                                        <span id="ulPlace" th:text="${ul.ulPlace}">위치</span>
+                                        <span class="mx-1">·</span>
+                                        <span th:text="${ul.ulUpdateDate != null ? ul.ulUpdateDate : ul.ulCreateDate}">날짜</span>
+                                    </p>
+                                    <input type="hidden" name="ulPlace" th:value="${ul.ulPlace}">
                                     <input type="hidden" name="ulUpdateDate" th:value="${ul.ulUpdateDate}">
                                 </div>
                             </div>
@@ -308,7 +282,7 @@
                 <!-- 글제목-->
                 <div>
                     <h3 class="row mt-1 ">
-                        <input type="text" id="ulTitle" name="ulTitle" th:value="${ul.ulTitle}" class="ps-2 p-0" >
+                        <input type="text" id="ulTitle" name="ulTitle" th:value="${ul.ulTitle}" class="ps-2 p-0">
                     </h3>
                 </div>
                 <!-- 글 내용 -->
@@ -317,7 +291,7 @@
                         <div class="form">
                             <input type="hidden" id="ulContents" name="ulContents" th:value="${ul.ulContents}">
                             <!-- ✅ 글 내용 표시 (HTML 적용 가능) -->
-<!--                            <div th:utext="${ul.ulContents}"></div>-->
+                            <!--                            <div th:utext="${ul.ulContents}"></div>-->
 
                             <!-- ✅ 사용자가 입력할 수 있는 영역 (자동 크기 조절) -->
                             <div id="editableDiv" contenteditable="true"
@@ -330,20 +304,14 @@
                             <!-- 첨부된 이미지 리스트 -->
                             <div class="mt-3" th:if="${ul.fileList != null and not #lists.isEmpty(ul.fileList)}">
                                 <div th:each="file : ${ul.fileList}">
-<!--                                    <p th:text="${file.ulStoredFileName}"></p>-->
-<!--                                    <img th:src="@{/upload/180310211962400.jpg}" alt="첨부 이미지">-->
+                                    <!--                                    <p th:text="${file.ulStoredFileName}"></p>-->
+                                    <!--                                    <img th:src="@{/upload/180310211962400.jpg}" alt="첨부 이미지">-->
                                     <img th:src="@{${file.ulStoredFileName}}" alt="상품 이미지">
-<!--                                    <p th:text="${file.ulStoredFileName}"></p>-->
+                                    <!--                                    <p th:text="${file.ulStoredFileName}"></p>-->
                                 </div>
                             </div>
 
 
-                            <!-- 게시글 이미지 표시 -->
-<!--                            <div class="mt-3">-->
-<!--                                <img th:if="${ul.ulImg != null and ul.ulImg != ''}" th:src="@{'/upload/' + ${ul.ulImg}}"-->
-<!--                                     alt="게시글 이미지" class="post-image">-->
-<!--                            </div>-->
-<!--                            <img th:src="@{${file.ulStoredFileName}}" alt="이미지">-->
                         </div>
                     </div>
                     <!-- 글번호(안보임) -->
@@ -362,11 +330,11 @@
                             </div>
 
 
-                        <!-- 댓글 -->
-                        <div class="col-sm-auto d-flex align-items-center">
-                            <img src="/img/commu.png" width="22px" height="22px" alt="">
-                            <div class="mb-0 ms-2" th:text="${getUlCommentCount}">0</div>
-                        </div>
+                            <!-- 댓글 -->
+                            <div class="col-sm-auto d-flex align-items-center">
+                                <img src="/img/commu.png" width="22px" height="22px" alt="">
+                                <div class="mb-0 ms-2" th:text="${getUlCommentCount}">0</div>
+                            </div>
 
                             <!-- 조회수 -->
                             <div class="col-sm d-flex justify-content-end align-items-center"
@@ -382,6 +350,7 @@
                 function syncHiddenInput() {
                     document.getElementById("ulContents").value = document.getElementById("editableDiv").innerHTML;
                 }
+
                 // 페이지 로드 시 내용에 맞춰 높이를 자동 조정
                 // window.addEventListener('load', function () {
                 //     var textarea = document.getElementById('ulContents');
