@@ -20,7 +20,7 @@ public interface UlCommentMapper {
     // 댓글을 추가하는 API
     int ulCommentInsert(UserlifeCommentDTO ulcDTO);
     // 댓글 삭제
-    void ulCommentdelet(int ulIdx);
+    void ulCommentdelet(int ulCommentIdx);
     // 기본댓글 5개씩 최신순
     List<UserlifeCommentDTO> selectCommentsByPage(int ulIdx, int offset, int limit);
     // 댓글 총 개수 반환
@@ -33,4 +33,6 @@ public interface UlCommentMapper {
     void deleteComment(int ulIdx);
     // 댓글 개수 가져오기
     int getUlCommentCount(int ulIdx);
+    // 댓글 작성자 ID 조회
+    String getCommentAuthorId(int ulCommentIdx);
 }

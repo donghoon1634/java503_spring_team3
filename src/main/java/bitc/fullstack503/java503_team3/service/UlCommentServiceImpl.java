@@ -41,8 +41,8 @@ public class UlCommentServiceImpl implements UlCommentService {
     }
     // 댓글 삭제
     @Override
-    public void ulCommentdelet(int ulIdx) {
-        ulCommentMapper.ulCommentdelet(ulIdx);
+    public void ulCommentdelet(int ulCommentIdx) {
+        ulCommentMapper.ulCommentdelet(ulCommentIdx);
     }
     // 기본댓글 5개씩
     @Override
@@ -79,6 +79,11 @@ public class UlCommentServiceImpl implements UlCommentService {
     @Override
     public int getUlCommentCount(int ulIdx) {
         return ulCommentMapper.getUlCommentCount(ulIdx);
+    }
+    // 댓글 작성자 ID 조회
+    @Override
+    public String getCommentAuthorId(int ulCommentIdx) {
+        return ulCommentMapper.getCommentAuthorId(ulCommentIdx);
     }
 
 

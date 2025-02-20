@@ -98,7 +98,9 @@
                         if (response.ok) {
                             alert("삭제되었습니다.");
                             window.location.href = "/board";
-                        } else {
+                        }
+
+                        else {
                             response.text().then(errorMessage => {
                                 console.log(errorMessage)                            });
                         }
