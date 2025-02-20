@@ -234,17 +234,23 @@ public class ProductController
 
   // 검색 기능
   @GetMapping("/potato/trade/products/search")
-  @ResponseBody
-  public List<ProductDTO> searchProducts(@RequestParam("searchTerm") String searchTerm,
-                                         @RequestParam(value = "categoryName", required = false) String categoryName,
-                                         @RequestParam(value = "localGuName", required = false) String localGuName) {
+  public String searchProducts(@RequestParam("searchTerm") String searchTerm,
+                               @RequestParam(value = "categoryName", required = false) String categoryName,
+                               @RequestParam(value = "localGuName", required = false) String localGuName,
+                               Model model) {
     // 검색어가 비어있으면 빈 리스트 반환
     if (searchTerm == null || searchTerm.trim().isEmpty()) {
-      return new ArrayList<>();
+      model.addAttribute("productList", new ArrayList<>()); // 빈 리스트 전달
+      return "productList"; // 검색어 없을 경우 제품 목록 페이지로 리턴
     }
 
-    // 필터링된 상품 목록 반환
-    return productService.searchProducts(searchTerm, categoryName, localGuName);
+    // 필터링된 상품 목록을 모델에 추가
+    List<ProductDTO> productList = productService.searchProducts(searchTerm, categoryName, localGuName);
+    model.addAttribute("productList", productList);
+
+    // 검색 결과를 제품 목록 페이지에 전달
+    return "product/productList"; // 해당 페이지에서 결과 출력
   }
+
 
 }

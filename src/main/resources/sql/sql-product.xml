@@ -62,16 +62,18 @@
   </insert>
 
 
-  <!-- 상품 검색 쿼리 -->
+
+  <!-- 상품 검색 -->
   <select id="searchProducts" resultType="bitc.fullstack503.java503_team3.dto.ProductDTO">
-    SELECT * FROM product
-    WHERE product_name LIKE CONCAT('%', #{searchTerm}, '%')
+    SELECT p.*, c.category_name
+    FROM product p
+    JOIN category c ON p.category_num = c.category_num
+    WHERE p.product_name LIKE CONCAT('%', #{searchTerm}, '%')
     <if test="categoryName != null">
-      AND category_name = #{categoryName}
+      AND c.category_name = #{categoryName}
     </if>
     <if test="localGuName != null">
-      AND local_gu_name = #{localGuName}
+      AND p.local_gu_name = #{localGuName}
     </if>
   </select>
-
 </mapper>
