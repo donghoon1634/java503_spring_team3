@@ -49,16 +49,11 @@
 
     <div class="input-group">
       <!-- 드롭다운 버튼 -->
-      <button class="btn btn-outline-secondary dropdown-toggle" type="button"
-              id="dropdownMenuButton" data-bs-toggle="dropdown" aria-expanded="false"
+      <button class="btn btn-outline-secondary" type="button"
+              id="dropdownMenuButton" aria-expanded="false"
               data-value="product">
         중고거래
       </button>
-      <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-        <li><a class="dropdown-item" onclick="updateButtonText('중고거래', 'trade')">중고거래</a></li>
-        <li><a class="dropdown-item" onclick="updateButtonText('동네생활', 'board')">동네생활</a></li>
-      </ul>
-
       <!-- 검색 입력 필드 -->
       <input type="text" class="form-control" id="searchInput" aria-label="Text input with dropdown button">
 
@@ -79,32 +74,36 @@
     }
 
     // 검색 실행 함수
-    function search() {
-        let board = document.getElementById('dropdownMenuButton').dataset.value;
-        let search = document.getElementById('searchInput').value;
+    function search ()
+    {
+      let board = document.getElementById('dropdownMenuButton').dataset.value
+      let search = document.getElementById('searchInput').value
 
-        // null 체크 추가
-        let categoryDropdown = document.getElementById('categoryDropdown');
-        let categoryName = categoryDropdown ? categoryDropdown.value : '';
+      // null 체크 추가
+      let categoryDropdown = document.getElementById('categoryDropdown')
+      let categoryName = categoryDropdown ? categoryDropdown.value : ''
 
-        let localGuDropdown = document.getElementById('localGuDropdown');
-        let localGuName = localGuDropdown ? localGuDropdown.value : '';
+      let localGuDropdown = document.getElementById('localGuDropdown')
+      let localGuName = localGuDropdown ? localGuDropdown.value : ''
 
-        // 검색어가 비어있을 경우 경고
-        if (!search.trim()) {
-            alert('검색어를 입력해주세요!');
-            return;
-        }
+      // 검색어가 비어있을 경우 경고
+      if (!search.trim())
+      {
+        alert('검색어를 입력해주세요!')
+        return
+      }
 
-        // GET 요청으로 페이지 이동 (정보 포함)
-        let url = `/potato/trade/products/search?searchTerm=${encodeURIComponent(search)}`;
-        if (categoryName) {
-            url += `&categoryName=${encodeURIComponent(categoryName)}`;
-        }
-        if (localGuName) {
-            url += `&localGuName=${encodeURIComponent(localGuName)}`;
-        }
-        window.location.href = url;
+      // GET 요청으로 페이지 이동 (정보 포함)
+      let url = `/potato/trade/products/search?searchTerm=${encodeURIComponent(search)}`
+      if (categoryName)
+      {
+        url += `&categoryName=${encodeURIComponent(categoryName)}`
+      }
+      if (localGuName)
+      {
+        url += `&localGuName=${encodeURIComponent(localGuName)}`
+      }
+      window.location.href = url
     }
 
   </script>
