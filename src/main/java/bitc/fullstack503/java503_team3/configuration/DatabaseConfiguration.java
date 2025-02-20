@@ -26,7 +26,7 @@ public class DatabaseConfiguration
   //  @Autowired 를 사용 시 스프링 프레임워크에서 자체적으로 필요한 순간에 자동으로 객체를 생성하고, 관리함, 사용자는 해당 객체를 사용만 하면 됨
   @Autowired
   private ApplicationContext applicationContext;
-  
+
   //  @Bean : 자바 빈즈를 의미하는 어노테이션, 사용자가 직접 생성한 클래스의 자바 빈즈가 아닌 라이브러리로 제공되는 클래스의 자바 빈즈를 의미
   //  스프링 프레임워크가 자체적으로 관리
   @Bean
@@ -37,7 +37,8 @@ public class DatabaseConfiguration
   {
     return new HikariConfig ();
   }
-  
+
+    // DataSource 설정
   @Bean
   public DataSource dataSource ()
   {
@@ -48,50 +49,43 @@ public class DatabaseConfiguration
     System.out.println (dataSource.toString ());
     return dataSource;
   }
-  
+
   //  실제 데이터베이스 연결 및 사용 정보
   @Bean
   public SqlSessionFactory sqlSessionFactory (DataSource dataSource) throws Exception
   {
     SqlSessionFactoryBean sqlSessionFactoryBean = new SqlSessionFactoryBean ();
     sqlSessionFactoryBean.setDataSource (dataSource);
+      // classpath:/sql/ 에서 sql이라고 설정해서 resources/sql 경로로 추가함
+
     //    setMapperLocations() : mybatis 사용 시 mybatis 의 SQL 쿼리 파일의 위치 설정
     //    getResources() : mybatis 의 sql 쿼리 파일을 가져오는 메소드, getResources / getResource 2개가 존재함
     //    getResource() : 지정한 1개의 파일을 가져옴
     //    getResources() : 지정한 패턴의 파일을 모두 가져옴
     //    ** : 모든 하위 폴더를 의미
     //    /sql/**/sql-*.xml : 최상위 폴더인 / 아래에 sql 폴더가 존재하고 sql 폴더 아래에 여러 단계의 하위 폴더가 존재하고, 파일명이 'sql-' 로 시작하며, 확장자는 '.xml' 로 끝나는 파일을 의미
-    sqlSessionFactoryBean.setMapperLocations (applicationContext.getResources ("classpath:/sql/**/sql-*.xml"));
+      // Mapper 위치 설정 (sql-*.xml 파일이 있는 폴더 경로)
+      sqlSessionFactoryBean.setMapperLocations (applicationContext.getResources ("classpath:/sql/**/sql-*.xml"));
     //    mybatis 설정을 추가하여 사용
     sqlSessionFactoryBean.setConfiguration (mybatisConfig ());
     return sqlSessionFactoryBean.getObject ();
   }
-  
+
   @Bean
   public SqlSessionTemplate sqlSessionTemplate (SqlSessionFactory sqlSessionFactory)
   {
     return new SqlSessionTemplate (sqlSessionFactory);
   }
-  
+
   //  @PropertySource 어노테이션을 통해서 지정한 설정 파일인 'application.properties' 파일 안에서 'mybatis.configuration' 설정 부분을 가져와서 사용
   //  org.apache.ibatis.session.Configuration 는 이미 다른 곳에서 Configuration 클래스를 선언하고 사용하고 있기 때문에 mybatis 에서 제공하는 Configuration 을 사용하면 클래스 이름이 같기 때문에 오류가 발생할 수 있어서 패키지명까지 전체로 입력함
-  @Bean
+    // MyBatis 설정을 application.properties에서 가져옴
+    @Bean
   @ConfigurationProperties (prefix = "mybatis.configuration")
   public org.apache.ibatis.session.Configuration mybatisConfig ()
   {
     return new org.apache.ibatis.session.Configuration ();
   }
 }
-
-
-
-
-
-
-
-
-
-
-
 
 
