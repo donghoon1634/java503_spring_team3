@@ -30,4 +30,6 @@ public interface ProductService {
   // 상품 등록하기
   void addProduct(ProductDTO productDTO);
 
+  //상품 검색하기
+  List<ProductDTO> searchProducts(String searchTerm, String categoryName, String localGuName);
 }

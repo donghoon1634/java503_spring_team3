@@ -181,9 +181,13 @@
               .catch(error => console.error("카테고리 목록을 불러오는 중 오류 발생:", error));
       }
 
-      // 카테고리별 상품 목록 불러오기
-      function fetchProductsByCategory(categoryName) {
-          fetch(`/potato/trade/products/category?categoryName=${encodeURIComponent(categoryName)}`)
+      // 지역구별 상품 목록 불러오기
+      function fetchProductsByLocal(localGuName) {
+          const url = new URL(window.location.href);
+          url.searchParams.set('localGu', localGuName); // 지역구 필터 업데이트
+          window.history.pushState({}, "", url); // URL 변경 (새로고침 없이)
+
+          fetch(`/potato/trade/products/local?localGuName=${encodeURIComponent(localGuName)}`)
               .then(response => response.json())
               .then(data => {
                   if (Array.isArray(data)) {
@@ -195,9 +199,13 @@
               .catch(error => console.error("상품 목록을 가져오는 중 오류 발생:", error));
       }
 
-      // 지역구별 상품 목록 불러오기
-      function fetchProductsByLocal(localGuName) {
-          fetch(`/potato/trade/products/local?localGuName=${encodeURIComponent(localGuName)}`)
+      // 카테고리별 상품 목록 불러오기
+      function fetchProductsByCategory(categoryName) {
+          const url = new URL(window.location.href);
+          url.searchParams.set('category', categoryName); // 카테고리 필터 업데이트
+          window.history.pushState({}, "", url); // URL 변경 (새로고침 없이)
+
+          fetch(`/potato/trade/products/category?categoryName=${encodeURIComponent(categoryName)}`)
               .then(response => response.json())
               .then(data => {
                   if (Array.isArray(data)) {
@@ -211,6 +219,10 @@
 
       // 나눔 상품 목록 불러오기
       function fetchProductsByShare() {
+          const url = new URL(window.location.href);
+          url.searchParams.set('share', 'true'); // 나눔 필터 업데이트
+          window.history.pushState({}, "", url); // URL 변경 (새로고침 없이)
+
           fetch('/potato/trade/products/share')
               .then(response => response.json())
               .then(data => {
@@ -222,7 +234,6 @@
               })
               .catch(error => console.error("나눔 상품 목록을 가져오는 중 오류 발생:", error));
       }
-
 
       // 상품 목록 업데이트
       function updateProductList(productList) {
@@ -273,9 +284,39 @@
           } else {
               console.error("나눔 버튼을 찾을 수 없습니다.");
           }
+
+          // 지역구 및 카테고리 선택 시 필터링 처리
+          const localGuRadios = document.querySelectorAll("input[name='localGu']");
+          localGuRadios.forEach(radio => {
+              radio.addEventListener("click", (e) => {
+                  fetchProductsByLocal(e.target.value);
+              });
+          });
+
+          const categoryRadios = document.querySelectorAll("input[name='category']");
+          categoryRadios.forEach(radio => {
+              radio.addEventListener("click", (e) => {
+                  fetchProductsByCategory(e.target.value);
+              });
+          });
+
+          // 필터 초기화
+          const resetButton = document.getElementById("resetButton");
+          if (resetButton) {
+              resetButton.addEventListener("click", () => {
+                  // URL 초기화
+                  const url = new URL(window.location.href);
+                  url.searchParams.delete('localGu');
+                  url.searchParams.delete('category');
+                  url.searchParams.delete('share');
+                  window.history.pushState({}, "", url); // URL 변경
+
+                  // 필터 초기화
+                  document.querySelectorAll("input[name='localGu']").forEach(radio => radio.checked = false);
+                  document.querySelectorAll("input[name='category']").forEach(radio => radio.checked = false);
+              });
+          }
       });
-
-
   </script>
 
 
@@ -285,10 +326,17 @@
 <body>
 <div class="container mt-5 filter-container">
   <aside>
-    <div class="d-flex">
+    <div class="d-flex justify-content-between align-items-center">
       <h3><strong>필터</strong></h3>
-    <!-- 초기화 버튼 (미완)-->
-      <button style="color: gray; margin-left: 100px;" id="resetButton">초기화</button>
+      <div class="d-flex gap-3">
+        <!-- 초기화 버튼 -->
+        <button  id="resetButton" class="btn-outline-warning">초기화</button>
+
+        <!-- 제품 등록 버튼 (로그인된 경우만 표시) -->
+        <div th:if="${isLoggedIn}">
+          <a href="/potato/trade/productWrite" class="btn btn-outline-warning">제품 등록</a>
+        </div>
+      </div>
     </div>
     <br>
 
@@ -319,21 +367,17 @@
 
   </aside>
   <main>
-
     <!--상품 목록-->
     <section class="row item-list" id="productList">
       <!-- 로그인된 상태일 때만 제품 등록 버튼 보이기 -->
-      <div th:if="${isLoggedIn}">
-        <a href="/potato/trade/productWrite" class="btn btn-outline-warning">제품 등록</a>
-      </div>
+
       <div id="productListContainer" class="row">
         <!-- 타임리프로 서버에서 렌더링된 상품 목록 -->
         <div th:if="${#lists.size(productList)} > 0" th:each="product : ${productList}"
              class="product-card col-lg-3 col-md-4 col-sm-6 mb-4">
           <div class="card" th:onclick="|location.href='/potato/trade/productDetail?productNum=${product.productNum}'|" style="cursor: pointer;">
             <!-- 외부 URL (http/https) 또는 로컬 경로 둘 다 지원 -->
-<!--            <img th:src="${#strings.startsWith(product.productImg, 'http') ? product.productImg : product.productImg}" alt="상품 이미지">-->
-            <img th:src="@{${product.productImg}}" alt="상품 이미지">
+            <img th:src="@{${product.productImg}}" alt="상품 이미지" class="card-img-top">
 
             <div class="card-body">
               <p class="card-title" th:text="${product.productName}">상품 제목</p>

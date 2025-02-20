@@ -122,12 +122,25 @@ public class ProductController
   public String productDetail (@RequestParam ("productNum") int productNum, Model model) throws Exception
   {
     ProductDTO product = productService.getProductDetail (productNum);
-    String memberProfile = memberService.memberProfileHref (product.getMemberIdx ());
-    MemberDTO memberInfo = memberService.memberInfo (product.getMemberIdx ());
-    String memberName = memberInfo.getMemberNickname ();
-    model.addAttribute ("product", product);
-    model.addAttribute ("memberProfile", memberProfile);
-    model.addAttribute ("memberName", memberName);
+    String memberName = product.getMemberIdx();
+    String memberProfile = null;
+    if (memberName == null)
+    {
+      memberProfile = product.getProductImg();
+      memberName = product.getProductName ();
+      model.addAttribute ("memberProfile", memberProfile);
+      model.addAttribute ("memberName", memberName);
+      model.addAttribute ("product", product);
+    }
+    else
+    {
+      memberProfile = memberService.memberProfileHref (product.getMemberIdx ());
+      MemberDTO memberInfo = memberService.memberInfo (product.getMemberIdx ());
+      memberName = memberInfo.getMemberNickname ();
+      model.addAttribute ("product", product);
+      model.addAttribute ("memberProfile", memberProfile);
+      model.addAttribute ("memberName", memberName);
+    }
     return "product/productDetail";
   }
   
@@ -218,4 +231,20 @@ public class ProductController
       return "redirect:/member";  // 로그인 페이지로 리디렉션
     }
   }
+
+  // 검색 기능
+  @GetMapping("/potato/trade/products/search")
+  @ResponseBody
+  public List<ProductDTO> searchProducts(@RequestParam("searchTerm") String searchTerm,
+                                         @RequestParam(value = "categoryName", required = false) String categoryName,
+                                         @RequestParam(value = "localGuName", required = false) String localGuName) {
+    // 검색어가 비어있으면 빈 리스트 반환
+    if (searchTerm == null || searchTerm.trim().isEmpty()) {
+      return new ArrayList<>();
+    }
+
+    // 필터링된 상품 목록 반환
+    return productService.searchProducts(searchTerm, categoryName, localGuName);
+  }
+
 }
