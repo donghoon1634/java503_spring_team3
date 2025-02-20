@@ -84,8 +84,5 @@ public class UlFileUtils {
     }
 
 
-//    public int countFile(int ulIdx) {
-//        return board
-//    }
 }
 

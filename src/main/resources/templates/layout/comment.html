@@ -55,6 +55,7 @@
                                     </div>
                                     <!-- 댓글 삭제 -->
                                     <div class="ml-3">
+<!--                                        <div class="commentIdx" style="display: none;" th:text="${comment.ulCommentIdx}"></div>  &lt;!&ndash; 댓글 ID를 숨김 처리 &ndash;&gt;-->
                                         <button type="button" class="btn btn-outline-dark ulcommentDelete">삭제</button>
                                     </div>
                                 </div>
@@ -94,6 +95,12 @@
             $(document).on("click", ".ulCommentLike", function () {
                 var ulCommentIdx = $(this).closest(".comment").find(".commentIdx").text();
                 var spanTag = $(this).next();
+                console.log("댓글 ID:", ulCommentIdx);  // 추출된 댓글 ID를 콘솔에 출력
+                // 삭제할 댓글의 ulCommentIdx가 비어있지 않은지 확인
+                if (!ulCommentIdx) {
+                    alert("댓글 ID를 찾을 수 없습니다.");
+                    return;
+                }
 
                 $.ajax({
                     url: "/ulComment/like/" + ulCommentIdx,
@@ -111,27 +118,35 @@
 
             // 댓글 삭제 버튼에 대한 이벤트 위임
             $(document).on("click", ".ulcommentDelete", function () {
-                var ulCommentIdx = $(this).closest(".comment").find(".commentIdx").text(); // 해당 댓글의 ID
+                var ulCommentIdx = $(this).closest(".comment").find(".commentIdx").text(); // 해당 댓글 번호
                 var button = $(this);  // 삭제 버튼을 변수에 저장
 
+                // 댓글 번호가 없으면 삭제하지 않도록 처리
+                if (!ulCommentIdx) {
+                    alert("댓글 번호를 찾을 수 없습니다.");
+                    return;
+                }
+
                 $.ajax({
-                    url: "/board/comment/" + ulCommentIdx, // 서버의 삭제 요청 URL
+                    url: "/board/comment/"+ ulIdx + "/" + ulCommentIdx, // URL에 댓글 ID 포함
                     type: "DELETE", // DELETE 요청
                     success: function (response) {
-                        // 성공적으로 삭제되면, 해당 댓글을 DOM에서 삭제
+                        // 성공 시 댓글 삭제
                         button.closest('.d-flex.mb-3').remove();
-                        alert("댓글이 삭제되었습니다.");  // 사용자에게 알림
-
-                        // 삭제 후 전체 댓글 목록을 다시 불러오기
-                        loadComments();  // 댓글을 다시 로드하는 함수 호출
-
-                        // 댓글 삭제 후 더보기 버튼 상태 갱신
-                        // checkLoadMoreButton();
+                        alert("댓글이 삭제되었습니다.");
+                        loadComments();  // 댓글 목록 새로 고침
                     },
-                    error: function (xhr, status, error) {
-                        // 실패 시 에러를 출력하고, 문제를 사용자에게 알림
-                        console.error("삭제 실패: " + error);
-                        alert("댓글 삭제에 실패했습니다. 다시 시도해주세요.");
+                    error: function(xhr, status, error) {
+                        if (xhr.status === 500) {
+                            alert("서버에서 오류가 발생했습니다. 다시 시도해주세요.");
+                        }
+                        else if(xhr.status === 403){
+                            alert("권한이 없습니다.");
+                        }
+                        else {
+                            console.error("삭제 실패: " + error);
+                            alert("댓글 삭제에 실패했습니다. 다시 시도해주세요.");
+                        }
                     }
                 });
             });

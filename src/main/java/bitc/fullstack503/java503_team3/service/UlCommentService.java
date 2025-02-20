@@ -16,7 +16,7 @@ public interface UlCommentService {
     // 댓글을 추가하는 API
     void ulCommentInsert(UserlifeCommentDTO ulcDTO);
     // 댓글 삭제
-    void ulCommentdelet(int ulIdx);
+    void ulCommentdelet(int ulCommentIdx);
     // 기본댓글 5개씩
     List<UserlifeCommentDTO> getCommentsByPage(int ulIdx, int offset, int limit);
     // 댓글 총 개수 반환
@@ -27,5 +27,7 @@ public interface UlCommentService {
     int ulCommentCount(int ulIdx);
     // 게시물에 해당하는 댓글 개수 가져오기
     int getUlCommentCount(int ulIdx);
+    // 댓글 작성자 아이디 조회
+    String getCommentAuthorId(int ulCommentIdx);
 }
 
