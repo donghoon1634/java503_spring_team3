@@ -9,24 +9,15 @@ import bitc.fullstack503.java503_team3.service.BoardService;
 import bitc.fullstack503.java503_team3.service.UlCommentService;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
-import lombok.RequiredArgsConstructor;
-import org.apache.catalina.User;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 import org.springframework.web.servlet.ModelAndView;
 
-import java.io.File;
-import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
-import java.util.UUID;
 
 @Controller
 @RequestMapping("/potato")
@@ -124,7 +115,7 @@ public class BoardController {
             return "redirect:/member";
         }
         // ✅ 로그인한 경우 -> 게시글 작성 페이지로 이동
-        return "board/BoardWrite";
+        return "boardWrite";
     }
 
 
