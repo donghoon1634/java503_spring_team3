@@ -151,7 +151,7 @@ public class ProductController {
 
     // memberInfo가 null이 아니라면, memberIdx 값을 가져오기
     if (memberInfo != null) {
-      int memberIdx = memberInfo.getMemberIdx();  // MemberDTO에서 memberIdx 가져오기
+      String memberIdx = memberInfo.getMemberId();  // MemberDTO에서 memberIdx 가져오기
 
       if (!file.isEmpty()) {
         try {
@@ -164,11 +164,12 @@ public class ProductController {
           Files.write(filePath, file.getBytes());
 
           // 이미지 URL 생성
-          String imageUrl = "/upload/dir/" + fileName;  // 웹 경로에 맞게 수정
+          String imageUrl = "/resources/" + fileName;  // 정적 리소스 경로에 맞게 수정
+//          String imageUrl = "/upload/dir/" + fileName;  // 웹 경로에 맞게 수정
 
           // productPrice를 String에서 int로 변환 (나눔도 처리)
           int price = productPrice.equals("나눔") ? -1 : Integer.parseInt(productPrice);
-          // ProductDTO에 데이터 설정
+          // ProductDTO 에 데이터 설정
           ProductDTO productDTO = new ProductDTO();
           productDTO.setProductName(productName);
           productDTO.setProductInfo(productInfo);
