@@ -12,7 +12,7 @@
   <script>
     $(document).ready(function () {
       $('#btn-back').on('click', function () {
-        history.back()
+        location.href = '/potato/trade/productDetail?productNum=' + [[${product.productNum}]]
       })
     })
   </script>
@@ -40,7 +40,7 @@
     </div>
     <hr>
   </div>
-  <form method="post" th:action="@{/potato/trade/productDetailQ/edit(productNum=${product.productNum})}">
+  <form method="post" th:action="@{/potato/trade/productDetailQ/edit(productNum=${product.productNum})}" id="QForm">
     <div class="mb-3 d-flex align-items-center">
       <label for="trade_user_comment" class="form-label me-2">문의 하기</label>
       <textarea class="form-control" id="trade_user_comment" name="tradeUserComment" rows="3" style="width: 900px" required></textarea>

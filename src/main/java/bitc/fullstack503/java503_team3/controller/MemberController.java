@@ -6,6 +6,7 @@ import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -115,8 +116,22 @@ public class MemberController
   }
   
   @RequestMapping ("/myPage/{memberId}")
-  public ModelAndView myPage (@PathVariable ("memberId") String memberId) throws Exception
+  public ModelAndView myPage (@PathVariable ("memberId") String memberId, HttpServletRequest request) throws Exception
   {
+    HttpSession session = request.getSession ();
+    MemberDTO memberInfo = (MemberDTO) session.getAttribute ("memberInfo");
+    if (memberInfo == null)
+    {
+      ModelAndView mv = new ModelAndView ();
+      mv.setViewName ("redirect:/potato/member");
+      return mv;
+    }
+    if (!memberInfo.getMemberId ().equals (memberId))
+    {
+      ModelAndView mv = new ModelAndView ();
+      mv.setViewName ("redirect:/potato/myPage/" + memberInfo.getMemberId ());
+      return mv;
+    }
     ModelAndView mv = new ModelAndView ("/myPage/myPage");
     MemberDTO member = memberService.memberInfo (memberId);
     String memberProfile = memberService.memberProfileHref (memberId);
@@ -148,8 +163,18 @@ public class MemberController
   }
   
   @RequestMapping ("/myPage/edit/{memberId}")
-  public String myPageEdit (@PathVariable ("memberId") String memberId, @RequestParam ("userMyPageContents") String userMyPageContents, @RequestParam ("memberNickname") String memberNickname, @RequestParam ("memberPhone") String memberPhone) throws Exception
+  public String myPageEdit (@PathVariable ("memberId") String memberId, @RequestParam ("userMyPageContents") String userMyPageContents, @RequestParam ("memberNickname") String memberNickname, @RequestParam ("memberPhone") String memberPhone, HttpServletRequest request) throws Exception
   {
+    HttpSession session = request.getSession ();
+    MemberDTO memberInfo = (MemberDTO) session.getAttribute ("memberInfo");
+    if (memberInfo == null)
+    {
+      return "redirect:/potato/member";
+    }
+    if (!memberInfo.getMemberId ().equals (memberId))
+    {
+      return "redirect:/potato/myPage/" + memberInfo.getMemberId ();
+    }
     MemberContentDTO memberContent = new MemberContentDTO ();
     memberContent.setMemberContentId (memberId);
     memberContent.setMemberContent (userMyPageContents);
@@ -160,6 +185,29 @@ public class MemberController
     member.setMemberPhone (memberPhone);
     memberService.memberUpdate (member);
     return "redirect:/potato/myPage/" + memberId;
+  }
+  
+  @GetMapping ("/yourPage/{memberId}")
+  public ModelAndView yourPage (@PathVariable ("memberId") String memberId, HttpServletRequest request) throws Exception
+  {
+    HttpSession session = request.getSession ();
+    MemberDTO memberInfo = (MemberDTO) session.getAttribute ("memberInfo");
+    if (memberInfo.getMemberId ().equals (memberId))
+    {
+      ModelAndView mv = new ModelAndView ();
+      mv.setViewName ("redirect:/potato/myPage/" + memberInfo.getMemberId ());
+      return mv;
+    }
+    ModelAndView mv = new ModelAndView ("/myPage/yourPage");
+    MemberDTO member = memberService.memberInfo (memberId);
+    String memberProfile = memberService.memberProfileHref (memberId);
+    String memberContent = memberService.getMemberContent (memberId);
+    List<ProductDTO> productList = productService2.getMyProductList (memberId);
+    mv.addObject ("productList", productList);
+    mv.addObject ("memberContent", memberContent);
+    mv.addObject ("memberProfile", memberProfile);
+    mv.addObject ("member", member);
+    return mv;
   }
   
   @GetMapping ("/trade/productDetailQ")
@@ -178,6 +226,10 @@ public class MemberController
   {
     HttpSession session = request.getSession ();
     MemberDTO memberInfo = (MemberDTO) session.getAttribute ("memberInfo");
+    if (memberInfo == null)
+    {
+      return "redirect:/potato/trade/productDetailQ?productNum=" + productNum;
+    }
     String memberId = memberInfo.getMemberId ();
     String memberNickname = memberInfo.getMemberNickname ();
     ProductCommentDTO productCommentDTO = new ProductCommentDTO ();
