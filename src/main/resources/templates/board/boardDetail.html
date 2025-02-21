@@ -255,9 +255,11 @@
         <!-- 프포필, 닉네임, 위치, 날짜, 삭제, 수정 -->
         <div class="row mt-2">
           <div class="d-flex ps-2">
-            <!--  댓글 작성자 프로필사진 -->
+            <!--  게시물 작성자 프로필사진 -->
             <div class="col-sm-1">
+              <a th:href="@{/potato/yourPage/{memberIdx}(memberIdx=${ul.ulMemberId})}">
               <img th:src="@{${memberProfile}}" style="width: 50px; height: 50px" alt="프로필" class="rounded-circle">
+                </a>
             </div>
             <div class="col-sm">
               <!-- 닉네임 입력 -->

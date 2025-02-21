@@ -43,7 +43,7 @@
     <!-- 페이지별로 댓글 가져오기 -->
     <select id="selectCommentsByPage" resultType="bitc.fullstack503.java503_team3.dto.UserlifeCommentDTO">
         select ul_comment_idx,ul_comment_nickname,ul_comment_location, date_format(ul_comment_createdate,'%Y.%m.%d')
-        as ul_comment_createdate, ul_comment_contents, ul_comment_like from userlife_comment
+        as ul_comment_createdate, ul_comment_contents, ul_comment_like,ul_com_member_id from userlife_comment
         where ul_comment_ul_idx = #{ulIdx} order by ul_comment_idx desc LIMIT #{offset}, #{limit}
     </select>
 

@@ -1,3 +1,48 @@
+@font-face {
+    font-family: 'Pretendard-Regular';
+    src: url('https://fastly.jsdelivr.net/gh/Project-Noonnu/noonfonts_2107@1.1/Pretendard-Regular.woff') format('woff');
+    font-weight: 400;
+    font-style: normal;
+}
+
+*{
+    font-family: 'Pretendard-Regular';
+}
+
+#carouselExampleDark {
+    height: 470px;
+}
+
+#carousel ExampleDark img {
+    height: 470px;
+}
+
+.card {
+    width: 9rem;
+}
+
+.card .rounded-circle {
+    width: 9rem;
+    height: 9rem
+}
+
+.banner-img{
+    /*object-position: 20% 30%;*/
+    object-fit: contain;
+}
+.banner-img2{
+    object-position: 30% 40%;
+    object-fit: cover;
+}
+.banner-img3{
+    object-position: 10% 20%;
+    object-fit: cover;
+}
+.banner-img4{
+    object-position: 20% 90%;
+    object-fit: cover;
+}
+
 #carouselExampleDark {
     height: 470px;
 }
@@ -14,5 +59,6 @@
     width: 9rem;
     height: 9rem
 }
-
+.bg-potato{background-color: #D9C896}
+.potato{color: #D9C896;}
 
