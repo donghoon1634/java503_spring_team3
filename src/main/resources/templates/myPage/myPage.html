@@ -38,10 +38,10 @@
           <input class="col-sm ms-5" th:value="${member.getMemberPhone()}" name="memberPhone"/>
           <br><br>
           <div class="col-sm ms-5"> 주소</div>
-          <input class="col-sm-6 ms-5" th:value="${addr}"/>
+          <input class="col-sm-6 ms-5" th:value="${addr}" disabled/>
           <br><br>
           <div class="col-sm ms-5"> 상세주소</div>
-          <input class="col-sm-6 ms-5" th:value="${addrDetail}"/>
+          <input class="col-sm-6 ms-5" th:value="${addrDetail}" disabled/>
           <div class="col-sm mt-5">
             <textarea class="ms-5" id="intro" name="userMyPageContents" placeholder="자기 소개를 적어주세요" rows="3" style="width: 700px" th:text="${memberContent}"></textarea>
             <label for="intro"></label>
