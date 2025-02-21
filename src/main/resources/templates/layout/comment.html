@@ -163,12 +163,17 @@
                     method: "GET",
                     data: { offset: offset, limit: limit}, // offset, limit 추가
                     success: function (data) {
+
                         let commentHtml = '';
                         data.forEach(function (comment) {
+                            var memberId = comment.ulComMemberId;
+                            var url = "/potato/yourPage/" + memberId
                             commentHtml += `
                     <div class="d-flex mb-3 comment">
                         <div class="col-sm-1">
-                            <img src="/img/프로필.jpg" style="width: 40px; height: 40px" alt="프로필">
+                            <a href="${url}">
+                            <img src="${comment.memberProfile}" style="width: 40px; height: 40px" alt="프로필" class="rounded-circle">
+                            </a>
                         </div>
                         <div class="ml-1 flex-grow-1">
                             <p class="d-none commentIdx" name="commentIdx">${comment.ulCommentIdx}</p>
@@ -216,10 +221,14 @@
                     success: function (data) {
                         let commentHtml = '';
                         data.forEach(function (comment) {
+                            var memberId = comment.ulComMemberId;
+                            var url = "/potato/yourPage/" + memberId
                             commentHtml += `
                     <div class="d-flex mb-3 comment">
                         <div class="col-sm-1">
-                            <img src="/img/프로필.jpg" style="width: 40px; height: 40px" alt="프로필">
+                            <a href="${url}">
+                            <img src="${comment.memberProfile}" style="width: 40px; height: 40px" alt="프로필" class="rounded-circle">
+                            </a>
                         </div>
                         <div class="ml-1 flex-grow-1">
                             <p class="d-none commentIdx" name="commentIdx">${comment.ulCommentIdx}</p>
@@ -272,7 +281,10 @@
                                 commentHtml = `
                 <div class="d-flex mb-3 comment">
                         <div class="col-sm-1">
-                            <img src="/img/프로필.jpg" style="width: 40px; height: 40px" alt="프로필">
+                            <!-- 프로필 사진 -->
+                            <a href="/potato/yourPage/${data[i].ulComMemberId}">
+                                <img src="${data[i].memberProfile}" style="width: 40px; height: 40px" alt="프로필" class="rounded-circle">
+                            </a>
                         </div>
                         <div class="ml-1 flex-grow-1">
                             <p class="d-none commentIdx" name="commentIdx">${data[i].ulCommentIdx}</p>
