@@ -74,6 +74,7 @@ public class BoardController
     {
       String memberGu = memberAddr.getLoadAddrGu ();
       List<UserlifeDTO> boardList = boardService.getBoardByCategoryAndLocation (ulCate, memberGu);
+      model.addAttribute("memberGu", memberGu);
       model.addAttribute ("boardList", boardList);
       return "/board/boardList";
     }
@@ -97,6 +98,7 @@ public class BoardController
       String memberGu = memberAddr.getLoadAddrGu ();
       // 인기글을 조회수 순으로 가져옴
       List<UserlifeDTO> boardList = boardService.getBoardByCategoryPopularAndLocation (memberGu);
+      model.addAttribute("memberGu", memberGu);
       model.addAttribute ("boardList", boardList);
       return "/board/boardList";
     }
