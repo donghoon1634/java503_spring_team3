@@ -18,7 +18,21 @@
     <section class="d-flex">
       <aside>
         <div class="row mt-5">
-          <img th:src="@{${memberProfile}}" class="rounded-circle" style="width: 300px">
+          <form action="/profile/insert" method="post" enctype="multipart/form-data">
+            <img th:src="@{${memberProfile}}" class="rounded-circle" style="width: 300px">
+            <div class="mt-3">
+              <label for="upload-files" class="form-label">첨부파일 : </label>
+              <input type="file" class="form-control" id="upload-files" name="uploadFiles" multiple>
+            </div>
+            <div class="mt-3 row">
+              <div class="col-sm d-grid">
+                <button type="submit" class="btn btn-primary">전송</button>
+              </div>
+              <div class="col-sm d-grid">
+                <button type="reset" class="btn btn-secondary" id="btn-cancel">취소</button>
+              </div>
+            </div>
+          </form>
         </div>
         <div class="col-sm mt-2">
         </div>

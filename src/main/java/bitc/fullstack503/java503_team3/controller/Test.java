@@ -9,8 +9,11 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.Mapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 import org.springframework.web.servlet.ModelAndView;
+
+import java.util.Iterator;
 @Controller
 public class Test
 {
@@ -37,7 +40,22 @@ public class Test
     HttpSession session = request.getSession ();
     MemberDTO member = (MemberDTO) session.getAttribute ("memberInfo");
     String memberId = member.getMemberId ();
+    boolean hasFile = false;
+    for (Iterator<String> it = multipart.getFileNames (); it.hasNext (); )
+    {
+      String fileName = it.next ();
+      MultipartFile file = multipart.getFile (fileName);
+      if (file != null && !file.isEmpty ())
+      {
+        hasFile = true;
+        break;
+      }
+    }
+    if (!hasFile)
+    {
+      return "redirect:/potato/myPage/" + memberId;
+    }
     memberService.memberProfile (memberProfileUtils.memberProfileHref (memberId, multipart));
-    return "redirect:/profile";
+    return "redirect:/potato/myPage/" + memberId;
   }
 }
