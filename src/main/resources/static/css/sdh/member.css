@@ -1,3 +1,14 @@
+@font-face {
+    font-family: 'Pretendard-Regular';
+    src: url('https://fastly.jsdelivr.net/gh/Project-Noonnu/noonfonts_2107@1.1/Pretendard-Regular.woff') format('woff');
+    font-weight: 400;
+    font-style: normal;
+}
+
+*{
+    font-family: 'Pretendard-Regular';
+}
+
 @import url('https://fonts.googleapis.com/css?family=Montserrat:400,800');
 
 * {
@@ -244,6 +255,11 @@ footer p {
 
 footer i {
     color: #D9C896;
+}
+
+.no-center {
+    display: inline;
+    text-align: left;
 }
 
 footer a {
