@@ -1,0 +1,80 @@
+@font-face {
+    font-family: 'Pretendard-Regular';
+    src: url('https://fastly.jsdelivr.net/gh/Project-Noonnu/noonfonts_2107@1.1/Pretendard-Regular.woff') format('woff');
+    font-weight: 400;
+    font-style: normal;
+}
+
+* {
+    font-family: 'Pretendard-Regular';
+}
+
+.area-list {
+    display: none;
+    margin-left: 20px;
+}
+
+.filter-container {
+    display: flex;
+    gap: 20px;
+}
+
+.filter-container aside {
+    flex: 1;
+}
+
+.filter-container main {
+    flex: 3;
+}
+
+.card {
+    min-height: 300px;
+    /* 카드 높이 균일하게 설정 */
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+.card-img-top {
+    height: 200px;
+    /* 모든 이미지 높이를 동일하게 설정 */
+    object-fit: cover;
+    /* 비율 유지하면서 꽉 채우기 */
+    width: 100%;
+}
+
+#btn-share,
+#btn-5000,
+#btn-10000,
+#btn-20000 {
+    border: 1px solid #c7c7c7;
+    border-radius: 20px;
+    background-color: #ffffff;
+    padding: 8px;
+}
+
+.category-ul,
+.price-ul {
+    padding: 0;
+}
+
+input[type="radio"],
+input[type="checkbox"] {
+    margin-right: 10px;
+}
+
+.card-price {
+    font-weight: bold;
+}
+
+.card-location {
+    font-size: 14px;
+    color: #9b9b9b;
+}
+
+/* 추가된 부분: 상품 목록 그리드 */
+.product-card {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}

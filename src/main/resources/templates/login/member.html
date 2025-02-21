@@ -18,16 +18,15 @@
   <div class="form-container sign-up-container">
     <div class="py-3">
       <form action="/potato/member/signUp" method="post">
-        <h1>Create Account</h1>
+        <h1>회원 가입하기</h1>
         <div class="social-container">
           <a href="#" class="social"><i class="fab fa-facebook-f"></i></a>
           <a href="#" class="social"><i class="fab fa-google-plus-g"></i></a>
           <a href="#" class="social"><i class="fab fa-linkedin-in"></i></a>
         </div>
-        <span>or use your email for registration</span>
-        <input type="text" name="memberId" placeholder="ID"/>
-        <input type="password" name="memberPw" placeholder="Password"/>
-        <input type="text" name="memberNickname" placeholder="memberNickname"/>
+        <input type="text" name="memberId" placeholder="아이디"/>
+        <input type="password" name="memberPw" placeholder="비밀번호"/>
+        <input type="text" name="memberNickname" placeholder="이름"/>
         <input type="text" name="memberPhone" placeholder="전화번호"/>
         <div class="col-12 my-2">
           <select name="loadAddrGu" id="loadAddrGu" class="form-select">
@@ -53,36 +52,35 @@
         </div>
         <input type="hidden" name="memberAddr" id="memberAddr"/>
         <input type="text" name="memberAddrDetail" placeholder="상세 주소"/>
-        <button type="button" onclick="return checkAddressSelection()">Sign Up</button>
+        <button type="button" onclick="return checkAddressSelection()">회원가입</button>
       </form>
     </div>
   </div>
   <div class="form-container sign-in-container">
     <form action="/potato/member/signIn" method="post">
-      <h1>Sign in</h1>
+      <h1>로그인</h1>
       <div class="social-container">
         <a href="#" class="social"><i class="fab fa-facebook-f"></i></a>
         <a href="#" class="social"><i class="fab fa-google-plus-g"></i></a>
         <a href="#" class="social"><i class="fab fa-linkedin-in"></i></a>
       </div>
-      <span>or use your account</span>
-      <input type="text" placeholder="Id" name="memberId"/>
-      <input type="password" placeholder="Password" name="memberPw"/>
-      <a href="#">Forgot your password?</a>
-      <button>Sign In</button>
+      <input type="text" placeholder="아이디" name="memberId"/>
+      <input type="password" placeholder="비밀번호" name="memberPw"/>
+      <a href="#"> 아이디 비밀번호 찾기</a>
+      <button>로그인</button>
     </form>
   </div>
   <div class="overlay-container">
     <div class="overlay">
       <div class="overlay-panel overlay-left">
-        <h1>Welcome Back!</h1>
-        <p>To keep connected with us please login with your personal info</p>
-        <button class="ghost" id="signIn">Sign In</button>
+        <h1> 반갑습니다! </h1>
+        <p>감자 마켓을 더 안전하고 편리하게 이용하세요</p>
+        <button class="ghost" id="signIn">로그인</button>
       </div>
       <div class="overlay-panel overlay-right">
-        <h1>Hello, Friend!</h1>
-        <p>Enter your personal details and start journey with us</p>
-        <button class="ghost" id="signUp">Sign Up</button>
+        <h1 class="no-center">감자가 <br> 처음이신가요?</h1>
+        <p>간편하게 가입하고 상품과 지역 게시판을 확인하세요</p>
+        <button class="ghost" id="signUp">회원 가입</button>
       </div>
     </div>
   </div>
