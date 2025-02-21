@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="bitc.fullstack503.java503_team3.mapper.ProductMapper2">
+  <select id="getMyProductList" parameterType="java.lang.String"
+          resultType="bitc.fullstack503.java503_team3.dto.ProductDTO">
+    select *
+    from product
+    where member_idx = #{memberId}
+    order by product_num desc;
+  </select>
+</mapper>

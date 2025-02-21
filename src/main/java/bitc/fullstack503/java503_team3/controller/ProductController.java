@@ -122,11 +122,11 @@ public class ProductController
   public String productDetail (@RequestParam ("productNum") int productNum, Model model) throws Exception
   {
     ProductDTO product = productService.getProductDetail (productNum);
-    String memberName = product.getMemberIdx();
+    String memberName = product.getMemberIdx ();
     String memberProfile = null;
     if (memberName == null)
     {
-      memberProfile = product.getProductImg();
+      memberProfile = product.getProductImg ();
       memberName = product.getProductName ();
       model.addAttribute ("memberProfile", memberProfile);
       model.addAttribute ("memberName", memberName);
@@ -231,26 +231,24 @@ public class ProductController
       return "redirect:/member";  // 로그인 페이지로 리디렉션
     }
   }
-
+  
   // 검색 기능
-  @GetMapping("/potato/trade/products/search")
-  public String searchProducts(@RequestParam("searchTerm") String searchTerm,
-                               @RequestParam(value = "categoryName", required = false) String categoryName,
-                               @RequestParam(value = "localGuName", required = false) String localGuName,
-                               Model model) {
+  @GetMapping ("/potato/trade/products/search")
+  public String searchProducts (@RequestParam ("searchTerm") String searchTerm,
+                                @RequestParam (value = "categoryName", required = false) String categoryName,
+                                @RequestParam (value = "localGuName", required = false) String localGuName,
+                                Model model)
+  {
     // 검색어가 비어있으면 빈 리스트 반환
-    if (searchTerm == null || searchTerm.trim().isEmpty()) {
-      model.addAttribute("productList", new ArrayList<>()); // 빈 리스트 전달
+    if (searchTerm == null || searchTerm.trim ().isEmpty ())
+    {
+      model.addAttribute ("productList", new ArrayList<> ()); // 빈 리스트 전달
       return "productList"; // 검색어 없을 경우 제품 목록 페이지로 리턴
     }
-
     // 필터링된 상품 목록을 모델에 추가
-    List<ProductDTO> productList = productService.searchProducts(searchTerm, categoryName, localGuName);
-    model.addAttribute("productList", productList);
-
+    List<ProductDTO> productList = productService.searchProducts (searchTerm, categoryName, localGuName);
+    model.addAttribute ("productList", productList);
     // 검색 결과를 제품 목록 페이지에 전달
     return "product/productList"; // 해당 페이지에서 결과 출력
   }
-
-
 }

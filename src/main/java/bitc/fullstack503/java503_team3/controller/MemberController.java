@@ -1,9 +1,6 @@
 package bitc.fullstack503.java503_team3.controller;
-import bitc.fullstack503.java503_team3.dto.LoadAddrDTO;
-import bitc.fullstack503.java503_team3.dto.MemberContentDTO;
-import bitc.fullstack503.java503_team3.dto.MemberDTO;
-import bitc.fullstack503.java503_team3.service.LoadAddrService;
-import bitc.fullstack503.java503_team3.service.MemberService;
+import bitc.fullstack503.java503_team3.dto.*;
+import bitc.fullstack503.java503_team3.service.*;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,6 +22,12 @@ public class MemberController
   private MemberService memberService;
   @Autowired
   private LoadAddrService loadAddrService;
+  @Autowired
+  private ProductService productService;
+  @Autowired
+  private ProductService2 productService2;
+  @Autowired
+  private ProductCommentService productCommentService;
   
   @GetMapping ({"/", ""})
   public ModelAndView home () throws Exception
@@ -135,6 +138,8 @@ public class MemberController
       String addr = si + " " + gu + " " + ro + " " + mainNum + "-" + subNum;
       mv.addObject ("addr", addr);
     }
+    List<ProductDTO> productList = productService2.getMyProductList (memberId);
+    mv.addObject ("productList", productList);
     mv.addObject ("addrDetail", addrDetail);
     mv.addObject ("memberContent", memberContent);
     mv.addObject ("memberProfile", memberProfile);
@@ -155,5 +160,32 @@ public class MemberController
     member.setMemberPhone (memberPhone);
     memberService.memberUpdate (member);
     return "redirect:/potato/myPage/" + memberId;
+  }
+  
+  @GetMapping ("/trade/productDetailQ")
+  public ModelAndView productDetailQ (@RequestParam ("productNum") String productNum) throws Exception
+  {
+    ModelAndView mv = new ModelAndView ("/myPage/tradeChat");
+    List<ProductCommentDTO> productCommentList = productCommentService.getProductComment (Integer.parseInt (productNum));
+    ProductDTO product = productService.getProductDetail (Integer.parseInt (productNum));
+    mv.addObject ("product", product);
+    mv.addObject ("productCommentList", productCommentList);
+    return mv;
+  }
+  
+  @RequestMapping ("/trade/productDetailQ/edit")
+  public String productDetailQEdit (@RequestParam ("productNum") String productNum, @RequestParam ("tradeUserComment") String tradeUserComment, HttpServletRequest request) throws Exception
+  {
+    HttpSession session = request.getSession ();
+    MemberDTO memberInfo = (MemberDTO) session.getAttribute ("memberInfo");
+    String memberId = memberInfo.getMemberId ();
+    String memberNickname = memberInfo.getMemberNickname ();
+    ProductCommentDTO productCommentDTO = new ProductCommentDTO ();
+    productCommentDTO.setProductCommentMemberId (memberId);
+    productCommentDTO.setProductCommentProductIdx (Integer.parseInt (productNum));
+    productCommentDTO.setProductCommentContent (tradeUserComment);
+    productCommentDTO.setProductCommentMemberNickname (memberNickname);
+    productCommentService.insertProductComment (productCommentDTO);
+    return "redirect:/potato/trade/productDetailQ?productNum=" + productNum;
   }
 }

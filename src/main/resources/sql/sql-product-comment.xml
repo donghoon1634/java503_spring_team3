@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="bitc.fullstack503.java503_team3.mapper.ProductCommentMapper">
+  <insert id="insertProductComment" parameterType="bitc.fullstack503.java503_team3.dto.ProductCommentDTO">
+    insert into product_comment (product_comment_product_idx, product_comment_member_id, product_comment_content,
+                                 product_comment_member_nickname)
+    values (#{productCommentProductIdx}, #{productCommentMemberId}, #{productCommentContent},
+            #{productCommentMemberNickname});
+  </insert>
+  
+  <select id="getProductComment" parameterType="int" resultType="bitc.fullstack503.java503_team3.dto.ProductCommentDTO">
+    select *
+    from product_comment
+    where product_comment_product_idx = #{productCommentProductIdx};
+  </select>
+</mapper>

@@ -56,22 +56,21 @@
     <h3 class="mt-2">판매 물품 목록</h3>
     <br>
     <hr>
-    <!--    <section>-->
-    <!--      <div>-->
-    <!--        <div class="form-floating mt-3 d-flex">-->
-    <!--          <div class="container d-flex">-->
-    <!--            <div th:each="product:${umpe}" class="me-3">-->
-    <!--              <a href="/potato/myPage/edit/1">-->
-    <!--              <a th:href="@{'/potato/myPage/edit/' + ${product.userMyPageProductEditIdx}}">-->
-    <!--                <img src="/image/box.png" alt="기본 이미지"-->
-    <!--                     th:src="${product.userMyPageProductEditImgs}" width="200px" height="200px"></a>-->
-    <!--              <div th:text="${product.userMyPageProductEditName}">이름</div>-->
-    <!--              <div th:text="${product.userMyPageProductEditPrice}">가격</div>-->
-    <!--            </div>-->
-    <!--          </div>-->
-    <!--        </div>-->
-    <!--      </div>-->
-    <!--    </section>-->
+    <section>
+      <div>
+        <div class="form-floating mt-3 d-flex">
+          <div class="container d-flex flex-wrap gap-3">
+            <div th:each="product:${productList}" class="me-3">
+              <a th:href="@{'/potato/trade/productDetail?productNum=' + ${product.productNum}}" class="text-decoration-none text-black">
+                <img alt="기본 이미지" th:src="@{${product.getProductImg()}}" width="200px" height="200px">
+                <div th:text="${product.getProductName()}" style="width: 200px">이름</div>
+                <div th:text="${product.getProductPrice()}" style="width: 200px">가격</div>
+              </a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
   </main>
   <!--  <div class="row mt-3">-->
   <!--    <div class="col-sm">-->
