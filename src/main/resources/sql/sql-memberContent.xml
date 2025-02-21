@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="bitc.fullstack503.java503_team3.mapper.MemberContentMapper">
+  <select id="getMemberContent" parameterType="java.lang.String" resultType="java.lang.String">
+    select member_content
+    from member_content
+    where member_content_id = #{memberId};
+  </select>
+  
+  <insert id="setMemberContent" parameterType="bitc.fullstack503.java503_team3.dto.MemberContentDTO">
+    INSERT INTO member_content (member_content_id, member_content)
+    VALUES (#{memberContentId}, #{memberContent}) ON DUPLICATE KEY
+    UPDATE
+      member_content = #{memberContent};
+  </insert>
+</mapper>

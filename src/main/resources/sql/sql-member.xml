@@ -50,4 +50,11 @@
     from member_profile
     where member_profile_member_id = #{memberProfileMemberId};
   </select>
+  
+  <update id="memberUpdate" parameterType="bitc.fullstack503.java503_team3.dto.MemberDTO">
+    update member
+    set member_nickname = #{memberNickname},
+        member_phone    = #{memberPhone}
+    where member_id = #{memberId};
+  </update>
 </mapper>

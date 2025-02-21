@@ -1,5 +1,6 @@
 package bitc.fullstack503.java503_team3.controller;
 import bitc.fullstack503.java503_team3.dto.LoadAddrDTO;
+import bitc.fullstack503.java503_team3.dto.MemberContentDTO;
 import bitc.fullstack503.java503_team3.dto.MemberDTO;
 import bitc.fullstack503.java503_team3.service.LoadAddrService;
 import bitc.fullstack503.java503_team3.service.MemberService;
@@ -9,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
@@ -107,5 +109,51 @@ public class MemberController
     session.invalidate ();
     // logout 버튼에 reload 응답을 받으면 페이지 리로드하게 하는 함수 추가
     return "redirect:/potato";
+  }
+  
+  @RequestMapping ("/myPage/{memberId}")
+  public ModelAndView myPage (@PathVariable ("memberId") String memberId) throws Exception
+  {
+    ModelAndView mv = new ModelAndView ("/myPage/myPage");
+    MemberDTO member = memberService.memberInfo (memberId);
+    String memberProfile = memberService.memberProfileHref (memberId);
+    String memberContent = memberService.getMemberContent (memberId);
+    LoadAddrDTO loadAddrDTO = loadAddrService.selectLoadAddrIdx (member.getMemberAddr ());
+    String si = loadAddrDTO.getLoadAddrSido ();
+    String gu = loadAddrDTO.getLoadAddrGu ();
+    String ro = loadAddrDTO.getLoadAddrRo ();
+    String mainNum = loadAddrDTO.getLoadAddrMainNum ();
+    String subNum = loadAddrDTO.getLoadAddrSubNum ();
+    String addrDetail = member.getMemberAddrDetail ();
+    if (subNum == null || subNum.isEmpty ())
+    {
+      String addr = si + " " + gu + " " + ro + " " + mainNum;
+      mv.addObject ("addr", addr);
+    }
+    else
+    {
+      String addr = si + " " + gu + " " + ro + " " + mainNum + "-" + subNum;
+      mv.addObject ("addr", addr);
+    }
+    mv.addObject ("addrDetail", addrDetail);
+    mv.addObject ("memberContent", memberContent);
+    mv.addObject ("memberProfile", memberProfile);
+    mv.addObject ("member", member);
+    return mv;
+  }
+  
+  @RequestMapping ("/myPage/edit/{memberId}")
+  public String myPageEdit (@PathVariable ("memberId") String memberId, @RequestParam ("userMyPageContents") String userMyPageContents, @RequestParam ("memberNickname") String memberNickname, @RequestParam ("memberPhone") String memberPhone) throws Exception
+  {
+    MemberContentDTO memberContent = new MemberContentDTO ();
+    memberContent.setMemberContentId (memberId);
+    memberContent.setMemberContent (userMyPageContents);
+    memberService.setMemberContent (memberContent);
+    MemberDTO member = new MemberDTO ();
+    member.setMemberId (memberId);
+    member.setMemberNickname (memberNickname);
+    member.setMemberPhone (memberPhone);
+    memberService.memberUpdate (member);
+    return "redirect:/potato/myPage/" + memberId;
   }
 }

@@ -22,4 +22,6 @@ public interface MemberMapper
   public void memberProfile (List<MemberProfileDTO> memberProfile) throws Exception;
   
   public String memberProfileHref (String memberId) throws Exception;
+  
+  public void memberUpdate (MemberDTO member) throws Exception;
 }

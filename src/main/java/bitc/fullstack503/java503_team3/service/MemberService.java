@@ -1,4 +1,5 @@
 package bitc.fullstack503.java503_team3.service;
+import bitc.fullstack503.java503_team3.dto.MemberContentDTO;
 import bitc.fullstack503.java503_team3.dto.MemberDTO;
 import bitc.fullstack503.java503_team3.dto.MemberProfileDTO;
 
@@ -20,4 +21,10 @@ public interface MemberService
   public void memberProfile (List<MemberProfileDTO> memberProfile) throws Exception;
   
   public String memberProfileHref (String memberId) throws Exception;
+  
+  public String getMemberContent (String memberId) throws Exception;
+  
+  public void setMemberContent (MemberContentDTO memberContentDTO) throws Exception;
+  
+  public void memberUpdate (MemberDTO member) throws Exception;
 }

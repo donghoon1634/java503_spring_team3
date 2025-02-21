@@ -1,6 +1,8 @@
 package bitc.fullstack503.java503_team3.service;
+import bitc.fullstack503.java503_team3.dto.MemberContentDTO;
 import bitc.fullstack503.java503_team3.dto.MemberDTO;
 import bitc.fullstack503.java503_team3.dto.MemberProfileDTO;
+import bitc.fullstack503.java503_team3.mapper.MemberContentMapper;
 import bitc.fullstack503.java503_team3.mapper.MemberMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -11,6 +13,8 @@ public class MemberServiceImpl implements MemberService
 {
   @Autowired
   private MemberMapper memberMapper;
+  @Autowired
+  private MemberContentMapper memberContentMapper;
   
   @Override
   public boolean isMemberId (String id) throws Exception
@@ -60,5 +64,23 @@ public class MemberServiceImpl implements MemberService
   public String memberProfileHref (String memberId) throws Exception
   {
     return memberMapper.memberProfileHref (memberId);
+  }
+  
+  @Override
+  public String getMemberContent (String memberId) throws Exception
+  {
+    return memberContentMapper.getMemberContent (memberId);
+  }
+  
+  @Override
+  public void setMemberContent (MemberContentDTO memberContentDTO) throws Exception
+  {
+    memberContentMapper.setMemberContent (memberContentDTO);
+  }
+  
+  @Override
+  public void memberUpdate (MemberDTO member) throws Exception
+  {
+    memberMapper.memberUpdate (member);
   }
 }
