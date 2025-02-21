@@ -62,6 +62,10 @@
                 <div class="write-local-gu-text">
                     <span>지역</span>
                 </div>
+                <div th:if="${errMsg}" class="alert alert-danger alert-dismissible fade show" role="alert" style="margin-top: 20px;">
+                    <span th:text="${errMsg}"></span>
+                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                </div>
                 <div class="write-local-gu">
                     <input type="text" name="localGuName">
                 </div>
@@ -75,9 +79,11 @@
                 </div>
             </div>
         </div>
+
         <div class="post-btn-box">
             <button type="submit" class="post-btn">등록</button>
         </div>
+
     </form>
 </article>
 

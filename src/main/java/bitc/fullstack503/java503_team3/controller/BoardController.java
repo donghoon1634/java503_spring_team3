@@ -119,7 +119,7 @@ public class BoardController
     // ✅ 로그인하지 않은 경우 -> 로그인 페이지로 이동
     if (memberInfo == null)
     {
-      return "redirect:/member";
+      return "redirect:/potato/member";
     }
     // ✅ 로그인한 경우 -> 게시글 작성 페이지로 이동
     return "board/BoardWrite";

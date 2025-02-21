@@ -55,7 +55,7 @@ public class CommentController {
         MemberDTO memberInfo = (MemberDTO) session.getAttribute("memberInfo"); // 로그인한 사용자 정보 가져오기
         LoadAddrDTO loadAddrInfo = (LoadAddrDTO) session.getAttribute("loadAddrInfo");
         if (memberInfo == null) {
-            return "redirect:/member";
+            return "redirect:/potato/member";
         }
         else {
             ulcDTO.setUlCommentUlIdx(ulIdx);

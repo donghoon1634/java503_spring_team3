@@ -19,6 +19,7 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 @Controller
 public class ProductController
@@ -181,6 +182,16 @@ public class ProductController
     }
     // 세션에서 MemberDTO 객체 가져오기
     MemberDTO memberInfo = (MemberDTO) session.getAttribute ("memberInfo");
+    //지역구 유효성 검사
+    List<String> validLocalGuList = Arrays.asList("부산진구", "해운대구", "사하구", "남구", "금정구", "사상구",
+            "수영구", "강서구", "동구", "서구", "중구", "영도구", "북구",
+            "연제구", "동래구", "기장군");
+
+    if (!validLocalGuList.contains(localGuName.trim())) {
+      redirectAttributes.addFlashAttribute("errMsg", "지역구를 정확히 입력해주세요.");
+      return "redirect:/potato/trade/productWrite";  // 지역구 오류 시 다시 입력 폼으로
+    }
+
     // memberInfo가 null이 아니라면, memberIdx 값을 가져오기
     if (memberInfo != null)
     {
@@ -199,12 +210,12 @@ public class ProductController
           String imageUrl = "/resources/" + fileName;  // 정적 리소스 경로에 맞게 수정
           //          String imageUrl = "/upload/dir/" + fileName;  // 웹 경로에 맞게 수정
           // productPrice를 String에서 int로 변환 (나눔도 처리)
-          int price = productPrice.equals ("나눔") ? -1 : Integer.parseInt (productPrice);
+          String price = productPrice.equals ("나눔") ? "나눔" : String.valueOf(Integer.parseInt(productPrice));
           // ProductDTO 에 데이터 설정
           ProductDTO productDTO = new ProductDTO ();
           productDTO.setProductName (productName);
           productDTO.setProductInfo (productInfo);
-          productDTO.setProductPrice (String.valueOf (price));  // 가격을 String으로 저장
+          productDTO.setProductPrice(price);
           productDTO.setLocalGuName (localGuName);
           productDTO.setProductImg (imageUrl);
           productDTO.setMemberIdx (memberIdx);  // 로그인된 회원의 idx 설정
