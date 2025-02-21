@@ -35,10 +35,8 @@
         </form>
       </div>
     </section>
-    <br>
-    <h3 class="mt-2">판매 물품 목록</h3>
-    <br>
     <hr>
+    <h3 class="mt-2">판매 물품 목록</h3>
     <section>
       <div>
         <div class="form-floating mt-3 d-flex">
@@ -54,15 +52,36 @@
         </div>
       </div>
     </section>
+    <hr>
+    <section>
+      <h3 class="mt-2">게시글 작성 목록</h3>
+      <div class="col-md-8 p-3" style="margin-left: 40px;">
+        <div class="post mb-4" th:if="${#lists.size(boardList)} > 0" th:each="item : ${boardList}">
+          <div class="text-start">
+            <a class="text-decoration-none text-dark fs-3" th:href="@{|/potato/board/${item.ulIdx}|}" th:text="${item.ulTitle}"></a>
+          </div>
+          <div class="text-start">
+            <a class="text-decoration-none text-dark fs-5" th:href="@{|/potato/board/${item.ulIdx}|}" th:text="${item.ulContents.length() > 30 ? #strings.substring(item.ulContents, 0, 30) + '...' : item.ulContents}"></a>
+          </div>
+          <div id="cate">
+            <span th:text="${item.ulPlace}"></span>
+            <span th:text="${item.ulCate}"></span>
+          </div>
+          <div class="row d-flex align-items-center">
+            <div class="col-sm-auto d-flex align-items-center pe-0">
+              <img src="/img/good.png" alt="추천수" width="22px" height="22px">
+              <p class="mb-0 ms-2" th:text="${item.ulLikes}"></p>
+            </div>
+            <div class="col-sm-auto d-flex align-items-center">
+              <img src="/img/commu.png" alt="댓글수" width="22px" height="22px" class="ms-0">
+              <p class="mb-0 ms-2" th:text="${item.ulCommentCount}">0</p>
+            </div>
+          </div>
+          <div class="border-bottom pt-3 mt-1"></div>
+        </div>
+      </div>
+    </section>
   </main>
-  <!--  <div class="row mt-3">-->
-  <!--    <div class="col-sm">-->
-  <!--      <button class="btn btn-secondary" id="btn-list">목록</button>-->
-  <!--    </div>-->
-  <!--    <div class="col-sm">-->
-  <!--      <button class="btn justify-content-end" style="background-color: #fff7c9" id="btn-write">등록하기</button>-->
-  <!--    </div>-->
-  <!--  </div>-->
 </div>
 
 <footer th:replace="~{/layout/footer :: footer}"></footer>

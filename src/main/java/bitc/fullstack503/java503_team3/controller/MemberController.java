@@ -29,6 +29,8 @@ public class MemberController
   private ProductService2 productService2;
   @Autowired
   private ProductCommentService productCommentService;
+  @Autowired
+  private BoardService2 boardService2;
   
   @GetMapping ({"/", ""})
   public ModelAndView home () throws Exception
@@ -154,6 +156,8 @@ public class MemberController
       mv.addObject ("addr", addr);
     }
     List<ProductDTO> productList = productService2.getMyProductList (memberId);
+    List<UserlifeDTO> boardList = boardService2.selectMyBoardList (memberId);
+    mv.addObject ("boardList", boardList);
     mv.addObject ("productList", productList);
     mv.addObject ("addrDetail", addrDetail);
     mv.addObject ("memberContent", memberContent);
@@ -192,17 +196,22 @@ public class MemberController
   {
     HttpSession session = request.getSession ();
     MemberDTO memberInfo = (MemberDTO) session.getAttribute ("memberInfo");
-    if (memberInfo.getMemberId ().equals (memberId))
+    if (memberInfo != null)
     {
-      ModelAndView mv = new ModelAndView ();
-      mv.setViewName ("redirect:/potato/myPage/" + memberInfo.getMemberId ());
-      return mv;
+      if (memberInfo.getMemberId ().equals (memberId))
+      {
+        ModelAndView mv = new ModelAndView ();
+        mv.setViewName ("redirect:/potato/myPage/" + memberInfo.getMemberId ());
+        return mv;
+      }
     }
     ModelAndView mv = new ModelAndView ("/myPage/yourPage");
     MemberDTO member = memberService.memberInfo (memberId);
     String memberProfile = memberService.memberProfileHref (memberId);
     String memberContent = memberService.getMemberContent (memberId);
     List<ProductDTO> productList = productService2.getMyProductList (memberId);
+    List<UserlifeDTO> boardList = boardService2.selectMyBoardList (memberId);
+    mv.addObject ("boardList", boardList);
     mv.addObject ("productList", productList);
     mv.addObject ("memberContent", memberContent);
     mv.addObject ("memberProfile", memberProfile);

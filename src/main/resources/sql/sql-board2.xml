@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="bitc.fullstack503.java503_team3.mapper.BoardMapper2">
+  <select id="selectMyBoardList" parameterType="java.lang.String"
+          resultType="bitc.fullstack503.java503_team3.dto.UserlifeDTO">
+    select ul_idx,ul_title,ul_nickname,ul_contents,ul_place,ul_cate,ul_likes,date_format(ul_create_date,'%Y.%m.%d
+    %H:%i:%s')
+    as ul_create_date, ul_hit_cnt from userlife where ul_member_id = #{ulMemberId}
+    order by ul_idx DESC;
+  </select>
+</mapper>
