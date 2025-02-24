@@ -24,7 +24,7 @@
           <a href="#" class="social"><i class="fab fa-google-plus-g"></i></a>
           <a href="#" class="social"><i class="fab fa-linkedin-in"></i></a>
         </div>
-        <input type="text" name="memberId" placeholder="아이디"/>
+        <input type="text" name="memberId" placeholder="아이디" oninput="this.value = this.value.replace(/[^a-zA-Z0-9]/g, '')"/>
         <input type="password" name="memberPw" placeholder="비밀번호"/>
         <input type="text" name="memberNickname" placeholder="이름"/>
         <input type="text" name="memberPhone" placeholder="전화번호"/>
@@ -64,9 +64,9 @@
         <a href="#" class="social"><i class="fab fa-google-plus-g"></i></a>
         <a href="#" class="social"><i class="fab fa-linkedin-in"></i></a>
       </div>
-      <input type="text" placeholder="아이디" name="memberId"/>
+      <input type="text" placeholder="아이디"  name="memberId"/>
       <input type="password" placeholder="비밀번호" name="memberPw"/>
-      <a href="#"> 아이디 비밀번호 찾기</a>
+      <a href="#"> 아이디 / 비밀번호 찾기</a>
       <button>로그인</button>
     </form>
   </div>

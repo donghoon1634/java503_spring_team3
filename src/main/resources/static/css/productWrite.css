@@ -113,11 +113,15 @@ input::-webkit-inner-spin-button {
 .attachment-button {
     width: fit-content;
     padding: 16px;
-    background-color: #f39d57;
+    background-color: #D9C896;
     border-radius: 12px;
     color: white;
     font-weight: bold;
     cursor: pointer;
+}
+
+.attachment-button:hover{
+    background-color: #b9aa7f;
 }
 
 .file-input {
@@ -145,13 +149,18 @@ input::-webkit-inner-spin-button {
 
 .post-btn-box{
     float: right;
+    margin-bottom: 30px;
     button{
         width: 100px;
         padding: 14px;
         border: none;
         border-radius: 10px;
-        background-color: #f39d57;
+        background-color: #D9C896;
         color: #fff;
         font-size: 16px;
+
+    }
+    button:hover{
+        background-color: #b9aa7f;
     }
 }

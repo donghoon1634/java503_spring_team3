@@ -16,6 +16,33 @@
             crossorigin="anonymous"></script>
     <title>동네생활 게시물 작성</title>
 
+    <style>
+        .btn-Potato{
+            border: 2px solid #d9c896;
+            border-radius: 10px;
+            background-color: #ffffff;
+            color: #090909;
+            padding: 8px;
+        }
+        .btn-Potato:hover{
+            background-color: #d9c896;
+            color: #ffffff;
+        }
+        .btn-SweetPotato {
+            border: 2px solid #a67c52; /* 따뜻한 브라운 톤 */
+            border-radius: 10px;
+            background-color: #ffffff;
+            color: #4b3621; /* 진한 브라운 텍스트 */
+            padding: 8px;
+        }
+
+        .btn-SweetPotato:hover {
+            background-color: #a67c52;
+            color: #ffffff;
+        }
+
+
+    </style>
     <script>
         $(document).ready(function () {
             $("#btn-cancel").on("click", function () {
@@ -103,8 +130,8 @@
 
             <!-- 버튼 -->
             <div class="d-flex justify-content-end gap-2">
-                <button type="submit" class="btn btn-primary px-4">전송</button>
-                <button type="reset" class="btn btn-secondary px-4">취소</button>
+                <button type="submit" class="btn btn-Potato px-4">전송</button>
+                <button type="reset" class="btn btn-SweetPotato px-4">취소</button>
             </div>
         </form>
     </div>

@@ -251,12 +251,11 @@
       <h3><strong>필터</strong></h3>
       <div class="d-flex gap-3">
         <!-- 초기화 버튼 -->
-        <button  id="resetButton" class="me-5 link-dark hover-effect">초기화</button>
-
-        <!-- 제품 등록 버튼 (로그인된 경우만 표시) -->
-        <div th:if="${isLoggedIn}">
-          <a href="/potato/trade/productWrite" class="btn btn-outline-warning">제품 등록</a>
-        </div>
+        <button  id="resetButton" class="clear-btn">초기화</button>
+      </div>
+      <!-- 제품 등록 버튼 (로그인된 경우만 표시) -->
+      <div th:if="${isLoggedIn}">
+        <a href="/potato/trade/productWrite" class="reg-btn">제품 등록</a>
       </div>
     </div>
     <br>
@@ -265,7 +264,7 @@
 
     <!-- 지역구 선택 버튼 -->
     <h5 style="margin-top: 20px;"><b>부산광역시</b></h5>
-    <button onclick="toggleLocalGuList()"  class="me-5 link-dark hover-effect">지역구 선택</button>
+    <button onclick="toggleLocalGuList()"  class="select-gu-btn">지역구 선택</button>
     <ul id="localGuList" style="display: none;">
       <!-- 지역구 목록을 JavaScript로 동적으로 추가 -->
     </ul>
@@ -282,7 +281,7 @@
     <h5 style="margin-top: 20px;"><b>share</b></h5>
     <ul>
       <li style="list-style: none;">
-        <button type="button" class="price-btn" data-min="null" data-max="null" data-type="free">나눔</button>
+        <button type="button" class="price-btn btn-share" data-min="null" data-max="null" data-type="free">나눔</button>
       </li>
     </ul>
 

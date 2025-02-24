@@ -10,6 +10,48 @@
             crossorigin="anonymous"></script>
     <meta charset="UTF-8">
     <title>Title</title>
+
+    <style>
+        @font-face {
+            font-family: 'Pretendard-Regular';
+            src: url('https://fastly.jsdelivr.net/gh/Project-Noonnu/noonfonts_2107@1.1/Pretendard-Regular.woff') format('woff');
+            font-weight: 400;
+            font-style: normal;
+        }
+
+        *{
+            font-family: 'Pretendard-Regular';
+        }
+        .btn-simple:hover {
+            background-color: gray;
+            color: #ffffff;
+        }
+        .btn-potato{
+            border: 2px solid #d9c896;
+            border-radius: 10px;
+            background-color: #ffffff;
+            color: #090909;
+            padding: 8px;
+        }
+        .btn-potato:hover{
+            background-color: #d9c896;
+            color: #ffffff;
+        }
+
+        .btn-SweetPotato {
+            border: 2px solid #a67c52; /* 따뜻한 브라운 톤 */
+            border-radius: 10px;
+            background-color: #ffffff;
+            color: #4b3621; /* 진한 브라운 텍스트 */
+            padding: 8px;
+        }
+
+        .btn-SweetPotato:hover {
+            background-color: #a67c52;
+            color: #ffffff;
+        }
+
+    </style>
 </head>
 
 <body>
@@ -19,8 +61,8 @@
             <div class="d-none" id="ulcomment_method" name="ulcommentMethod"></div>
 
             <div>
-                <button id="ulCommentIdxAsc" class="btn btn-light text-muted">등록순</button>
-                <button id="ulCommentIdxDesc" class="btn btn-light text-muted">최신순</button>
+                <button id="ulCommentIdxAsc" class="btn btn-potato  text-muted">등록순</button>
+                <button id="ulCommentIdxDesc" class="btn btn-SweetPotato  text-muted">최신순</button>
             </div>
 
             <!-- 댓글 목록 -->
@@ -58,7 +100,7 @@
                                     <!-- 댓글 삭제 -->
                                     <div class="ml-3">
 <!--                                        <div class="commentIdx" style="display: none;" th:text="${comment.ulCommentIdx}"></div>  &lt;!&ndash; 댓글 ID를 숨김 처리 &ndash;&gt;-->
-                                        <button type="button" class="btn btn-outline-dark ulcommentDelete">삭제</button>
+                                        <button type="button" class="btn btn-outline-secondary ulcommentDelete">삭제</button>
                                     </div>
                                 </div>
                             </div>
@@ -79,7 +121,7 @@
                         <textarea class="form-control" name="ulCommentContents" id="ulCommentContents" rows="3"
                                   placeholder="댓글을 입력하세요."></textarea>
                     </div>
-                    <button type="submit" class="btn btn-primary mt-2" id="com_add">댓글 작성</button>
+                    <button type="submit" class="btn btn-potato mt-2" id="com_add">댓글 작성</button>
                 </form>
             </div>
         </div>

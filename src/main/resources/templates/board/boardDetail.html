@@ -16,6 +16,16 @@
           crossorigin="anonymous"></script>
   <title>Title</title>
   <style>
+    @font-face {
+      font-family: 'Pretendard-Regular';
+      src: url('https://fastly.jsdelivr.net/gh/Project-Noonnu/noonfonts_2107@1.1/Pretendard-Regular.woff') format('woff');
+      font-weight: 400;
+      font-style: normal;
+    }
+
+    *{
+      font-family: 'Pretendard-Regular';
+    }
     /* 상단 홈>동네생활 에서 > 이미지 */
     li > img {
       width: 12px;
@@ -34,6 +44,7 @@
       margin-left: -4px;
       font-size: 12px;
     }
+
 
     /* 게시글 닉네임 */
     #ulNickname {
@@ -60,6 +71,36 @@
       height: auto;
       margin-top: 10px;
     }
+
+    .btn-Potato{
+      border: 2px solid #d9c896;
+      border-radius: 10px;
+      background-color: #ffffff;
+      color: #090909;
+      padding: 8px;
+    }
+    .btn-Potato:hover{
+      background-color: #d9c896;
+      color: #ffffff;
+    }
+    .btn-SweetPotato {
+      border: 2px solid #a67c52; /* 따뜻한 브라운 톤 */
+      border-radius: 10px;
+      background-color: #ffffff;
+      color: #4b3621; /* 진한 브라운 텍스트 */
+      padding: 8px;
+    }
+
+    .btn-SweetPotato:hover {
+      background-color: #a67c52;
+      color: #ffffff;
+    }
+
+
+    .btn-simple:hover {
+      color: #0d6efd !important;
+    }
+
 
   </style>
 
@@ -234,7 +275,7 @@
   <div class="d-flex align-items-center mb-4">
     <h2 class="mb-0"><b th:text="${memberGu}">동네생활</b></h2>
     <h4 class="mb-0"><b>동네생활</b></h4>
-    <a href="/potato/board/write" class="btn btn-danger ms-5 me-5">글쓰기</a>
+    <a href="/potato/board/write" class="btn btn-Potato ms-5 me-5">글쓰기</a>
   </div>
   <section class="row">
     <!-- 카테고리 (cate) 영역 -->
@@ -285,9 +326,9 @@
             <!-- 삭제 수정 버튼 -->
             <div class="col-sm-auto text-end">
               <input type="hidden" id="ulIdx1" th:value="${ul.ulIdx}">
-              <button type="button" class="btn btn-danger me-2" id="btn-delete">삭제</button>
+              <button type="button" class="btn btn-Potato me-2" id="btn-delete">삭제</button>
               <input type="hidden" id="ulIdx2" name="ulIdx" th:value="${ul.ulIdx}">
-              <button type="button" class="btn btn-warning" id="btn-update">수정</button>
+              <button type="button" class="btn btn-SweetPotato" id="btn-update">수정</button>
             </div>
           </div>
         </div>

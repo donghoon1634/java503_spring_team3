@@ -43,14 +43,17 @@
     width: 100%;
 }
 
-#btn-share,
-#btn-5000,
-#btn-10000,
-#btn-20000 {
-    border: 1px solid #c7c7c7;
-    border-radius: 20px;
+.btn-share, .select-gu-btn, .clear-btn{
+    border: 2px solid #d9c896;
+    border-radius: 10px;
     background-color: #ffffff;
+    color: #090909;
     padding: 8px;
+}
+
+.btn-share:hover, .select-gu-btn:hover, .clear-btn:hover{
+    background-color: #d9c896;
+    color: #ffffff;
 }
 
 .category-ul,
@@ -77,4 +80,25 @@ input[type="checkbox"] {
     display: flex;
     flex-direction: column;
     justify-content: space-between;
+}
+.reg-btn{
+    border: 2px #d9c896 solid;
+    border-radius: 10px;
+    padding: 10px;
+    text-decoration: none;
+    color: #0e0e0e;
+}
+
+.reg-btn:hover{
+    background-color: #d9c896;
+    color: #ffffff;
+}
+
+.card-title {
+    white-space: nowrap; /* 한 줄로 표시 */
+    overflow: hidden; /* 넘치는 부분 숨김 */
+    text-overflow: ellipsis; /* 넘치는 텍스트 말줄임표 */
+    font-weight: bold;
+    font-size: 1rem;
+    max-width: 100%; /* 카드 영역 안에서만 적용 */
 }
