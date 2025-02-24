@@ -4,14 +4,18 @@ import bitc.fullstack503.java503_team3.dto.LoadAddrDTO;
 import bitc.fullstack503.java503_team3.dto.MemberDTO;
 import bitc.fullstack503.java503_team3.dto.UserlifeCommentDTO;
 import bitc.fullstack503.java503_team3.service.BoardService;
+import bitc.fullstack503.java503_team3.service.MemberService;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import bitc.fullstack503.java503_team3.service.UlCommentService;
+
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -24,23 +28,32 @@ public class CommentController {
     private UlCommentService ulCommentService;
     @Autowired
     private BoardService boardService;
+    @Autowired
+    private MemberService memberService;
 
     // 댓글 등록순
     @ResponseBody
     @GetMapping("/ulComment/asc/{ulIdx}")
     public List<UserlifeCommentDTO> ulCommentAsc(@PathVariable int ulIdx, @RequestParam("offset") int offset,
-                                                 @RequestParam("limit") int limit) {
-        return ulCommentService.ulCommentAsc(ulIdx, offset, limit);
+                                                 @RequestParam("limit") int limit) throws Exception {
+        List<UserlifeCommentDTO> ulc = ulCommentService.ulCommentAsc(ulIdx, offset, limit);
+        for (UserlifeCommentDTO ul : ulc) {
+            ul.setMemberProfile (memberService.memberProfileHref(ul.getUlComMemberId()));
+        }
+        return ulc;
     }
 
     // 댓글 최신순
     @ResponseBody
     @GetMapping("/ulComment/desc/{ulIdx}")
     public List<UserlifeCommentDTO> ulCommentDesc(@PathVariable int ulIdx, @RequestParam("offset") int offset,
-                                                  @RequestParam("limit") int limit) {
-        return ulCommentService.ulCommentDesc(ulIdx, offset, limit);
+                                                  @RequestParam("limit") int limit)throws Exception {
+        List<UserlifeCommentDTO> ulc = ulCommentService.ulCommentDesc(ulIdx, offset, limit);
+        for (UserlifeCommentDTO ul : ulc) {
+            ul.setMemberProfile (memberService.memberProfileHref(ul.getUlComMemberId()));
+        }
+        return ulc;
     }
-
     // 댓글 추천수를 증가시키는 API
     @ResponseBody
     @PostMapping("/ulComment/like/{ulCommentIdx}")
