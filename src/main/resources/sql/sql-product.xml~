@@ -8,7 +8,7 @@
   <!-- 상품 목록 조회 -->
   <select id="selectAllProducts" resultType="bitc.fullstack503.java503_team3.dto.ProductDTO">
     SELECT product_num, product_name, product_price, product_img, local_gu_name
-    FROM product order by product_num desc
+    FROM product
   </select>
   
   <!-- 지역 목록 조회 -->
