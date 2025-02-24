@@ -31,6 +31,8 @@ public class MemberController
   private ProductCommentService productCommentService;
   @Autowired
   private BoardService2 boardService2;
+  @Autowired
+  private BoardService3 boardService3;
   
   @GetMapping ({"/", ""})
   public ModelAndView home () throws Exception
@@ -191,23 +193,6 @@ public class MemberController
     return "redirect:/potato/myPage/" + memberId;
   }
   
-  @RequestMapping ("/myPage/delete/{memberId}")
-  public String myPageDelete (@PathVariable ("memberId") String memberId, HttpServletRequest request) throws Exception
-  {
-    HttpSession session = request.getSession ();
-    MemberDTO memberInfo = (MemberDTO) session.getAttribute ("memberInfo");
-    if (memberInfo == null)
-    {
-      return "redirect:/potato/member";
-    }
-    if (!memberInfo.getMemberId ().equals (memberId))
-    {
-      return "redirect:/potato/myPage/" + memberInfo.getMemberId ();
-    }
-    // memberService.memberDelete (memberId);
-    return "redirect:/potato";
-  }
-  
   @GetMapping ("/yourPage/{memberId}")
   public ModelAndView yourPage (@PathVariable ("memberId") String memberId, HttpServletRequest request) throws Exception
   {
@@ -283,11 +268,33 @@ public class MemberController
     {
       return "redirect:/potato/trade/productDetail?productNum=" + productNum;
     }
-    else
+    productCommentService.deleteProductComment (Integer.parseInt (productNum));
+    productService2.deleteProduct (Integer.parseInt (productNum));
+    return "redirect:/potato/trade";
+  }
+  
+  @RequestMapping ("/myPage/delete/{memberId}")
+  public String myPageDelete (@PathVariable ("memberId") String memberId, HttpServletRequest request) throws Exception
+  {
+    HttpSession session = request.getSession ();
+    MemberDTO memberInfo = (MemberDTO) session.getAttribute ("memberInfo");
+    if (memberInfo == null)
     {
-      productCommentService.deleteProductComment (Integer.parseInt (productNum));
-      productService2.deleteProduct (Integer.parseInt (productNum));
-      return "redirect:/potato/trade";
+      return "redirect:/potato/member";
     }
+    if (!memberInfo.getMemberId ().equals (memberId))
+    {
+      return "redirect:/potato/myPage/" + memberInfo.getMemberId ();
+    }
+    productCommentService.deleteProductCommentMember (memberId);
+    productService2.deleteProductMember (memberId);
+    memberService.deleteMemberProfileMember (memberId);
+    memberService.deleteMemberContentMember (memberId);
+    boardService3.deleteUserlifeCommentMember (memberId);
+    boardService3.deleteUserlifeFileMember (memberId);
+    boardService3.deleteUserlifeMember (memberId);
+    memberService.deleteMember (memberId);
+    session.invalidate ();
+    return "redirect:/potato";
   }
 }

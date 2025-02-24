@@ -57,4 +57,16 @@
         member_phone    = #{memberPhone}
     where member_id = #{memberId};
   </update>
+  
+  <delete id="deleteMemberProfileMember" parameterType="java.lang.String">
+    delete
+    from member_profile
+    where member_profile_member_id = #{memberProfileMemberId};
+  </delete>
+  
+  <delete id="deleteMember" parameterType="java.lang.String">
+    delete
+    from member
+    where member_id = #{memberId};
+  </delete>
 </mapper>

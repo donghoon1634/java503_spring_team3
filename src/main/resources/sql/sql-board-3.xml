@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="bitc.fullstack503.java503_team3.mapper.BoardMapper3">
+  <delete id="deleteUserlifeCommentMember" parameterType="java.lang.String">
+    delete
+    from userlife_comment
+    where ul_com_member_id = #{memberId};
+  </delete>
+  
+  <select id="selectUlUdxFromUserlifeWhereMemberId" parameterType="java.lang.String" resultType="java.lang.Integer">
+    select ul_idx
+    from userlife
+    where ul_member_id = #{memberId}
+  </select>
+  
+  <delete id="deleteUserlifeFileMember" parameterType="java.util.List">
+    delete from userlife_file
+    where ul_idx IN
+    <foreach item="ulIdx" collection="list" open="(" separator="," close=")">
+      #{ulIdx}
+    </foreach>
+  </delete>
+  
+  
+  <delete id="deleteUserlifeMember" parameterType="java.lang.String">
+    delete
+    from userlife
+    where ul_member_id = #{memberId};
+  </delete>
+</mapper>

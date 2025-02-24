@@ -14,4 +14,10 @@
     from product
     where product_num = #{productNum};
   </delete>
+  
+  <delete id="deleteProductMember" parameterType="java.lang.String">
+    delete
+    from product
+    where member_idx = #{memberId};
+  </delete>
 </mapper>

@@ -13,4 +13,10 @@
     UPDATE
       member_content = #{memberContent};
   </insert>
+  
+  <delete id="deleteMemberContentMember" parameterType="java.lang.String">
+    delete
+    from member_content
+    where member_content_id = #{memberId};
+  </delete>
 </mapper>

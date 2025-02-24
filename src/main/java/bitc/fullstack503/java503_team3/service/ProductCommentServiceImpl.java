@@ -28,4 +28,10 @@ public class ProductCommentServiceImpl implements ProductCommentService
   {
     productCommentMapper.deleteProductComment (productCommentProductIdx);
   }
+  
+  @Override
+  public void deleteProductCommentMember (String productCommentMemberId) throws Exception
+  {
+    productCommentMapper.deleteProductCommentMember (productCommentMemberId);
+  }
 }

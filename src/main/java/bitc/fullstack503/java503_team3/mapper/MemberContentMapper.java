@@ -7,4 +7,6 @@ public interface MemberContentMapper
   public String getMemberContent (String memberId) throws Exception;
   
   public void setMemberContent (MemberContentDTO memberContentDTO) throws Exception;
+  
+  public void deleteMemberContentMember (String memberId) throws Exception;
 }

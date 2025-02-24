@@ -9,4 +9,6 @@ public interface ProductCommentService
   public List<ProductCommentDTO> getProductComment (int productCommentProductIdx) throws Exception;
   
   public void deleteProductComment (int productCommentProductIdx) throws Exception;
+  
+  public void deleteProductCommentMember (String productCommentMemberId) throws Exception;
 }

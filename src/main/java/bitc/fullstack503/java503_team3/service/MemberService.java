@@ -27,4 +27,10 @@ public interface MemberService
   public void setMemberContent (MemberContentDTO memberContentDTO) throws Exception;
   
   public void memberUpdate (MemberDTO member) throws Exception;
+  
+  public void deleteMemberProfileMember (String memberId) throws Exception;
+  
+  public void deleteMemberContentMember (String memberId) throws Exception;
+  
+  public void deleteMember (String memberId) throws Exception;
 }

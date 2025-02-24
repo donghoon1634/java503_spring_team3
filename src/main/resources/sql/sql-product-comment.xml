@@ -19,4 +19,11 @@
     from product_comment
     where product_comment_product_idx = #{productCommentProductIdx};
   </delete>
+  
+  <delete id="deleteProductCommentMember" parameterType="java.lang.String">
+    delete
+    from product_comment
+    where product_comment_member_id = #{productCommentMemberId};
+  </delete>
+
 </mapper>
