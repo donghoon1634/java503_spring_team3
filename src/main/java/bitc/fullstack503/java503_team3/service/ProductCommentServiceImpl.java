@@ -22,4 +22,10 @@ public class ProductCommentServiceImpl implements ProductCommentService
   {
     return productCommentMapper.getProductComment (productCommentProductIdx);
   }
+  
+  @Override
+  public void deleteProductComment (int productCommentProductIdx) throws Exception
+  {
+    productCommentMapper.deleteProductComment (productCommentProductIdx);
+  }
 }

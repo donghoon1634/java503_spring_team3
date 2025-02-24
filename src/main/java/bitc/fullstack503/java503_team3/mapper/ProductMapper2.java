@@ -6,5 +6,7 @@ import java.util.List;
 @Mapper
 public interface ProductMapper2
 {
-  List<ProductDTO> getMyProductList (String memberId) throws Exception;
+  public List<ProductDTO> getMyProductList (String memberId) throws Exception;
+  
+  public void deleteProduct (int productNum) throws Exception;
 }

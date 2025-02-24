@@ -17,4 +17,10 @@ public class ProductService2Impl implements ProductService2
   {
     return productMapper2.getMyProductList (memberId);
   }
+  
+  @Override
+  public void deleteProduct (int productNum) throws Exception
+  {
+    productMapper2.deleteProduct (productNum);
+  }
 }

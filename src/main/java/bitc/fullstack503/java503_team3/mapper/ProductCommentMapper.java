@@ -9,4 +9,6 @@ public interface ProductCommentMapper
   public void insertProductComment (ProductCommentDTO productCommentDTO) throws Exception;
   
   public List<ProductCommentDTO> getProductComment (int productCommentProductIdx) throws Exception;
+  
+  public void deleteProductComment (int productCommentProductIdx) throws Exception;
 }

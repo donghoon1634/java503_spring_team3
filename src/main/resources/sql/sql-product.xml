@@ -60,9 +60,8 @@
     INSERT INTO product (product_name, product_info, product_price, local_gu_name, product_img ,member_idx)
     VALUES (#{productName}, #{productInfo}, #{productPrice}, #{localGuName}, #{productImg}, #{memberIdx})
   </insert>
-
-
-
+  
+  
   <!-- 상품 검색 -->
   <select id="searchProducts" resultType="bitc.fullstack503.java503_team3.dto.ProductDTO">
     SELECT p.*, c.category_name

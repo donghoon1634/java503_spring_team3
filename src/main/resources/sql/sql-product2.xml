@@ -8,4 +8,10 @@
     where member_idx = #{memberId}
     order by product_num desc;
   </select>
+  
+  <delete id="deleteProduct" parameterType="int">
+    delete
+    from product
+    where product_num = #{productNum};
+  </delete>
 </mapper>

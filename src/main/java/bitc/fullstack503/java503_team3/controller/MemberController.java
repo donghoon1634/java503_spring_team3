@@ -191,6 +191,23 @@ public class MemberController
     return "redirect:/potato/myPage/" + memberId;
   }
   
+  @RequestMapping ("/myPage/delete/{memberId}")
+  public String myPageDelete (@PathVariable ("memberId") String memberId, HttpServletRequest request) throws Exception
+  {
+    HttpSession session = request.getSession ();
+    MemberDTO memberInfo = (MemberDTO) session.getAttribute ("memberInfo");
+    if (memberInfo == null)
+    {
+      return "redirect:/potato/member";
+    }
+    if (!memberInfo.getMemberId ().equals (memberId))
+    {
+      return "redirect:/potato/myPage/" + memberInfo.getMemberId ();
+    }
+    // memberService.memberDelete (memberId);
+    return "redirect:/potato";
+  }
+  
   @GetMapping ("/yourPage/{memberId}")
   public ModelAndView yourPage (@PathVariable ("memberId") String memberId, HttpServletRequest request) throws Exception
   {
@@ -248,5 +265,29 @@ public class MemberController
     productCommentDTO.setProductCommentMemberNickname (memberNickname);
     productCommentService.insertProductComment (productCommentDTO);
     return "redirect:/potato/trade/productDetailQ?productNum=" + productNum;
+  }
+  
+  @GetMapping ("/trade/productDelete")
+  public String productDelete (@RequestParam ("productNum") String productNum, HttpServletRequest request) throws Exception
+  {
+    HttpSession session = request.getSession ();
+    MemberDTO memberInfo = (MemberDTO) session.getAttribute ("memberInfo");
+    if (memberInfo == null)
+    {
+      return "redirect:/potato/trade/productDetail?productNum=" + productNum;
+    }
+    String memberId = memberInfo.getMemberId ();
+    ProductDTO product = productService.getProductDetail (Integer.parseInt (productNum));
+    String productMemberId = product.getMemberIdx ();
+    if (!memberId.equals (productMemberId))
+    {
+      return "redirect:/potato/trade/productDetail?productNum=" + productNum;
+    }
+    else
+    {
+      productCommentService.deleteProductComment (Integer.parseInt (productNum));
+      productService2.deleteProduct (Integer.parseInt (productNum));
+      return "redirect:/potato/trade";
+    }
   }
 }

@@ -48,7 +48,7 @@
           </div>
           <div class="user-address">
             <!-- 사용자 주소 -->
-            <a th:href="@{/potato/yourPage/{memberIdx}(memberIdx=${product.memberIdx})}"  class="text-decoration-none"><span th:text="${product.localGuName}">읍면동</span></a>
+            <a th:href="@{/potato/yourPage/{memberIdx}(memberIdx=${product.memberIdx})}" class="text-decoration-none"><span th:text="${product.localGuName}">읍면동</span></a>
           </div>
         </div>
       </div>
@@ -77,7 +77,7 @@
           문의하기
         </button>
 
-        <button class="buy-btn mt-4 bg-danger" th:onclick="|window.location.href='/potato/trade/productDetailQ?productNum=${product.productNum}'|">
+        <button class="buy-btn mt-4 bg-danger" th:onclick="|window.location.href='/potato/trade/productDelete?productNum=${product.productNum}'|">
           삭제하기
         </button>
       </div>

@@ -13,4 +13,10 @@
     from product_comment
     where product_comment_product_idx = #{productCommentProductIdx};
   </select>
+  
+  <delete id="deleteProductComment" parameterType="int">
+    delete
+    from product_comment
+    where product_comment_product_idx = #{productCommentProductIdx};
+  </delete>
 </mapper>
