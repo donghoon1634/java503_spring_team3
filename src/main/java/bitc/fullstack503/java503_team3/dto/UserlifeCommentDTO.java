@@ -14,4 +14,5 @@ public class UserlifeCommentDTO {
     private int ulCommentLike;
     private String ulCommentContents;
     private String ulComMemberId;
+    private String memberProfile;
 }
