@@ -172,16 +172,15 @@
               productCard.className = "product-card col-lg-3 col-md-4 col-sm-6 mb-4";
               productCard.setAttribute("data-product-num", product.productNum);  // productNum을 data 속성으로 추가
 
-              productCard.innerHTML = `
-            <div class="card" style="cursor: pointer;">
+              productCard.innerHTML =
+                  `<div class="card" style="cursor: pointer;">
                 <img src="${product.productImg}" class="card-img-top" alt="상품 이미지">
                 <div class="card-body">
                     <p class="card-title">${product.productName}</p>
                     <p class="card-price">${product.productPrice}</p>
                     <p class="card-location">${product.localGuName}</p>
                 </div>
-            </div>
-        `;
+            </div>`;
 
               // 클릭 이벤트 추가: productNum을 이용하여 상세 페이지로 이동
               productCard.addEventListener("click", function () {
@@ -238,6 +237,8 @@
               });
           }
       });
+
+
   </script>
 
 
@@ -287,7 +288,7 @@
 
   </aside>
   <main>
-    <!--상품 목록-->
+    상품 목록
     <section class="row item-list" id="productList">
       <!-- 로그인된 상태일 때만 제품 등록 버튼 보이기 -->
 
@@ -308,6 +309,9 @@
         </div>
       </div>
     </section>
+
+
+
 
   </main>
 </div>

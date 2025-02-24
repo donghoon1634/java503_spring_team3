@@ -86,6 +86,8 @@ public class DatabaseConfiguration
   {
     return new org.apache.ibatis.session.Configuration ();
   }
+
+
 }
 
 

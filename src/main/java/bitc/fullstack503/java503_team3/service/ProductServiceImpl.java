@@ -5,7 +5,10 @@ import bitc.fullstack503.java503_team3.dto.ProductDTO;
 import bitc.fullstack503.java503_team3.mapper.ProductMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @Service
 public class ProductServiceImpl implements ProductService {
@@ -49,6 +52,11 @@ public class ProductServiceImpl implements ProductService {
     return productMapper.getShareProducts();  // '나눔' 상품을 가져오는 메서드 호출
   }
 
+
+
+
+
+
   // 특정 상품의 세부 정보 조회
   @Override
   public ProductDTO getProductDetail(int productNum) {
@@ -66,4 +74,7 @@ public class ProductServiceImpl implements ProductService {
   public List<ProductDTO> searchProducts(String searchTerm, String categoryName, String localGuName) {
     return productMapper.searchProducts(searchTerm, categoryName, localGuName);
   }
+
+
+
 }

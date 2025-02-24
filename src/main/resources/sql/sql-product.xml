@@ -8,7 +8,7 @@
   <!-- 상품 목록 조회 -->
   <select id="selectAllProducts" resultType="bitc.fullstack503.java503_team3.dto.ProductDTO">
     SELECT product_num, product_name, product_price, product_img, local_gu_name
-    FROM product
+    FROM product order by product_num desc
   </select>
   
   <!-- 지역 목록 조회 -->
@@ -17,11 +17,11 @@
     WHERE local_gu_name IS NOT NULL
   </select>
   
-  <!-- 지역별 상품 목록 조회 -->
+<!--   지역별 상품 목록 조회 -->
   <select id="getProductsByLocal" parameterType="String" resultType="bitc.fullstack503.java503_team3.dto.ProductDTO">
     SELECT product_num, product_name, product_price, product_img, local_gu_name
     FROM product
-    WHERE local_gu_name = #{localGuName}
+    WHERE local_gu_name = #{localGuName} order by product_num desc
   </select>
   
   <!-- 카테고리 목록 조회 -->
@@ -30,22 +30,36 @@
     FROM category
   </select>
   
-  <!-- 카테고리별 상품 목록 조회 -->
+<!--   카테고리별 상품 목록 조회 -->
   <select id="getProductsByCategoryName" parameterType="String"
           resultType="bitc.fullstack503.java503_team3.dto.ProductDTO">
     SELECT product_num, product_name, product_price, product_img, local_gu_name, category_num
     FROM product
     WHERE category_num = (
     SELECT category_num FROM category WHERE category_name = #{categoryName}
-    )
+    )order by product_num desc
   </select>
   
-  <!-- 나눔 상품 목록 조회 -->
+<!--   나눔 상품 목록 조회 -->
   <select id="getShareProducts" resultType="bitc.fullstack503.java503_team3.dto.ProductDTO">
     SELECT product_num, product_name, product_price, product_img, local_gu_name
     FROM product
-    WHERE product_price = '나눔'
+    WHERE product_price = '나눔' order by product_num desc
   </select>
+
+
+
+  <select id="getFilteredProducts" resultType="bitc.fullstack503.java503_team3.dto.ProductDTO">
+    SELECT product_num, product_name, product_price, product_img, local_gu_name
+    FROM product
+    WHERE
+    (#{category} IS NULL OR category_name = #{category}) AND
+    (#{localGu} IS NULL OR local_gu_name = #{localGu}) AND
+    (#{share} IS NULL OR product_price = '나눔')
+  </select>
+
+
+
   
   <!-- 특정 상품 상세 조회 -->
   <select id="getProductDetail" resultType="bitc.fullstack503.java503_team3.dto.ProductDTO">
@@ -75,4 +89,7 @@
       AND p.local_gu_name = #{localGuName}
     </if>
   </select>
+
+
+
 </mapper>
