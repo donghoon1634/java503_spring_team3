@@ -6,6 +6,7 @@ import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
+import java.util.Map;
 
 @Mapper
 public interface ProductMapper {
@@ -27,6 +28,9 @@ public interface ProductMapper {
 
   // 나눔 상품 목록 조회
   List<ProductDTO> getShareProducts();
+
+
+
 
   // 특정 상품의 상세 정보를 조회
   ProductDTO getProductDetail(int productNum);

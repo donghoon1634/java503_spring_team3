@@ -67,7 +67,7 @@ public class ProductController
     return productService.getAllLocalGu ();
   }
   
-  // 지역에 따라 필터링된 상품 목록을 AJAX로 반환
+//  // 지역에 따라 필터링된 상품 목록을 AJAX로 반환
   @GetMapping ("/potato/trade/products/local")
   @ResponseBody
   public List<ProductDTO> fetchProductsByLocal (@RequestParam ("localGuName") String localGuName)
@@ -87,7 +87,7 @@ public class ProductController
   {
     return productService.getAllCategories ();  // 카테고리 목록 반환
   }
-  
+
   // 카테고리별 상품 목록 조회
   @GetMapping ("/potato/trade/products/category")
   @ResponseBody
@@ -100,8 +100,8 @@ public class ProductController
     }
     return products;
   }
-  
-  // 나눔
+//
+//  // 나눔
   @GetMapping ("/potato/trade/products/share")
   @ResponseBody
   public List<ProductDTO> fetchShareProducts ()
@@ -109,7 +109,13 @@ public class ProductController
     // 'share' 상태인 상품 목록을 반환하는 서비스 메서드 호출
     return productService.getShareProducts ();
   }
-  
+
+
+
+
+
+
+
   // 전체 상품 목록을 반환하는 메서드(초기화 버튼)
   @GetMapping ("/potato/trade/products")
   @ResponseBody
