@@ -118,8 +118,13 @@ public class CommentController {
     // 댓글 5개씩
     @GetMapping("/board/{ulIdx}/moreComments")
     @ResponseBody
-    public List<UserlifeCommentDTO> getMoreComments(@PathVariable("ulIdx") int ulIdx, @RequestParam("offset") int offset, @RequestParam("limit") int limit, @RequestParam("descOrAsc") String descOrAsc) {
-        return ulCommentService.getCommentsByPage(ulIdx, offset, 5, descOrAsc); // offset을 기준으로 댓글 가져오기
+    public List<UserlifeCommentDTO> getMoreComments(@PathVariable("ulIdx") int ulIdx, @RequestParam("offset") int offset, @RequestParam("limit") int limit, @RequestParam("descOrAsc") String descOrAsc) throws Exception {
+        List<UserlifeCommentDTO> ulc =  ulCommentService.getCommentsByPage(ulIdx, offset, 5, descOrAsc); // offset을 기준으로 댓글 가져오기
+        for (UserlifeCommentDTO ul : ulc) {
+            ul.setMemberProfile (memberService.memberProfileHref(ul.getUlComMemberId()));
+        }
+        return ulc;
+//        return ulCommentService.getCommentsByPage(ulIdx, offset, 5, descOrAsc); // offset을 기준으로 댓글 가져오기
     }
 
     // 댓글 총 개수 요청 처리

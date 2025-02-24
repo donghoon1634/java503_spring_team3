@@ -163,6 +163,9 @@ public class BoardController
       int getUlCommentCount = boardService.getUlCommentCount (ulIdx);
       mav.addObject ("ul", ul);
       // ulcomment는 댓글정보
+      for (UserlifeCommentDTO aa : ulcomment) {
+        aa.setMemberProfile (memberService.memberProfileHref(aa.getUlComMemberId()));
+      }
       mav.addObject ("ulcomment", ulcomment);
       mav.addObject ("getUlCommentCount", getUlCommentCount);
       mav.addObject ("memberGu", memberGu);
@@ -174,6 +177,9 @@ public class BoardController
       int getUlCommentCount = boardService.getUlCommentCount (ulIdx);
       mav.addObject ("ul", ul);
       // ulcomment는 댓글정보
+      for (UserlifeCommentDTO aa : ulcomment) {
+        aa.setMemberProfile (memberService.memberProfileHref(aa.getUlComMemberId()));
+      }
       mav.addObject ("ulcomment", ulcomment);
       mav.addObject ("getUlCommentCount", getUlCommentCount);
     }

@@ -72,7 +72,7 @@
                         <!--  댓글 작성자 프로필사진 -->
                         <div class="col-sm-1">
                           <a href="#" th:href="@{/potato/yourPage/{memberId}(memberId=${comment.ulComMemberId})}">
-                            <img th:src="@{${memberProfile}}" style="width: 40px; height: 40px" alt="프로필" class="rounded-circle">
+                            <img th:src="@{${comment.memberProfile}}" style="width: 40px; height: 40px" alt="프로필" class="rounded-circle">
                           </a>
                         </div>
                         <!-- 댓글 내용 -->
@@ -325,6 +325,7 @@
                         <div class="col-sm-1">
                             <!-- 프로필 사진 -->
                             <a href="/potato/yourPage/${data[i].ulComMemberId}">
+
                                 <img src="${data[i].memberProfile}" style="width: 40px; height: 40px" alt="프로필" class="rounded-circle">
                             </a>
                         </div>
