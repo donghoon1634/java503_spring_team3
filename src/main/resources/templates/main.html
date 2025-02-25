@@ -29,40 +29,40 @@
           <button type="button" data-bs-target="#carouselExampleDark" data-bs-slide-to="4" aria-label="Slide 5"></button>
         </div>
 
-<!--        <div class="carousel-inner">-->
+        <!--        <div class="carousel-inner">-->
 
-<!--          <div class="carousel-item active" data-bs-interval="10000">-->
-<!--            <img src="/images/mainBanner/중고거래1.png" class="d-block w-100 banner-img" alt="2">-->
-<!--          </div>-->
-<!--          <div class="carousel-item" data-bs-interval="2000">-->
-<!--            <img src="/images/mainBanner/중고거래2.png" class="d-block w-100 banner-img" alt="3">-->
-<!--          </div>-->
-<!--          <div class="carousel-item" data-bs-interval="2000">-->
-<!--            <img src="/images/mainBanner/중고거래3.png" class="d-block w-100 banner-img" alt="3">-->
-<!--          </div>-->
-<!--          <div class="carousel-item">-->
-<!--            <img src="/images/mainBanner/동네생활1.jpg" class="d-block w-100 banner-img" alt="4">-->
-<!--          </div>-->
-<!--          <div class="carousel-item">-->
-<!--            <img src="/images/mainBanner/동네생활2.jpg" class="d-block w-100 banner-img" alt="5">-->
-<!--          </div>-->
+        <!--          <div class="carousel-item active" data-bs-interval="10000">-->
+        <!--            <img src="/images/mainBanner/중고거래1.png" class="d-block w-100 banner-img" alt="2">-->
+        <!--          </div>-->
+        <!--          <div class="carousel-item" data-bs-interval="2000">-->
+        <!--            <img src="/images/mainBanner/중고거래2.png" class="d-block w-100 banner-img" alt="3">-->
+        <!--          </div>-->
+        <!--          <div class="carousel-item" data-bs-interval="2000">-->
+        <!--            <img src="/images/mainBanner/중고거래3.png" class="d-block w-100 banner-img" alt="3">-->
+        <!--          </div>-->
+        <!--          <div class="carousel-item">-->
+        <!--            <img src="/images/mainBanner/동네생활1.jpg" class="d-block w-100 banner-img" alt="4">-->
+        <!--          </div>-->
+        <!--          <div class="carousel-item">-->
+        <!--            <img src="/images/mainBanner/동네생활2.jpg" class="d-block w-100 banner-img" alt="5">-->
+        <!--          </div>-->
 
-<!--        </div>-->
+        <!--        </div>-->
 
         <div class="carousel-inner">
           <div class="carousel-item active" data-bs-interval="10000">
             <img src="/images/mainBanner/중고거래1%20업스캐일%20예시.jpg" class="d-block w-100 banner-img2" alt="2">
           </div>
-          <div class="carousel-item active" data-bs-interval="10000">
+          <div class="carousel-item" data-bs-interval="10000">
             <img src="/images/mainBanner/동네생활1%20업스캐일%20예시.jpg" class="d-block w-100 banner-img2" alt="3">
           </div>
-          <div class="carousel-item active" data-bs-interval="10000">
+          <div class="carousel-item" data-bs-interval="10000">
             <img src="/images/mainBanner/동네생활2%20업스캐일%20예시.jpg" class="d-block w-100 banner-img4" alt="4">
           </div>
-          <div class="carousel-item active" data-bs-interval="10000">
+          <div class="carousel-item" data-bs-interval="10000">
             <img src="/images/mainBanner/중고거래3%20업스캐일%20예시.jpg" class="d-block w-100 banner-img3" alt="5">
           </div>
-          <div class="carousel-item active" data-bs-interval="10000">
+          <div class="carousel-item" data-bs-interval="10000">
             <img src="/images/mainBanner/중고거래2%20업스캐일%20예시.jpg" class="d-block w-100 banner-img2" alt="1">
           </div>
         </div>
@@ -96,10 +96,10 @@
       </button>
     </div>
     <script>
-        const cardTexts = ['디지털기기', '생활가전', '가구/인테리어', '생활/주방', '유아동', '유아도서', '여성의류', '여성잡화', '남성패션/잡화', '뷰티/미용', '스포츠/레저', '취미/게임/음반', '도서', '티켓/교환권', '가공식품', '건강기능식품', '반려동물용품', '식물', '기타 중고물품', '삽니다']
-        for (let i = 1; i <= 20; i++)
-        {
-            let cardHTML = `
+      const cardTexts = ['디지털기기', '생활가전', '가구/인테리어', '생활/주방', '유아동', '유아도서', '여성의류', '여성잡화', '남성패션/잡화', '뷰티/미용', '스포츠/레저', '취미/게임/음반', '도서', '티켓/교환권', '가공식품', '건강기능식품', '반려동물용품', '식물', '기타 중고물품', '삽니다']
+      for (let i = 1; i <= 20; i++)
+      {
+        let cardHTML = `
         <a href="/potato/trade" class="text-decoration-none">
           <div class="card border-0 flex-shrink-0">
             <div class="rounded-circle bg-potato d-flex align-content-center justify-content-center">
@@ -113,23 +113,23 @@
           </div>
         </a>
         `
-            document.getElementById('famous-cate').innerHTML += cardHTML
-        }
-        // 오른쪽 버튼 클릭 시 스크롤 이동
-        document.getElementById('next-btn').addEventListener('click', () => {
-            document.getElementById('famous-cate').scrollBy({
-                left: 600,
-                behavior: 'smooth'
-            })
+        document.getElementById('famous-cate').innerHTML += cardHTML
+      }
+      // 오른쪽 버튼 클릭 시 스크롤 이동
+      document.getElementById('next-btn').addEventListener('click', () => {
+        document.getElementById('famous-cate').scrollBy({
+          left: 600,
+          behavior: 'smooth'
         })
+      })
 
-        // 왼쪽 버튼 클릭 시 스크롤 이동
-        document.getElementById('prev-btn').addEventListener('click', () => {
-            document.getElementById('famous-cate').scrollBy({
-                left: -600,
-                behavior: 'smooth'
-            })
+      // 왼쪽 버튼 클릭 시 스크롤 이동
+      document.getElementById('prev-btn').addEventListener('click', () => {
+        document.getElementById('famous-cate').scrollBy({
+          left: -600,
+          behavior: 'smooth'
         })
+      })
     </script>
   </section>
 </main>
