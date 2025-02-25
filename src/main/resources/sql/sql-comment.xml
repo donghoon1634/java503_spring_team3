@@ -6,7 +6,7 @@
 <!--    게시물의 댓글 목록을 가져오는 API-->
     <select id="getUlCommentByUlIdx" resultType="bitc.fullstack503.java503_team3.dto.UserlifeCommentDTO">
         select ul_comment_idx,ul_comment_nickname,ul_comment_location, date_format(ul_comment_createdate,'%Y-%m-%d %H:%i:%s')
-        as ul_comment_createdate, ul_comment_contents, ul_comment_like from userlife_comment
+        as ul_comment_createdate, ul_comment_contents, ul_comment_like, ul_com_member_id from userlife_comment
         where ul_comment_ul_idx = #{ulCommentUlIdx} order by ul_comment_idx desc
     </select>
 <!--    추천수 증가 -->

@@ -27,7 +27,7 @@ public class CommentController
   private BoardService boardService;
   @Autowired
   private MemberService memberService;
-  
+
   // 댓글 등록순
   @ResponseBody
   @GetMapping ("/ulComment/asc/{ulIdx}")
@@ -41,7 +41,7 @@ public class CommentController
     }
     return ulc;
   }
-  
+
   // 댓글 최신순
   @ResponseBody
   @GetMapping ("/ulComment/desc/{ulIdx}")
@@ -55,7 +55,7 @@ public class CommentController
     }
     return ulc;
   }
-  
+
   // 댓글 추천수를 증가시키는 API
   @ResponseBody
   @PostMapping ("/ulComment/like/{ulCommentIdx}")
@@ -63,7 +63,7 @@ public class CommentController
   {
     return ulCommentService.ulCommentLikeUpDate (ulCommentIdx);  // ulCommentIdx를 서비스로 전달
   }
-  
+
   // 댓글 등록 처리
   @PostMapping ("/board/{ulIdx}/add")
   public String ulCommentInsert (@PathVariable ("ulIdx") int ulIdx, UserlifeCommentDTO ulcDTO, HttpServletRequest request) throws Exception
@@ -85,7 +85,7 @@ public class CommentController
       return "redirect:/potato/board/" + ulIdx;
     }
   }
-  
+
   // 댓글 삭제
   @DeleteMapping ("/board/comment/{ulIdx}/{ulCommentIdx}")
   public ResponseEntity<String> ulCommentDelete (@PathVariable ("ulIdx") int ulIdx, @PathVariable ("ulCommentIdx") int ulCommentIdx, HttpServletRequest request) throws Exception
@@ -124,15 +124,17 @@ public class CommentController
       }
     }
   }
-  
+
   // 댓글 5개씩
   @GetMapping ("/board/{ulIdx}/moreComments")
   @ResponseBody
-  public List<UserlifeCommentDTO> getMoreComments (@PathVariable ("ulIdx") int ulIdx, @RequestParam ("offset") int offset, @RequestParam ("limit") int limit, @RequestParam ("descOrAsc") String descOrAsc)
-  {
-    return ulCommentService.getCommentsByPage (ulIdx, offset, 5, descOrAsc); // offset을 기준으로 댓글 가져오기
+  public List<UserlifeCommentDTO> getMoreComments (@PathVariable ("ulIdx") int ulIdx, @RequestParam ("offset") int offset, @RequestParam ("limit") int limit, @RequestParam ("descOrAsc") String descOrAsc) throws Exception {List<UserlifeCommentDTO> ulc =  ulCommentService.getCommentsByPage(ulIdx, offset, 5, descOrAsc); // offset을 기준으로 댓글 가져오기
+    for (UserlifeCommentDTO ul : ulc) {
+      ul.setMemberProfile(memberService.memberProfileHref(ul.getUlComMemberId()));
+    }
+    return ulc;
   }
-  
+
   // 댓글 총 개수 요청 처리
   @GetMapping ("/board/{ulIdx}/totalCommentCount")
   @ResponseBody
@@ -143,13 +145,16 @@ public class CommentController
     response.put ("totalCount", totalCount);
     return ResponseEntity.ok (response);
   }
-  
+
   // 댓글목록다시 들고오기
   @ResponseBody
   @GetMapping ("/board/{ulIdx}/loadComments")
-  public List<UserlifeCommentDTO> getUlCommentByUlIdx (@PathVariable int ulIdx)
-  {
-    return ulCommentService.getUlCommentByUlIdx (ulIdx);
+  public List<UserlifeCommentDTO> getUlCommentByUlIdx (@PathVariable int ulIdx) throws Exception {
+      List<UserlifeCommentDTO> ulc = ulCommentService.getUlCommentByUlIdx (ulIdx);
+      for (UserlifeCommentDTO ul : ulc)
+      {
+          ul.setMemberProfile (memberService.memberProfileHref (ul.getUlComMemberId ()));
+      }
+      return ulc;
   }
 }
-
