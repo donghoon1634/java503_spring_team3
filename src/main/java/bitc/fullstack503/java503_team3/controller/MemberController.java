@@ -92,7 +92,7 @@ public class MemberController
     boolean isName = memberService.isMemberNickname (nickname);
     if (isId || isName)
     {
-      redirectAttributes.addFlashAttribute ("errMsg", "이미 있는 아이디거나 있는 이름입니다.");
+      redirectAttributes.addFlashAttribute ("errMsg", "사용중인 아이디거나 닉네임입니다.");
       return "redirect:/potato/member";
     }
     else
